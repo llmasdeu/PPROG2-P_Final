@@ -1,5 +1,6 @@
 package com.example.lluismasdeu.pprog2_p_final;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onRegisterButtonClick(View view) {
-        // TODO
+        // Intent RegisterActivity
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
     }
 }
