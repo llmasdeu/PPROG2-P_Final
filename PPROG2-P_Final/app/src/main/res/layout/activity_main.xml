@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- Layout de la actividad principal de la aplicación -->
+<!-- Layout de la actividad principal de la aplicacion -->
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -19,7 +19,7 @@
         android:paddingLeft="@dimen/form_vertical_margin"
         android:paddingRight="@dimen/form_vertical_margin">
 
-        <!-- Logo de la aplicación -->
+        <!-- Logo de la aplicacion -->
         <ImageView
             android:id="@+id/logo_imageView"
             android:layout_width="wrap_content"

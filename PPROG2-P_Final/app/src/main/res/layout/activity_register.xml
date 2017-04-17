@@ -129,7 +129,8 @@
             <RadioGroup
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin">
 
                 <RadioButton
                     android:text="@string/male"
@@ -146,20 +147,27 @@
 
             <!-- Descipcion (no se que va) -->
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/Description"
-                android:text="@string/description" />
-
-            <TextView
+                android:text="@string/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/description_editText"
+                android:lines="6"
+                android:gravity="top|left"
+                android:inputType="textMultiLine"
+                android:scrollbars="vertical"
+                android:cursorVisible="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin" />
 
             <!-- Terminos y condiciones-->
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/termins" />
+                android:text="@string/terms"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
 
             <!-- Boton para registrar -->
             <Button
