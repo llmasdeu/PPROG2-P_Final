@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">PPROG2-P_Final</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+</resources>
