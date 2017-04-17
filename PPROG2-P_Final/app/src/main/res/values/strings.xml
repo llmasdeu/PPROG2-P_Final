@@ -1,16 +1,24 @@
 <resources>
+    <!-- Nombre de la aplicacion -->
     <string name="app_name">PPROG2-P_Final</string>
-    <string name="main_menu">Main Menu</string>
+
+    <!-- Strings de la actividad principal -->
+    <string name="main_menu_activity">Main Menu</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
+
+    <!-- String de la actividad de registro de usuario -->
+    <string name="register_activity">Register User</string>
+    <string name="take_picture">Take Picture</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
-    <string name="mail">Mail</string>
+    <string name="email">E-mail</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="gender">Gender</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="description">Description</string>
-    <string name="termins">Termins &amp; conditions</string>
+    <string name="termins">Accept terms &amp; conditions</string>
 </resources>
