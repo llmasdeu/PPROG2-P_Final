@@ -6,6 +6,7 @@
     <string name="main_menu_activity">Main Menu</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="login_error">Error! Either the username or password is incorrect.</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
 
@@ -20,5 +21,6 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="description">Description</string>
+    <string name="something_about_you">Something about you...</string>
     <string name="terms">Accept terms &amp; conditions</string>
 </resources>

@@ -35,6 +35,7 @@
 
         <EditText
             android:id="@+id/username_editText"
+            android:hint="@string/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin" />
@@ -48,9 +49,22 @@
 
         <EditText
             android:id="@+id/password_editText"
+            android:hint="@string/password"
+            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin" />
+
+        <!-- Mensaje de error (no visible) -->
+        <TextView
+            android:text="@string/login_error"
+            android:textSize="9dp"
+            android:textColor="@color/errorMessageColor"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"/>
 
         <!-- Boton para iniciar sesión -->
         <Button
@@ -65,7 +79,6 @@
 
         <!-- Boton para registrar usuario -->
         <Button
-            android:id="@+id/register_button"
             android:text="@string/register"
             android:background="@color/registerButtonColor"
             android:onClick="onRegisterButtonClick"
