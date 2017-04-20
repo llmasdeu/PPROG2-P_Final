@@ -1,4 +1,4 @@
-package com.example.lluismasdeu.pprog2_p_final;
+package com.example.lluismasdeu.pprog2_p_final.activities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +9,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+
+import com.example.lluismasdeu.pprog2_p_final.R;
 
 import java.io.InputStream;
 
