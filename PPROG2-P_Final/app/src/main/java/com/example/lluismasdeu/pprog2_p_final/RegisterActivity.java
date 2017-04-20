@@ -52,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
         // TODO
     }
 
-    public void orRegisterUserButtonClick(View view) {
+    public void onRegisterUserButtonClick(View view) {
         // TODO
     }
 
