@@ -43,6 +43,11 @@ public class RegisterActivity extends AppCompatActivity {
         setDefaultProfilePhoto();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
     public void onTakePictureButtonClick(View view) {
         // TODO
     }

@@ -20,6 +20,11 @@ public class MainActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password_editText);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
     public void onLoginButtonClick(View view) {
         // TODO
     }
