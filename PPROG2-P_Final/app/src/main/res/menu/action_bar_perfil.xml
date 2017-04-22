@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/Perfil_edit">
+    <!-- Botones Editar y perfil -->
+    <item android:id="@+id/action_edit"
+        android:icon="@drawable/ic_action_edit"
+        android:title="Editar"
+        app:showAsAction="always"
+        />
+
+    <item android:id="@+id/action_perfil"
+        android:title="Perfil"
+        android:icon="@drawable/ic_action_perfil"
+        app:showAsAction="always"
+
+        />
+</menu>

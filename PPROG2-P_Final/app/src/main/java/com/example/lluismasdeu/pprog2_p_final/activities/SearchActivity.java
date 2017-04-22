@@ -1,8 +1,12 @@
 package com.example.lluismasdeu.pprog2_p_final.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -31,6 +35,13 @@ public class SearchActivity extends AppCompatActivity {
         radiusKm = (TextView) findViewById(R.id.radius_textView);
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //Mostrar actionBar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_bar, menu);
+        return true;
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -46,5 +57,23 @@ public class SearchActivity extends AppCompatActivity {
 
     public void onSearchButtonClick(View view) {
         // TODO
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_perfil:
+                // Intent para ingresar al perfil
+                Intent intentPerfil = new Intent(this, PerfilActivity.class);
+                startActivity(intentPerfil);
+                break;
+            case R.id.action_favorite:
+                //intent para ingresar a favoritos
+                Intent intentFavorite = new Intent(this, FavoriteActivity.class);
+                startActivity(intentFavorite);
+                break;
+            default:
+        }
+        return true;
+
     }
 }
