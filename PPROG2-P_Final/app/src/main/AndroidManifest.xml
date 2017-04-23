@@ -18,7 +18,7 @@
         </activity>
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.SearchActivity" />
-        <activity android:name=".activities.PerfilActivity" />
+        <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.FavoriteActivity"></activity>
     </application>
 

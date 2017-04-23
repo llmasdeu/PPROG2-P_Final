@@ -28,4 +28,10 @@
     <string name="radius_km"> Km</string>
     <string name="search">Search</string>
     <string name="recent_searches">Recent Searches</string>
+    <string name="nothing_to_show">Nothing to show.</string>
+
+    <!-- Strings de la ActionBar -->
+    <string name="favorites_action_bar">Favorites</string>
+    <string name="profile_action_bar">Profile</string>
+    <string name="edit_action_bar">Edit</string>
 </resources>

@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ public class SearchActivity extends AppCompatActivity {
     private ImageButton clear;
     private SeekBar radius;
     private TextView radiusKm;
+    private ListView recentSearches;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,12 +35,14 @@ public class SearchActivity extends AppCompatActivity {
         clear = (ImageButton) findViewById(R.id.clear_imageButton);
         radius = (SeekBar) findViewById(R.id.radius_seekBar);
         radiusKm = (TextView) findViewById(R.id.radius_textView);
+        recentSearches = (ListView) findViewById(R.id.recentSearches_listView);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        //Mostrar actionBar
+        //Mostramos actionBar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.action_bar, menu);
+
         return true;
     }
 
@@ -61,19 +65,22 @@ public class SearchActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_perfil:
+            case R.id.action_profile:
                 // Intent para ingresar al perfil
-                Intent intentPerfil = new Intent(this, PerfilActivity.class);
+                Intent intentPerfil = new Intent(this, ProfileActivity.class);
                 startActivity(intentPerfil);
                 break;
+
             case R.id.action_favorite:
                 //intent para ingresar a favoritos
                 Intent intentFavorite = new Intent(this, FavoriteActivity.class);
                 startActivity(intentFavorite);
                 break;
-            default:
-        }
-        return true;
 
+            default:
+                break;
+        }
+
+        return true;
     }
 }
