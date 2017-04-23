@@ -34,4 +34,11 @@
     <string name="favorites_action_bar">Favorites</string>
     <string name="profile_action_bar">Profile</string>
     <string name="edit_action_bar">Edit</string>
+    <string name="favorite_action_bar">Filter</string>
+
+    <!-- String-Array prueba  action_bar_favorite (borrar si es necesario)-->
+    <string-array name="spinner">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 </resources>
