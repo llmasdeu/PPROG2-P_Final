@@ -10,6 +10,11 @@ import android.widget.TextView;
 import com.example.lluismasdeu.pprog2_p_final.R;
 
 public class MainActivity extends AppCompatActivity {
+    // Constantes
+    private static final String USERNAME_EXTRA = "username";
+    private static final String PASSWORD_EXTRA = "password";
+
+    // Componentes
     private EditText username;
     private EditText password;
     private TextView error;
@@ -37,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     public void onRegisterButtonClick(View view) {
         // Intent RegisterActivity
         Intent intent = new Intent(this, RegisterActivity.class);
+        intent.putExtra(USERNAME_EXTRA, String.valueOf(username.getText()));
+        intent.putExtra(PASSWORD_EXTRA, String.valueOf(password.getText()));
         startActivity(intent);
     }
 }

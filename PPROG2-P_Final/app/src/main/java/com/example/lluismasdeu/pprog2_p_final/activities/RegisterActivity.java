@@ -15,6 +15,11 @@ import com.example.lluismasdeu.pprog2_p_final.R;
 import java.io.InputStream;
 
 public class RegisterActivity extends AppCompatActivity {
+    // Constantes
+    private static final String USERNAME_EXTRA = "username";
+    private static final String PASSWORD_EXTRA = "password";
+
+    // Componentes
     private EditText name;
     private EditText surname;
     private ImageView profileImage;
@@ -41,6 +46,10 @@ public class RegisterActivity extends AppCompatActivity {
         female = (RadioButton) findViewById(R.id.female_radioButton);
         terms = (CheckBox) findViewById(R.id.terms_checkBox);
 
+        // Recuperamos el nombre de usuario y la contraseña enviadas desde la actividad principal.
+        email.setText(getIntent().getExtras().getString(USERNAME_EXTRA));
+        password.setText(getIntent().getExtras().getString(PASSWORD_EXTRA));
+        
         // Definimos la imagen de perfil predefinida.
         setDefaultProfilePhoto();
     }
