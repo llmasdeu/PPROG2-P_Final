@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Action bar para favorito-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
-    <!-- Action bar para favorito-->
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <!--Falta centrar  spinner -->
     <item
         android:id="@+id/menuSort"
