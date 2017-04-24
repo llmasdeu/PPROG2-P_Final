@@ -9,10 +9,9 @@
         android:actionLayout="@layout/spinner"
         android:title="@string/favorite_action_bar"
         app:showAsAction="always" />
-    <item android:id="@+id/action_perfil"
-        android:title="Perfil"
-        android:icon="@drawable/ic_profile"
-        app:showAsAction="always"
 
-        />
+    <item android:id="@+id/action_profile"
+        android:title="@string/profile_action_bar"
+        android:icon="@drawable/ic_profile"
+        app:showAsAction="always" />
 </menu>
