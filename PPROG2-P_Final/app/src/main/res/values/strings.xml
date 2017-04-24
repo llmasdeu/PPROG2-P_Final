@@ -5,9 +5,14 @@
     <!-- Strings de la actividad principal -->
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="login_error">Error! Either the username or password is incorrect.</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
+
+    <string-array name="main_activity_errors">
+        <item>Error! User field can\'t be blank.</item>
+        <item>Error! Password field can\'t be blank.</item>
+        <item>Error! Either the username or password is incorrect.</item>
+    </string-array>
 
     <!-- Strings de la actividad de registro de usuario -->
     <string name="take_picture">Take Picture</string>

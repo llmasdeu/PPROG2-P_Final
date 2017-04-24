@@ -15,9 +15,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String PASSWORD_EXTRA = "password";
 
     // Componentes
-    private EditText username;
-    private EditText password;
-    private TextView error;
+    private EditText usernameEditText;
+    private EditText passwordEditText;
+    private TextView errorTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +28,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         // Localizamos los componentes en el Layout.
-        username = (EditText) findViewById(R.id.username_editText);
-        password = (EditText) findViewById(R.id.password_editText);
-        error = (TextView) findViewById(R.id.errorLogin_textView);
+        usernameEditText = (EditText) findViewById(R.id.username_editText);
+        passwordEditText = (EditText) findViewById(R.id.password_editText);
+        errorTextView = (TextView) findViewById(R.id.errorLogin_textView);
     }
 
     @Override
@@ -39,14 +39,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onLoginButtonClick(View view) {
-        // TODO
+        String[] messageErrors = getResources().getStringArray(R.array.main_activity_errors);
+
+        if (String.valueOf(usernameEditText.getText()).equals("")) {
+            errorTextView.setText(messageErrors[0]);
+            errorTextView.setVisibility(View.VISIBLE);
+        } else if (String.valueOf(passwordEditText.getText()).equals("")) {
+            errorTextView.setText(messageErrors[1]);
+            errorTextView.setVisibility(View.VISIBLE);
+        } else {
+            // TODO
+            //  - Comprobar credenciales en la base de datos.
+            //  - Acceso al resto de la aplicación.
+        }
     }
 
+    /**
+     * Método encargado de
+     * @param view
+     */
     public void onRegisterButtonClick(View view) {
         // Intent RegisterActivity
         Intent intent = new Intent(this, RegisterActivity.class);
-        intent.putExtra(USERNAME_EXTRA, String.valueOf(username.getText()));
-        intent.putExtra(PASSWORD_EXTRA, String.valueOf(password.getText()));
+        intent.putExtra(USERNAME_EXTRA, String.valueOf(usernameEditText.getText()));
+        intent.putExtra(PASSWORD_EXTRA, String.valueOf(passwordEditText.getText()));
         startActivity(intent);
+
+        // Reseteamos los componentes.
+        resetComponents();
+    }
+
+    /**
+     * Método encargado de resetear la interfaz gráfica de la actividad.
+     */
+    private void resetComponents() {
+        usernameEditText.setText("");
+        passwordEditText.setText("");
+        errorTextView.setText("");
+        errorTextView.setVisibility(View.GONE);
     }
 }
