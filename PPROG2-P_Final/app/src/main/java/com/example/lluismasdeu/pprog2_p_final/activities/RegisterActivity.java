@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
 
@@ -29,11 +30,15 @@ public class RegisterActivity extends AppCompatActivity {
     private RadioButton male;
     private RadioButton female;
     private CheckBox terms;
+    private TextView error;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        // Escondemos la ActionBar en esta actividad.
+        getSupportActionBar().hide();
 
         // Localizamos los componentes en el Layout.
         name = (EditText) findViewById(R.id.name_editText);
@@ -45,10 +50,10 @@ public class RegisterActivity extends AppCompatActivity {
         male = (RadioButton) findViewById(R.id.male_radioButton);
         female = (RadioButton) findViewById(R.id.female_radioButton);
         terms = (CheckBox) findViewById(R.id.terms_checkBox);
+        error = (TextView) findViewById(R.id.errorRegister_textView);
 
         // Recuperamos el nombre de usuario y la contraseña enviadas desde la actividad principal.
-        email.setText(getIntent().getExtras().getString(USERNAME_EXTRA));
-        password.setText(getIntent().getExtras().getString(PASSWORD_EXTRA));
+        getPreviousValues();
         
         // Definimos la imagen de perfil predefinida.
         setDefaultProfilePhoto();
@@ -68,7 +73,16 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     /**
-     * Método encargada de cargar la imagen de perfil por defecto.
+     * Método encargado de recuperar los valores introducidos en los campos de usuario y contraseña
+     * de la actividad anterior.
+     */
+    private void getPreviousValues() {
+        email.setText(getIntent().getExtras().getString(USERNAME_EXTRA));
+        password.setText(getIntent().getExtras().getString(PASSWORD_EXTRA));
+    }
+
+    /**
+     * Método encargado de cargar la imagen de perfil por defecto.
      */
     private void setDefaultProfilePhoto() {
         InputStream iStream = getResources().openRawResource(R.raw.basic_profile_photo);

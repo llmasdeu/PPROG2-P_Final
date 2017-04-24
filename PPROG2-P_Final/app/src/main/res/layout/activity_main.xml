@@ -57,7 +57,7 @@
 
         <!-- Mensaje de error (no visible) -->
         <TextView
-            android:id="@+id/error_textView"
+            android:id="@+id/errorLogin_textView"
             android:text="@string/login_error"
             android:textSize="9dp"
             android:textColor="@color/errorMessageColor"

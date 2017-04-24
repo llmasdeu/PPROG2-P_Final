@@ -115,12 +115,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_vertical_margin" />
 
+            <!-- Sexo de usuario -->
             <TextView
                 android:text="@string/gender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <!-- Sexo de usuario -->
             <RadioGroup
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -142,7 +142,7 @@
                     android:layout_height="wrap_content" />
             </RadioGroup>
 
-            <!-- Descipcion del usuario -->
+            <!-- Descipción del usuario -->
             <TextView
                 android:text="@string/description"
                 android:layout_width="wrap_content"
@@ -160,13 +160,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_vertical_margin" />
 
-            <!-- Terminos y condiciones-->
+            <!-- Términos y condiciones -->
             <CheckBox
                 android:id="@+id/terms_checkBox"
                 android:text="@string/terms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
+            <!-- Notificación de error -->
+            <TextView
+                android:id="@+id/errorRegister_textView"
+                android:text="dsdffsf"
+                android:textSize="9dp"
+                android:textColor="@color/errorMessageColor"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin" />
 
             <!-- Boton para registrar -->
             <Button

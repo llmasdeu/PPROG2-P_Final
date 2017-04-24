@@ -24,10 +24,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Escondemos la ActionBar en esta actividad.
+        getSupportActionBar().hide();
+
         // Localizamos los componentes en el Layout.
         username = (EditText) findViewById(R.id.username_editText);
         password = (EditText) findViewById(R.id.password_editText);
-        error = (TextView) findViewById(R.id.error_textView);
+        error = (TextView) findViewById(R.id.errorLogin_textView);
     }
 
     @Override

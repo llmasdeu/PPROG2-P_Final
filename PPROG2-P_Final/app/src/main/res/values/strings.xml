@@ -21,6 +21,11 @@
     <string name="description">Description</string>
     <string name="something_about_you">Something about you...</string>
     <string name="terms">Accept terms &amp; conditions</string>
+    <string name="error_name_blank">Error! Name field can\'t be blank.</string>
+    <string name="error_email_blank">Error! E-mail field can\'t be blank.</string>
+    <string name="error_passwords_do_not_match">Error! Passwords don\'t match.</string>
+    <string name="error_terms_not_accepted">Error! You must accept Terms &amp; Conditions.</string>
+    <string name="error_user_exists">Error!</string>
 
     <!-- Strings de la actividad de búsqueda -->
     <string name="search_hint">Search...</string>
