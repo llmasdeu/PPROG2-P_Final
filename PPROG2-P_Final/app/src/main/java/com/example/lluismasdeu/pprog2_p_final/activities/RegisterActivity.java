@@ -112,8 +112,11 @@ public class RegisterActivity extends AppCompatActivity {
         InputStream inputStream = null;
 
         try {
+            // Cargamos el recurso.
             AssetManager assetManager = getAssets();
             inputStream = assetManager.open(DEFAULT_PHOTO);
+
+            // Decodificamos la imagen, y la colocamos en el componente.
             Bitmap defaultImage = BitmapFactory.decodeStream(inputStream);
             profileImageView.setImageBitmap(defaultImage);
         } catch (IOException e) {
