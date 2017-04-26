@@ -2,3 +2,9 @@ BIBLIOGRAPHY LINKS:
 
 · How to load a image from assets?
 http://stackoverflow.com/questions/7645268/how-to-load-a-image-from-assets
+
+· How to convert a bitmap to a jpeg file in Android? [closed]
+http://stackoverflow.com/questions/20329090/how-to-convert-a-bitmap-to-a-jpeg-file-in-android
+
+· Save bitmap to location
+http://stackoverflow.com/questions/649154/save-bitmap-to-location
