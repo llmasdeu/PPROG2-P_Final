@@ -1,8 +1,10 @@
 package com.example.lluismasdeu.pprog2_p_final.activities;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +27,7 @@ import java.io.InputStream;
 public class RegisterActivity extends AppCompatActivity {
     // Constantes
     private static final String DEFAULT_PHOTO = "default_photo.jpg";
+    private static final int TAKE_PICTURE = 1;
 
     // Componentes
     private EditText nameEditText;
@@ -84,7 +87,8 @@ public class RegisterActivity extends AppCompatActivity {
      * @param view
      */
     public void onTakePictureButtonClick(View view) {
-        // TODO
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, TAKE_PICTURE);
     }
 
     /**
@@ -94,6 +98,20 @@ public class RegisterActivity extends AppCompatActivity {
      */
     public void onRegisterUserButtonClick(View view) {
         // TODO
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case TAKE_PICTURE:
+                if (resultCode == RESULT_OK) {
+                    // Obtenemos los resultados de la
+                    Bundle bundle = data.getExtras();
+                    Bitmap image = (Bitmap) bundle.get("data");
+                    profileImageView.setImageBitmap(image);
+                }
+                break;
+        }
     }
 
     /**
