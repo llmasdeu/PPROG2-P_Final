@@ -9,16 +9,25 @@ import android.widget.TextView;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
 
+/**
+ * Actividad principal de la aplicación.
+ * @author Eloy Alberto López
+ * @author Lluís Masdeu
+ */
 public class MainActivity extends AppCompatActivity {
     // Constantes
-    private static final String USERNAME_EXTRA = "username";
-    private static final String PASSWORD_EXTRA = "password";
+    public static final String USERNAME_EXTRA = "username";
+    public static final String PASSWORD_EXTRA = "password";
 
     // Componentes
     private EditText usernameEditText;
     private EditText passwordEditText;
     private TextView errorTextView;
 
+    /**
+     * Método encargado de llevar a cabo las tareas iniciales.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,11 +42,20 @@ public class MainActivity extends AppCompatActivity {
         errorTextView = (TextView) findViewById(R.id.errorLogin_textView);
     }
 
+    /**
+     * Método encargado de guardar el estado de la actividad.
+     * @param outState
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
 
+    /**
+     * Método encargado de llevar a cabo las tareas cuando el usuario pula el botón de inicio de
+     * sesión.
+     * @param view
+     */
     public void onLoginButtonClick(View view) {
         String[] messageErrors = getResources().getStringArray(R.array.main_activity_errors);
 
@@ -55,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Método encargado de
+     * Método encargado de llevar a cabo las tareas cuando el usuario pulsa el botón de registro de
+     * usuario.
      * @param view
      */
     public void onRegisterButtonClick(View view) {

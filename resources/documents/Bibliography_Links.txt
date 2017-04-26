@@ -1,2 +1,4 @@
 BIBLIOGRAPHY LINKS:
 
+· How to load a image from assets?
+http://stackoverflow.com/questions/7645268/how-to-load-a-image-from-assets
