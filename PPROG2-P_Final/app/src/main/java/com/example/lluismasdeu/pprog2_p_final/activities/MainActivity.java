@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.model.User;
-import com.example.lluismasdeu.pprog2_p_final.repositories.UsersDB;
+import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.UsersDB;
 import com.example.lluismasdeu.pprog2_p_final.repositories.UsersDBInterface;
 
 /**

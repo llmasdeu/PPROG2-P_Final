@@ -1,4 +1,4 @@
-package com.example.lluismasdeu.pprog2_p_final.repositories;
+package com.example.lluismasdeu.pprog2_p_final.repositories.implementations;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,6 +6,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.lluismasdeu.pprog2_p_final.model.User;
+import com.example.lluismasdeu.pprog2_p_final.repositories.UsersDBInterface;
 import com.example.lluismasdeu.pprog2_p_final.utils.DatabaseHelper;
 
 import java.util.List;
