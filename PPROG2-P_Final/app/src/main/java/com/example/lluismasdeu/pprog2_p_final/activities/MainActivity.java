@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (!usersDB.existsUser(new User(String.valueOf(usernameEditText.getText()),
                 String.valueOf(passwordEditText.getText())))) {
             errorTextView.setText(messageErrors[2]);
+            errorTextView.setVisibility(View.VISIBLE);
         } else {
             // Accedemos a la actividad de búsqueda.
             Intent intent = new Intent(this, SearchActivity.class);
