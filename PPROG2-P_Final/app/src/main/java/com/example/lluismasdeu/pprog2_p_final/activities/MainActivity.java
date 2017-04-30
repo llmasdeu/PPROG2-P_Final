@@ -8,6 +8,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
+import com.example.lluismasdeu.pprog2_p_final.model.User;
+import com.example.lluismasdeu.pprog2_p_final.repositories.UsersDB;
+import com.example.lluismasdeu.pprog2_p_final.repositories.UsersDBInterface;
 
 /**
  * Actividad principal de la aplicación.
@@ -15,6 +18,8 @@ import com.example.lluismasdeu.pprog2_p_final.R;
  * @author Lluís Masdeu
  */
 public class MainActivity extends AppCompatActivity {
+    private UsersDBInterface usersDB;
+
     // Constantes
     public static final String USERNAME_EXTRA = "username";
     public static final String PASSWORD_EXTRA = "password";
@@ -35,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Escondemos la ActionBar en esta actividad.
         getSupportActionBar().hide();
+
+        // Creamos la comunicación con la base de datos.
+        usersDB = new UsersDB(getApplicationContext());
 
         // Localizamos los componentes en el Layout.
         usernameEditText = (EditText) findViewById(R.id.username_editText);
@@ -65,10 +73,16 @@ public class MainActivity extends AppCompatActivity {
         } else if (String.valueOf(passwordEditText.getText()).equals("")) {
             errorTextView.setText(messageErrors[1]);
             errorTextView.setVisibility(View.VISIBLE);
+        } else if (!usersDB.existsUser(new User(String.valueOf(usernameEditText.getText()),
+                String.valueOf(passwordEditText.getText())))) {
+            errorTextView.setText(messageErrors[2]);
         } else {
-            // TODO
-            //  - Comprobar credenciales en la base de datos.
-            //  - Acceso al resto de la aplicación.
+            // Accedemos a la actividad de búsqueda.
+            Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
+
+            // Reseteamos los componentes.
+            resetComponents();
         }
     }
 
@@ -78,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void onRegisterButtonClick(View view) {
-        // Intent RegisterActivity
+        // Accedemos a la actividad de registro.
         Intent intent = new Intent(this, RegisterActivity.class);
         intent.putExtra(USERNAME_EXTRA, String.valueOf(usernameEditText.getText()));
         intent.putExtra(PASSWORD_EXTRA, String.valueOf(passwordEditText.getText()));

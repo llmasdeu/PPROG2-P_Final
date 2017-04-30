@@ -31,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.context = context;
     }
 
-    public DatabaseHelper getInstance(Context context) {
+    public static DatabaseHelper getInstance(Context context) {
         if (instance == null)
             instance = new DatabaseHelper(context, DATABASE_NAME, factory, version);
 
