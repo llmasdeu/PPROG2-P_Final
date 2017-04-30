@@ -171,7 +171,6 @@
             <!-- Notificación de error -->
             <TextView
                 android:id="@+id/errorRegister_textView"
-                android:text="dsdffsf"
                 android:textSize="9dp"
                 android:textColor="@color/errorMessageColor"
                 android:visibility="gone"

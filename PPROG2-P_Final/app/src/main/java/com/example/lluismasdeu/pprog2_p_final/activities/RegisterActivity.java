@@ -15,6 +15,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
+import com.example.lluismasdeu.pprog2_p_final.model.User;
+import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
+import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,19 +28,22 @@ import java.io.InputStream;
  * @author Lluís Masdeu
  */
 public class RegisterActivity extends AppCompatActivity {
+    private DatabaseManagementInterface dbManagement;
+
     // Constantes
     private static final String DEFAULT_PHOTO = "default_photo.jpg";
     private static final int TAKE_PICTURE = 1;
 
     // Componentes
+    private ImageView profileImageView;
     private EditText nameEditText;
     private EditText surnameEditText;
-    private ImageView profileImageView;
     private EditText emailEditText;
     private EditText passwordEditText;
     private EditText confirmPasswordEditText;
     private RadioButton maleRadioButton;
     private RadioButton femaleRadioButton;
+    private EditText descriptionEditText;
     private CheckBox termsCheckBox;
     private TextView errorTextView;
 
@@ -53,15 +59,19 @@ public class RegisterActivity extends AppCompatActivity {
         // Escondemos la ActionBar en esta actividad.
         getSupportActionBar().hide();
 
+        // Creamos la comunicación con la base de datos.
+        dbManagement = new DatabaseManagement(getApplicationContext());
+
         // Localizamos los componentes en el Layout.
+        profileImageView = (ImageView) findViewById(R.id.profile_imageView);
         nameEditText = (EditText) findViewById(R.id.name_editText);
         surnameEditText = (EditText) findViewById(R.id.surname_editText);
-        profileImageView = (ImageView) findViewById(R.id.profile_imageView);
         emailEditText = (EditText) findViewById(R.id.email_editText);
         passwordEditText = (EditText) findViewById(R.id.passwordRegister_editText);
         confirmPasswordEditText = (EditText) findViewById(R.id.confirmPasswordRegister_editText);
         maleRadioButton = (RadioButton) findViewById(R.id.male_radioButton);
         femaleRadioButton = (RadioButton) findViewById(R.id.female_radioButton);
+        descriptionEditText = (EditText) findViewById(R.id.description_editText);
         termsCheckBox = (CheckBox) findViewById(R.id.terms_checkBox);
         errorTextView = (TextView) findViewById(R.id.errorRegister_textView);
 
@@ -98,6 +108,34 @@ public class RegisterActivity extends AppCompatActivity {
      */
     public void onRegisterUserButtonClick(View view) {
         // TODO
+        String[] messageErrors = getResources().getStringArray(R.array.register_activity_errors);
+
+        if (String.valueOf(nameEditText.getText()).equals("")) {
+            errorTextView.setText(messageErrors[0]);
+            errorTextView.setVisibility(View.VISIBLE);
+        } else if (String.valueOf(surnameEditText.getText()).equals("")) {
+            errorTextView.setText(messageErrors[1]);
+            errorTextView.setVisibility(View.VISIBLE);
+        } else if (String.valueOf(emailEditText.getText()).equals("")) {
+            errorTextView.setText(messageErrors[2]);
+            errorTextView.setVisibility(View.VISIBLE);
+        } else if (String.valueOf(passwordEditText.getText()).equals("")) {
+            errorTextView.setText(messageErrors[3]);
+            errorTextView.setVisibility(View.VISIBLE);
+        } else if (!String.valueOf(passwordEditText.getText())
+                .equals(String.valueOf(confirmPasswordEditText.getText()))) {
+            errorTextView.setText(messageErrors[4]);
+            errorTextView.setVisibility(View.VISIBLE);
+        } else if (!termsCheckBox.isChecked()) {
+            errorTextView.setText(messageErrors[5]);
+            errorTextView.setVisibility(View.VISIBLE);
+        } else if (dbManagement.existsUser(new User(String.valueOf(emailEditText.getText())), 2)) {
+            errorTextView.setText(messageErrors[6]);
+            errorTextView.setVisibility(View.VISIBLE);
+        } else {
+            // TODO: Registrar el usuario en la base de datos.
+            // TODO: Acceder a la siguiente actividad de la aplicación.
+        }
     }
 
     @Override
@@ -147,5 +185,24 @@ public class RegisterActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Método encargado de resetear la interfaz gráfica de la actividad.
+     */
+    private void resetComponents() {
+        nameEditText.setText("");
+        surnameEditText.setText("");
+        emailEditText.setText("");
+        passwordEditText.setText("");
+        confirmPasswordEditText.setText("");
+        maleRadioButton.setChecked(false);
+        femaleRadioButton.setChecked(false);
+        descriptionEditText.setText("");
+        termsCheckBox.setChecked(false);
+        errorTextView.setText("");
+        errorTextView.setVisibility(View.GONE);
+
+        setDefaultProfilePhoto();
     }
 }

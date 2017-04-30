@@ -4,12 +4,12 @@
 
     <!-- Botones de favoritos y perfil -->
     <item android:id="@+id/action_favorite"
+        android:title="@string/favorites"
         android:icon="@drawable/ic_favorite"
-        android:title="@string/favorites_action_bar"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item android:id="@+id/action_profile"
-        android:title="@string/profile_action_bar"
+        android:title="@string/profile"
         android:icon="@drawable/ic_profile"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

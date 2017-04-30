@@ -19,8 +19,10 @@ import com.example.lluismasdeu.pprog2_p_final.R;
 /**
  * Created by lluismasdeu on 20/4/17.
  */
-
 public class SearchActivity extends AppCompatActivity {
+    private String connectedUser;
+
+    // Componentes
     private EditText search;
     private ImageButton clear;
     private SeekBar radius;
@@ -82,5 +84,12 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    /**
+     * Método encargado de obtener los parámetros del usuario conectado serializado.
+     */
+    private void getConnectedUser() {
+        connectedUser = getIntent().getExtras().getString(MainActivity.CONNECTED_USER_EXTRA);
     }
 }

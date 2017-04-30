@@ -2,49 +2,48 @@
     <!-- Nombre de la aplicación -->
     <string name="app_name">PPROG2-P_Final</string>
 
-    <!-- Strings de la actividad principal -->
-    <string name="username">Username</string>
-    <string name="password">Password</string>
+    <!-- Strings de la aplicación -->
+    <string name="confirm_password">Confirm Password</string>
+    <string name="description">Description</string>
+    <string name="edit">Edit</string>
+    <string name="email">E-mail</string>
+    <string name="favorites">Favorites</string>
+    <string name="female">Female</string>
+    <string name="filter">Filter</string>
+    <string name="gender">Gender</string>
     <string name="login">Login</string>
+    <string name="male">Male</string>
+    <string name="name">Name</string>
+    <string name="nothing_to_show">Nothing to show.</string>
+    <string name="password">Password</string>
+    <string name="profile">Profile</string>
+    <string name="radius_km"> Km</string>
+    <string name="recent_searches">Recent Searches</string>
     <string name="register">Register</string>
+    <string name="search">Search</string>
+    <string name="search_hint">Search...</string>
+    <string name="search_radius">Search radius</string>
+    <string name="something_about_you">Something about you...</string>
+    <string name="surname">Surname</string>
+    <string name="take_picture">Take Picture</string>
+    <string name="terms">Accept terms &amp; conditions</string>
+    <string name="username">Username</string>
 
+    <!-- String-Arrays de errores -->
     <string-array name="main_activity_errors">
         <item>Error! User field can\'t be blank.</item>
         <item>Error! Password field can\'t be blank.</item>
         <item>Error! Either the username or password is incorrect.</item>
     </string-array>
-
-    <!-- Strings de la actividad de registro de usuario -->
-    <string name="take_picture">Take Picture</string>
-    <string name="name">Name</string>
-    <string name="surname">Surname</string>
-    <string name="email">E-mail</string>
-    <string name="confirm_password">Confirm Password</string>
-    <string name="gender">Gender</string>
-    <string name="male">Male</string>
-    <string name="female">Female</string>
-    <string name="description">Description</string>
-    <string name="something_about_you">Something about you...</string>
-    <string name="terms">Accept terms &amp; conditions</string>
-    <string name="error_name_blank">Error! Name field can\'t be blank.</string>
-    <string name="error_email_blank">Error! E-mail field can\'t be blank.</string>
-    <string name="error_passwords_do_not_match">Error! Passwords don\'t match.</string>
-    <string name="error_terms_not_accepted">Error! You must accept Terms &amp; Conditions.</string>
-    <string name="error_user_exists">Error!</string>
-
-    <!-- Strings de la actividad de búsqueda -->
-    <string name="search_hint">Search...</string>
-    <string name="search_radius">Search radius</string>
-    <string name="radius_km"> Km</string>
-    <string name="search">Search</string>
-    <string name="recent_searches">Recent Searches</string>
-    <string name="nothing_to_show">Nothing to show.</string>
-
-    <!-- Strings de la ActionBar -->
-    <string name="favorites_action_bar">Favorites</string>
-    <string name="profile_action_bar">Profile</string>
-    <string name="edit_action_bar">Edit</string>
-    <string name="favorite_action_bar">Filter</string>
+    <string-array name="register_activity_errors">
+        <item>Error! Name field can\'t be blank.</item>
+        <item>Error! Surname field can\'t be blank.</item>
+        <item>Error! E-mail field can\'t be blank.</item>
+        <item>Error! Password fields can\'t be blank.</item>
+        <item>Error! Passwords don\'t match.</item>
+        <item>Error! You must accept Terms &amp; Conditions.</item>
+        <item>Error! This user already exists.</item>
+    </string-array>
 
     <!-- String-Array prueba  action_bar_favorite (borrar si es necesario)-->
     <string-array name="spinner">
