@@ -7,18 +7,18 @@
     <item
         android:id="@+id/menuFilter"
         android:title="@string/filter"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         app:actionViewClass="android.widget.Spinner"
         android:background="#FFFFFF"
         />
     <item android:id="@+id/action_favorite"
         android:icon="@drawable/ic_favorite"
         android:title="@string/favorites"
-        app:showAsAction="ifRoom" />
-    <item android:id="@+id/action_perfil"
+        app:showAsAction="always" />
+    <item android:id="@+id/action_profile"
         android:title="@string/profile"
         android:icon="@drawable/ic_profile"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
 
         />
 </menu>

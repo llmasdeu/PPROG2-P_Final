@@ -9,23 +9,20 @@ import android.view.MenuItem;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
 
-public class FavoriteActivity extends AppCompatActivity {
+public class UbicationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite);
+        setContentView(R.layout.activity_ubication);
     }
-
     public boolean onCreateOptionsMenu(Menu menu) {
         //Mostramos actionBar
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.action_bar_favorite, menu);
+        inflater.inflate(R.menu.action_bar, menu);
 
         return true;
     }
-
-    //TODO opcion para filtro de resultados
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_profile:
@@ -34,6 +31,11 @@ public class FavoriteActivity extends AppCompatActivity {
                 startActivity(intentPerfil);
                 break;
 
+            case R.id.action_favorite:
+                //intent para ingresar a favoritos
+                Intent intentFavorite = new Intent(this, FavoriteActivity.class);
+                startActivity(intentFavorite);
+                break;
 
             default:
                 break;

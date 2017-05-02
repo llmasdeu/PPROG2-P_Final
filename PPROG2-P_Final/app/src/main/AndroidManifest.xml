@@ -19,7 +19,10 @@
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.SearchActivity" />
         <activity android:name=".activities.ProfileActivity" />
-        <activity android:name=".activities.FavoriteActivity"></activity>
+        <activity android:name=".activities.FavoriteActivity" />
+        <activity android:name=".activities.ResultsActivity" />
+        <activity android:name=".activities.DescriptionActivity" />
+        <activity android:name=".activities.UbicationActivity"></activity>
     </application>
 
 </manifest>
