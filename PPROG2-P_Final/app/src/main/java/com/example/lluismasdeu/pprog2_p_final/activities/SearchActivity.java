@@ -85,11 +85,4 @@ public class SearchActivity extends AppCompatActivity {
 
         return true;
     }
-
-    /**
-     * Método encargado de obtener los parámetros del usuario conectado serializado.
-     */
-    private void getConnectedUser() {
-        connectedUser = getIntent().getExtras().getString(MainActivity.CONNECTED_USER_EXTRA);
-    }
 }

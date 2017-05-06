@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,9 +19,15 @@ import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.model.User;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
+import com.example.lluismasdeu.pprog2_p_final.utils.GeneralUtilities;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Actividad encargada del registro de usuario.
@@ -32,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     // Constantes
     private static final String DEFAULT_PHOTO = "default_photo.jpg";
+    private static final String PICTURES_FOLDER = "pictures";
     private static final int TAKE_PICTURE = 1;
 
     // Componentes
@@ -107,7 +115,6 @@ public class RegisterActivity extends AppCompatActivity {
      * @param view
      */
     public void onRegisterUserButtonClick(View view) {
-        // TODO
         String[] messageErrors = getResources().getStringArray(R.array.register_activity_errors);
 
         if (String.valueOf(nameEditText.getText()).equals("")) {
@@ -133,6 +140,11 @@ public class RegisterActivity extends AppCompatActivity {
             errorTextView.setText(messageErrors[6]);
             errorTextView.setVisibility(View.VISIBLE);
         } else {
+            StringBuilder builder = new StringBuilder();
+            builder.append("img_").append(GeneralUtilities.getNumberPictures() + 1).append(".jpg");
+            String fileName = builder.toString();
+            GeneralUtilities.saveImage(((BitmapDrawable) profileImageView.getDrawable())
+                    .getBitmap(), fileName);
             // TODO: Registrar el usuario en la base de datos.
             // TODO: Acceder a la siguiente actividad de la aplicación.
         }

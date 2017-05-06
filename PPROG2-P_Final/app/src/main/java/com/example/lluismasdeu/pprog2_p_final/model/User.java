@@ -10,6 +10,7 @@ public class User {
     private String password;
     private String gender;
     private String description;
+    private String imagePath;
 
     public User(String email) {
         this.email = email;
