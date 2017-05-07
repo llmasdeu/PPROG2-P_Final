@@ -12,10 +12,6 @@ import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
 import com.example.lluismasdeu.pprog2_p_final.model.User;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
-import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Actividad principal de la aplicación.
