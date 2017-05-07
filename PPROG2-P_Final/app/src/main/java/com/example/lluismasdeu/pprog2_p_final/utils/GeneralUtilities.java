@@ -1,6 +1,7 @@
 package com.example.lluismasdeu.pprog2_p_final.utils;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,7 +11,8 @@ import java.io.IOException;
  * Created by lluismasdeu on 6/5/17.
  */
 public class GeneralUtilities {
-    private static final String PICTURES_FOLDER = "./src/main/images/";
+    private static final String PICTURES_FOLDER = "app/src/images/";
+    private static final String TAG = "GeneralUtilities";
 
     /**
      * Método encargado de guardar la imagen en el dispositivo.
@@ -41,8 +43,16 @@ public class GeneralUtilities {
      */
     public static int getNumberPictures() {
         File f = new File(PICTURES_FOLDER);
+        int numFiles = 0;
+
+        if (f == null)
+            f.mkdir();
+
         File[] files = f.listFiles();
 
-        return files.length;
+        if (files != null)
+            numFiles = files.length;
+
+        return numFiles;
     }
 }

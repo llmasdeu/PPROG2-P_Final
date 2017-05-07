@@ -1,5 +1,5 @@
 CREATE TABLE users(
-    _id INT NOT NULL AUTOINCREMENT PRIMARY KEY,
+    _id INT PRIMARY KEY,
     name VARCHAR(255) DEFAULT '',
     surname VARCHAR(255) DEFAULT '',
     email VARCHAR(255) DEFAULT '',
@@ -10,7 +10,7 @@ CREATE TABLE users(
 );
 
 CREATE TABLE searches(
-    _id INT UNIQUE NOT NULL PRIMARY KEY,
+    _id INT PRIMARY KEY,
     name VARCHAR(255) DEFAULT ''
 );
 

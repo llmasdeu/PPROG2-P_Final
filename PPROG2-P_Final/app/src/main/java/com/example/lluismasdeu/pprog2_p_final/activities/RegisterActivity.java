@@ -16,6 +16,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
+import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
 import com.example.lluismasdeu.pprog2_p_final.model.User;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
@@ -142,11 +143,38 @@ public class RegisterActivity extends AppCompatActivity {
         } else {
             StringBuilder builder = new StringBuilder();
             builder.append("img_").append(GeneralUtilities.getNumberPictures() + 1).append(".jpg");
-            String fileName = builder.toString();
+            String imageFile = builder.toString(), gender = "";
             GeneralUtilities.saveImage(((BitmapDrawable) profileImageView.getDrawable())
-                    .getBitmap(), fileName);
-            // TODO: Registrar el usuario en la base de datos.
-            // TODO: Acceder a la siguiente actividad de la aplicación.
+                    .getBitmap(), imageFile);
+
+            if (femaleRadioButton.isChecked()) {
+                gender = "female";
+            } else {
+                gender = "male";
+            }
+
+            User newUser = new User(String.valueOf(nameEditText.getText()),
+                    String.valueOf(surnameEditText.getText()),
+                    String.valueOf(emailEditText.getText()),
+                    String.valueOf(passwordEditText.getText()),
+                    gender, String.valueOf(descriptionEditText.getText()), imageFile);
+            dbManagement.addUser(newUser);
+
+            // Obtenemos los parámetros completos del usuario conectado.
+            User connectedUser = dbManagement.getUser(new User(String.valueOf(emailEditText.getText()),
+                    String.valueOf(passwordEditText.getText())));
+
+            if (connectedUser != null) {
+                // Guardamos el usuario actual.
+                StaticValues.getInstance(connectedUser);
+
+                // Accedemos a la actividad de búsqueda.
+                Intent intent = new Intent(this, SearchActivity.class);
+                startActivity(intent);
+
+                // Reseteamos los componentes.
+                resetComponents();
+            }
         }
     }
 

@@ -82,14 +82,18 @@ public class MainActivity extends AppCompatActivity {
             // Obtenemos los parámetros completos del usuario conectado.
             User connectedUser = dbManagement.getUser(new User(String.valueOf(usernameEditText.getText()),
                     String.valueOf(passwordEditText.getText())));
-            StaticValues.getInstance(connectedUser);
 
-            // Accedemos a la actividad de búsqueda.
-            Intent intent = new Intent(this, SearchActivity.class);
-            startActivity(intent);
+            if (connectedUser != null) {
+                // Guardamos el usuario actual.
+                StaticValues.getInstance(connectedUser);
 
-            // Reseteamos los componentes.
-            resetComponents();
+                // Accedemos a la actividad de búsqueda.
+                Intent intent = new Intent(this, SearchActivity.class);
+                startActivity(intent);
+
+                // Reseteamos los componentes.
+                resetComponents();
+            }
         }
     }
 
