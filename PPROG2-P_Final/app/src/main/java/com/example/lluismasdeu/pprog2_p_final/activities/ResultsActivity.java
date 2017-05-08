@@ -17,7 +17,7 @@ public class ResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
-
+        getSupportActionBar().setTitle("");
         //Recuperamos valor del spinner action bar
         filter=(Spinner) findViewById(R.id.menuFilter);
     }

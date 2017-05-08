@@ -15,6 +15,7 @@ public class FavoriteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
+        getSupportActionBar().setTitle("");
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

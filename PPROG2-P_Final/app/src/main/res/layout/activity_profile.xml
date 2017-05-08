@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:editable="false"
+                android:enabled="false"
                  />
 
             <!-- Apellido de usuario -->
@@ -74,7 +74,7 @@
             <!-- Desactivado en primera instancia -->
             <EditText
                 android:id="@+id/surname_editText"
-                android:editable="false"
+                android:enabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"/>
@@ -93,7 +93,7 @@
                 android:layout_marginBottom="@dimen/activity_vertical_margin">
 
                 <RadioButton
-                    android:editable="false"
+                    android:enabled="false"
                     android:id="@+id/male_radioButton"
                     android:text="@string/male"
                     android:layout_weight="1"
@@ -106,7 +106,7 @@
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:editable="false"/>
+                    android:enabled="false"/>
             </RadioGroup>
 
             <!-- Descipción del usuario -->
@@ -117,7 +117,7 @@
 
             <!-- Desactivado en primera instancia -->
             <EditText
-                android:editable="false"
+                android:enabled="false"
                 android:id="@+id/description_editText"
                 android:hint="@string/something_about_you"
                 android:lines="6"

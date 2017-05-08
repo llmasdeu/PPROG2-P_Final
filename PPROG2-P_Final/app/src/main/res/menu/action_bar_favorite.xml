@@ -5,6 +5,7 @@
 
     <!--Falta centrar  filter_spinner -->
     <item
+        
         android:id="@+id/menuSort"
         android:title="@string/filter"
         app:showAsAction="ifRoom"

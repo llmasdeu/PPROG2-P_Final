@@ -15,6 +15,7 @@ public class DescriptionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_description);
+        getSupportActionBar().setTitle("");
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         //Mostramos actionBar

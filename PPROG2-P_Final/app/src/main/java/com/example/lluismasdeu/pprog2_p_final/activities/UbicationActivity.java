@@ -15,6 +15,7 @@ public class UbicationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ubication);
+        getSupportActionBar().setTitle("");
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         //Mostramos actionBar

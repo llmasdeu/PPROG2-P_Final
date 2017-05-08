@@ -29,6 +29,7 @@ public class SearchActivity extends AppCompatActivity {
     private TextView radiusKm;
     private ListView recentSearches;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +39,7 @@ public class SearchActivity extends AppCompatActivity {
         radius = (SeekBar) findViewById(R.id.radius_seekBar);
         radiusKm = (TextView) findViewById(R.id.radius_textView);
         recentSearches = (ListView) findViewById(R.id.recentSearches_listView);
+        getSupportActionBar().setTitle("");
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

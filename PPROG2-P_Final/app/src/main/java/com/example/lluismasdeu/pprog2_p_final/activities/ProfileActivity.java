@@ -3,9 +3,11 @@ package com.example.lluismasdeu.pprog2_p_final.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -24,6 +26,8 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        getSupportActionBar().setTitle("");
+
 
         nameEditText = (EditText) findViewById(R.id.name_editText);
         surnameEditText=(EditText) findViewById(R.id.surname_editText);
@@ -49,12 +53,12 @@ public class ProfileActivity extends AppCompatActivity {
 
             case R.id.action_edit:
                 //Vuelve editable los campos
-                nameEditText.getEditableText();
-                surnameEditText.getEditableText();
-                maleRadioButton.getEditableText();
-                femaleRadioButton.getEditableText();
-                descriptionEditText.getEditableText();
-                pictureButton.getVisibility();
+                nameEditText.setEnabled(true);
+                surnameEditText.setEnabled(true);
+                maleRadioButton.setEnabled(true);
+                femaleRadioButton.setEnabled(true);
+                descriptionEditText.setEnabled(true);
+                pictureButton.setVisibility(View.VISIBLE);
                 pictureButton.setClickable(true);
 
                 break;
