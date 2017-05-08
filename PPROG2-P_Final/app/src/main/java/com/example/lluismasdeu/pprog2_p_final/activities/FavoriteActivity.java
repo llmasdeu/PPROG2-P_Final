@@ -15,31 +15,11 @@ public class FavoriteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().hide();
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //Mostramos actionBar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.action_bar_favorite, menu);
 
-        return true;
-    }
 
     //TODO opcion para filtro de resultados
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_profile:
-                // Intent para ingresar al perfil
-                Intent intentPerfil = new Intent(this, ProfileActivity.class);
-                startActivity(intentPerfil);
-                break;
 
-
-            default:
-                break;
-        }
-
-        return true;
-    }
 }
