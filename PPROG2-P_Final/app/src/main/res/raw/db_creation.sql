@@ -11,6 +11,6 @@ CREATE TABLE users(
 
 CREATE TABLE searches(
     _id INT PRIMARY KEY,
-    name VARCHAR(255) DEFAULT ''
+    search VARCHAR(255) DEFAULT ''
 );
 

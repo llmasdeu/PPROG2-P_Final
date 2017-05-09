@@ -21,16 +21,20 @@ import java.util.List;
 public class DatabaseManagement implements DatabaseManagementInterface {
     private static Context context;
 
-    // Constantes
+    // Nombres de las tablas
+    private static final String SEARCHES_TABLE = "searches";
     private static final String USERS_TABLE = "users";
-    private static final String ID_COLUMN = "_id";
-    private static final String NAME_COLUMN = "name";
-    private static final String SURNAME_COLUMN = "surname";
-    private static final String EMAIL_COLUMN = "email";
-    private static final String PASSWORD_COLUMN = "password";
-    private static final String GENDER_COLUMN = "gender";
+
+    // Nombres de las columnas.
     private static final String DESCRIPTION_COLUMN = "description";
+    private static final String EMAIL_COLUMN = "email";
+    private static final String GENDER_COLUMN = "gender";
+    private static final String ID_COLUMN = "_id";
     private static final String IMAGE_FILE_COLUMN = "profile_picture";
+    private static final String NAME_COLUMN = "name";
+    private static final String PASSWORD_COLUMN = "password";
+    private static final String SEARCH_COLUMN = "search";
+    private static final String SURNAME_COLUMN = "surname";
 
     /**
      * Constructor de la clase.
