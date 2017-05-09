@@ -181,8 +181,40 @@ public class DatabaseManagement implements DatabaseManagementInterface {
      */
     @Override
     public List<User> getAllUsers() {
+        // Obtenemos la instancia de la base de datos.
+        DatabaseHelper helper = DatabaseHelper.getInstance(context);
+
+        // Llevamos a cabo la consulta en la base de datos.
+        Cursor cursor = helper.getReadableDatabase().query(USERS_TABLE, null, null, null, null,
+                null, null);
+
+        // Creamos la lista donde guardaremos los usuarios registrados.
         List<User> users = new ArrayList<User>();
 
-        return null;
+        // Hacemos la lectura de los resultados.
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                int id = 0;
+                String name = "", surname = "", email = "", password = "", gender = "",
+                        description = "", imageFile = "";
+
+                do {
+                    id = cursor.getInt(cursor.getColumnIndex(ID_COLUMN));
+                    name = cursor.getString(cursor.getColumnIndex(NAME_COLUMN));
+                    surname = cursor.getString(cursor.getColumnIndex(SURNAME_COLUMN));
+                    email = cursor.getString(cursor.getColumnIndex(EMAIL_COLUMN));
+                    password = cursor.getString(cursor.getColumnIndex(PASSWORD_COLUMN));
+                    gender = cursor.getString(cursor.getColumnIndex(GENDER_COLUMN));
+                    description = cursor.getString(cursor.getColumnIndex(DESCRIPTION_COLUMN));
+                    imageFile = cursor.getString(cursor.getColumnIndex(IMAGE_FILE_COLUMN));
+
+                    // Añadimos el usuario al ArrayList.
+                    users.add(new User(id, name, surname, email, password, gender, description,
+                            imageFile));
+                } while (cursor.moveToNext());
+            }
+        }
+
+        return users;
     }
 }
