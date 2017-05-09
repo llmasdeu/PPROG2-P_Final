@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.lluismasdeu.pprog2_p_final.activities.ResultsActivity">
     <!-- Agregamos Toolbar Con spinner centrado-->
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
@@ -30,16 +31,28 @@
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_profile"/>
+                app:srcCompat="@drawable/ic_profile"
+                android:onClick="onClickProfile"/>
             <ImageView
                 android:id="@+id/favorite_imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_favorite"
                 android:layout_alignTop="@+id/profile_imageView"
-                android:layout_toStartOf="@+id/profile_imageView" />
+                android:layout_toStartOf="@+id/profile_imageView"
+                android:onClick="onClickFavorite"/>
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabMode="fixed"
+        app:tabGravity="fill"
+        android:layout_below="@+id/my_toolbar"
+        android:layout_alignParentStart="true"
+        android:background="@color/colorPrimary"/>
+
 
 </RelativeLayout>
