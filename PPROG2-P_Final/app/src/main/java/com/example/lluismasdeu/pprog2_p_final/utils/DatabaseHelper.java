@@ -47,8 +47,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // TODO: Destruir la base de datos.
-        // TODO: Construir la base de datos.
+        executeSQLScript(db, R.raw.db_removal);
+        executeSQLScript(db, R.raw.db_creation);
     }
 
     private void executeSQLScript(SQLiteDatabase database, int scriptFile) {

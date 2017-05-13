@@ -212,7 +212,7 @@ public class DatabaseManagement implements DatabaseManagementInterface {
                     description = cursor.getString(cursor.getColumnIndex(DESCRIPTION_COLUMN));
                     imageFile = cursor.getString(cursor.getColumnIndex(IMAGE_FILE_COLUMN));
 
-                    // Añadimos el usuario al ArrayList.
+                    // Añadimos el usuario en el ArrayList.
                     users.add(new User(id, name, surname, email, password, gender, description,
                             imageFile));
                 } while (cursor.moveToNext());
@@ -220,5 +220,55 @@ public class DatabaseManagement implements DatabaseManagementInterface {
         }
 
         return users;
+    }
+
+    /**
+     * Método encargado de registrar una búsqueda reciente en la base de datos.
+     * @param recentSearch Búsqueda a registrar.
+     */
+    @Override
+    public void addRecentSearch(String recentSearch) {
+        // Obtenemos la instancia de la base de datos.
+        DatabaseHelper helper = DatabaseHelper.getInstance(context);
+
+        // Configuramos el valor de la columna.
+        ContentValues values = new ContentValues();
+        values.put(SEARCH_COLUMN, recentSearch);
+
+        // Llevamos a cabo la inserción en la base de datos.
+        helper.getWritableDatabase().insert(SEARCHES_TABLE, null, values);
+    }
+
+    /**
+     * Método encargado de obtener todas las búsquedas de la base de datos.
+     * @return Búsquedas registradas en la base de datos.
+     */
+    @Override
+    public List<String> getAllRecentSearches() {
+        // Obtenemos la instancia de la base de datos.
+        DatabaseHelper helper = DatabaseHelper.getInstance(context);
+
+        // Llevamos a cabo la consulta en la base de datos.
+        Cursor cursor = helper.getReadableDatabase().query(SEARCHES_TABLE, null, null, null, null,
+                null, null);
+
+        // Creamos la lista donde guardaremos las búsquedas recientes.
+        List<String> recentSearches = new ArrayList<String>();
+
+        // Hacemos la lectura de los resultados.
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                String search = "";
+
+                do {
+                    search = cursor.getString(cursor.getColumnIndex(SEARCH_COLUMN));
+
+                    // Añadimos la búsqueda en el ArrayList.
+                    recentSearches.add(search);
+                } while (cursor.moveToNext());
+            }
+        }
+
+        return recentSearches;
     }
 }

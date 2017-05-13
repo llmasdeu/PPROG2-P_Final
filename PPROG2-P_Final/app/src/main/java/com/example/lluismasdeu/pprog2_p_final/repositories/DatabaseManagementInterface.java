@@ -14,4 +14,6 @@ public interface DatabaseManagementInterface {
     boolean existsUser(User u, int mode);
     User getUser(User u);
     List<User> getAllUsers();
+    void addRecentSearch(String recentSearch);
+    List<String> getAllRecentSearches();
 }

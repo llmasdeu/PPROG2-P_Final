@@ -1,5 +1,6 @@
 package com.example.lluismasdeu.pprog2_p_final.activities;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,31 +16,66 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
+import com.example.lluismasdeu.pprog2_p_final.fragments.NoRecentSearchesFragment;
+import com.example.lluismasdeu.pprog2_p_final.fragments.RecentSearchesFragment;
+import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
+import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
+
+import java.util.List;
 
 /**
  * Created by lluismasdeu on 20/4/17.
  */
 public class SearchActivity extends AppCompatActivity {
-    private String connectedUser;
+    private DatabaseManagementInterface dbManagement;
 
-    // Componentes
-    private EditText search;
-    private ImageButton clear;
-    private SeekBar radius;
-    private TextView radiusKm;
-    private ListView recentSearches;
-
+    // Componentes y estructuras
+    private EditText searchEditText;
+    private ImageButton clearImageButton;
+    private SeekBar radiusSeekBar;
+    private TextView radiusKmTextView;
+    private ListView recentSearchesListView;
+    private List<String> recentSearchesList;
+    private NoRecentSearchesFragment noRecentSearchesFragment;
+    private RecentSearchesFragment recentSearchesFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search);
 
-        search = (EditText) findViewById(R.id.search_editText);
-        clear = (ImageButton) findViewById(R.id.clear_imageButton);
-        radius = (SeekBar) findViewById(R.id.radius_seekBar);
-        radiusKm = (TextView) findViewById(R.id.radius_textView);
-        recentSearches = (ListView) findViewById(R.id.recentSearches_listView);
         getSupportActionBar().setTitle("");
+
+        // Localizamos los componentes en el layout.
+        searchEditText = (EditText) findViewById(R.id.search_editText);
+        clearImageButton = (ImageButton) findViewById(R.id.clear_imageButton);
+        radiusSeekBar = (SeekBar) findViewById(R.id.radius_seekBar);
+        radiusKmTextView = (TextView) findViewById(R.id.radius_textView);
+        recentSearchesListView = (ListView) findViewById(R.id.recentSearches_listView);
+
+        // Inicializamos el gestor de la base de datos.
+        dbManagement = new DatabaseManagement(this);
+
+        // Obtenemos las búsquedas recientes.
+        updateRecentSearchesList();
+
+        // Inicializamos los fragmentos.
+        noRecentSearchesFragment = new NoRecentSearchesFragment();
+        recentSearchesFragment = new RecentSearchesFragment(this, recentSearchesList);
+
+        // Comprobamos qué fragment hay que mostrar.
+        manageRecentSearchesFragments();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Actualizamos la lista de búsquedas recientes.
+        updateRecentSearchesList();
+
+        // Comprobamos qué fragment hay que mostrar.
+        manageRecentSearchesFragments();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,5 +122,21 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    private void updateRecentSearchesList() {
+        recentSearchesList = dbManagement.getAllRecentSearches();
+    }
+
+    private void manageRecentSearchesFragments() {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        if (recentSearchesList.isEmpty()) {
+            transaction.replace(R.id.recentSearches_frameLayout, noRecentSearchesFragment);
+        } else {
+            transaction.replace(R.id.recentSearches_frameLayout, recentSearchesFragment);
+        }
+
+        transaction.commit();
     }
 }

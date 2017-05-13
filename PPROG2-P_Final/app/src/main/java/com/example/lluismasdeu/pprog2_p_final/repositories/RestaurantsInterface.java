@@ -8,6 +8,6 @@ import java.util.List;
  * Created by eloy on 10-05-2017.
  */
 
-public interface RestorantsInterface {
+public interface RestaurantsInterface {
     List<Restorants> search(String searchParameter);
 }
