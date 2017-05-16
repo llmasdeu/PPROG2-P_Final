@@ -2,17 +2,16 @@ package com.example.lluismasdeu.pprog2_p_final.activities;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Spinner;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
-import com.example.lluismasdeu.pprog2_p_final.adapters.TabsAdapter;
+import com.example.lluismasdeu.pprog2_p_final.adapters.TabAdapter;
+import com.example.lluismasdeu.pprog2_p_final.fragments.ListViewFragment;
 
 import java.util.ArrayList;
 
@@ -44,11 +43,11 @@ public class ResultsActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
 
-        ArrayList<TabsAdapter.TabEntry> entries = new ArrayList<>();
-       //entries.add(new TabsAdapter.TabEntry(new ListViewFragment(), "All"));
+        ArrayList<TabAdapter.TabEntry> entries = new ArrayList<>();
+        entries.add(new TabAdapter.TabEntry(new ListViewFragment(), "All"));
         // entries.add(new TabsAdapter.TabEntry(new ListViewFragment(), "Only open"));
 
-        TabsAdapter adapter = new TabsAdapter(getSupportFragmentManager(), entries);
+        TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), entries);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }

@@ -4,13 +4,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+
 import java.util.List;
 
-/**
- * Created by eloy on 09-05-2017.
- */
 
-public class TabsAdapter extends FragmentPagerAdapter {
+public class TabAdapter extends FragmentPagerAdapter {
 
     public static class TabEntry {
         private Fragment fragment;
@@ -20,6 +18,8 @@ public class TabsAdapter extends FragmentPagerAdapter {
             this.fragment = fragment;
             this.name = name;
         }
+
+
 
         public Fragment getFragment() {
             return fragment;
@@ -33,7 +33,7 @@ public class TabsAdapter extends FragmentPagerAdapter {
     private List<TabEntry> entries;
 
 
-    public TabsAdapter(FragmentManager fm, List<TabEntry> entries) {
+    public TabAdapter(FragmentManager fm, List<TabEntry> entries) {
         super(fm);
         this.entries = entries;
     }
