@@ -21,12 +21,13 @@
         android:textSize="20dp"/>
 
     <RatingBar
-        android:layout_alignStart="@id/titulo_textView"
+        android:id="@+id/rate_stars"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:numStars="5"
-        android:id="@+id/rate_stars"
-        android:layout_below="@+id/titulo_textView" />
+        android:layout_alignStart="@id/titulo_textView"
+        android:layout_below="@+id/titulo_textView"
+        android:isIndicator="true"
+        android:numStars="5" />
 
     <TextView
         android:layout_alignStart="@id/titulo_textView"

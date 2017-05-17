@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
@@ -55,6 +56,10 @@ public class RestorantListViewAdapter extends BaseAdapter {
         title.setText((restorants.getName()));
         TextView address = (TextView) itemView.findViewById(R.id.adrress_textView);
         address.setText(restorants.getAdress());
+
+        RatingBar rate=(RatingBar) itemView.findViewById(R.id.rate_stars);
+        rate.setRating(Float.parseFloat(restorants.getRate()));
+
 
         return itemView;
     }

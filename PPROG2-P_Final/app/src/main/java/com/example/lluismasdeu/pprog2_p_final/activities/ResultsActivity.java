@@ -2,11 +2,12 @@ package com.example.lluismasdeu.pprog2_p_final.activities;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 public class ResultsActivity extends AppCompatActivity {
 
     Spinner filter;
+    private String searchParameter="Barcelona";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +30,7 @@ public class ResultsActivity extends AppCompatActivity {
         filter=(Spinner) findViewById(R.id.menuSort);
 
         createTabs();
+
 
     }
     // Intenet para ProfileActivity
@@ -40,6 +44,8 @@ public class ResultsActivity extends AppCompatActivity {
         startActivity(intent);
     }
     private void createTabs() {
+
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
 
@@ -51,8 +57,11 @@ public class ResultsActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
+    public String getMyData() {
+        return searchParameter;
+    }
 
-//TODO opcion para filtro de resultados
+
 
 
 }
