@@ -20,6 +20,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.adapters.TabAdapter;
 import com.example.lluismasdeu.pprog2_p_final.fragments.ListViewFragment;
+import com.example.lluismasdeu.pprog2_p_final.fragments.ListViewFragmentOpen;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ import java.util.ArrayList;
 public class ResultsActivity extends AppCompatActivity {
 
     Spinner filter;
-    private String searchParameter="Lleida";
+    private String searchParameter="Barcelona";
     ArrayList<String> types=new ArrayList<String>();
     JsonArrayRequest jsArrayRequest;
     @Override
@@ -99,7 +101,7 @@ public class ResultsActivity extends AppCompatActivity {
 
         ArrayList<TabAdapter.TabEntry> entries = new ArrayList<>();
         entries.add(new TabAdapter.TabEntry(new ListViewFragment(), "All"));
-        // entries.add(new TabsAdapter.TabEntry(new ListViewFragment(), "Only open"));
+        entries.add(new TabAdapter.TabEntry(new ListViewFragmentOpen(), "Only open"));
 
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), entries);
         viewPager.setAdapter(adapter);
