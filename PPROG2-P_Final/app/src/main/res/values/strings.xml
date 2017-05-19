@@ -34,6 +34,10 @@
     <string name="add_comentary">Add coment</string>
     <string name="send">Send</string>
 
+    <string name="google_maps_api_key">
+        AIzaSyBe-pt29XImZIY0H8R34chHQMG9WEvejl0
+    </string>
+
     <!-- String-Arrays de errores -->
     <string-array name="main_activity_errors">
         <item>Error! User field can\'t be blank.</item>

@@ -5,9 +5,11 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import com.android.volley.Request;
@@ -19,6 +21,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.lluismasdeu.pprog2_p_final.R;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Objects;
 
 public class DescriptionActivity extends AppCompatActivity {
@@ -27,22 +31,28 @@ public class DescriptionActivity extends AppCompatActivity {
     TextView address;
     TextView open;
     TextView close;
+    TextView latitud;
+    TextView longitud;
     RatingBar rating;
     TextView description;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_description);
-
         name=(TextView) findViewById(R.id.text_name);
         address=(TextView) findViewById(R.id.text_address);
         open=(TextView) findViewById(R.id.text_open_hour);
         close=(TextView) findViewById(R.id.text_close_hour);
         description=(TextView) findViewById(R.id.text_description);
         rating=(RatingBar)findViewById(R.id.rate_stars);
+        latitud=(TextView) findViewById(R.id.text_latitud);
+        longitud=(TextView) findViewById(R.id.text_longitud);
         getSupportActionBar().setTitle("");
+        //Recuperamos variable del intent
         final String nombre = getIntent().getStringExtra("name");
+        //Hacemos peticion al web services
         String url ="http://testapi-pprog2.azurewebsites.net/api/locations.php?method=getLocations";
         RequestQueue queue = Volley.newRequestQueue(this);
         jsArrayRequest = new JsonArrayRequest(
@@ -59,12 +69,18 @@ public class DescriptionActivity extends AppCompatActivity {
                             for (int i = 0; i < search.length(); i++) {
                                 if(Objects.equals(nombre, search.getJSONObject(i).getString("name")))
                                 {
+                                    //Llenamos las variables
                                     name.setText(search.getJSONObject(i).getString("name"));
                                     address.setText(search.getJSONObject(i).getString("address"));
                                     open.setText(search.getJSONObject(i).getString("opening"));
                                     close.setText(search.getJSONObject(i).getString("closing"));
                                     description.setText(search.getJSONObject(i).getString("description"));
                                     rating.setRating(Float.parseFloat(search.getJSONObject(i).getString("review")));
+
+                                    JSONObject location=new JSONObject( search.getJSONObject(i).getString("location"));
+                                    longitud.setText(location.getString("lng"));
+                                    latitud.setText(location.getString("lat"));
+
                                 }
 
                             }
@@ -83,7 +99,6 @@ public class DescriptionActivity extends AppCompatActivity {
                     }
                 }
         );
-
         queue.add(jsArrayRequest);
 
     }
@@ -114,4 +129,13 @@ public class DescriptionActivity extends AppCompatActivity {
 
         return true;
     }
+    //Intent para mostrar ubicacion en mapa
+    public void onClickMap(View view)
+    {
+        Intent intent=new Intent(this,UbicationActivity.class);
+        intent.putExtra("latitud",latitud.getText().toString());
+        intent.putExtra("longitud",longitud.getText().toString());
+        startActivity(intent);
+    }
+
 }
