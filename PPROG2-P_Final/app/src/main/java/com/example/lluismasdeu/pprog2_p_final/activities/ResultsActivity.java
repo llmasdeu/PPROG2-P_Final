@@ -21,7 +21,6 @@ import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.adapters.TabAdapter;
 import com.example.lluismasdeu.pprog2_p_final.fragments.ListViewFragment;
 import com.example.lluismasdeu.pprog2_p_final.fragments.ListViewFragmentOpen;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import java.util.ArrayList;

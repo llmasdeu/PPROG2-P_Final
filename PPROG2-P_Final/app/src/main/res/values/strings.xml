@@ -28,6 +28,11 @@
     <string name="take_picture">Take Picture</string>
     <string name="terms">Accept terms &amp; conditions</string>
     <string name="username">Username</string>
+    <string name="open">Opening: </string>
+    <string name="closed">Closing: </string>
+    <string name="comentary">Coments</string>
+    <string name="add_comentary">Add coment</string>
+    <string name="send">Send</string>
 
     <!-- String-Arrays de errores -->
     <string-array name="main_activity_errors">
@@ -43,11 +48,5 @@
         <item>Error! Passwords don\'t match.</item>
         <item>Error! You must accept Terms &amp; Conditions.</item>
         <item>Error! This user already exists.</item>
-    </string-array>
-
-    <!-- String-Array prueba  action_bar_favorite (borrar si es necesario)-->
-    <string-array name="spinner">
-        <item>1</item>
-        <item>2</item>
     </string-array>
 </resources>

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,13 +23,24 @@ import java.util.Objects;
 
 public class DescriptionActivity extends AppCompatActivity {
     JsonArrayRequest jsArrayRequest;
-    TextView textView;
+    TextView name;
+    TextView address;
+    TextView open;
+    TextView close;
+    RatingBar rating;
+    TextView description;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_description);
-        textView=(TextView) findViewById(R.id.text_view);
+
+        name=(TextView) findViewById(R.id.text_name);
+        address=(TextView) findViewById(R.id.text_address);
+        open=(TextView) findViewById(R.id.text_open_hour);
+        close=(TextView) findViewById(R.id.text_close_hour);
+        description=(TextView) findViewById(R.id.text_description);
+        rating=(RatingBar)findViewById(R.id.rate_stars);
         getSupportActionBar().setTitle("");
         final String nombre = getIntent().getStringExtra("name");
         String url ="http://testapi-pprog2.azurewebsites.net/api/locations.php?method=getLocations";
@@ -47,8 +59,12 @@ public class DescriptionActivity extends AppCompatActivity {
                             for (int i = 0; i < search.length(); i++) {
                                 if(Objects.equals(nombre, search.getJSONObject(i).getString("name")))
                                 {
-                                   //textView.setText(search.getJSONObject(i).getString("type"));
-
+                                    name.setText(search.getJSONObject(i).getString("name"));
+                                    address.setText(search.getJSONObject(i).getString("address"));
+                                    open.setText(search.getJSONObject(i).getString("opening"));
+                                    close.setText(search.getJSONObject(i).getString("closing"));
+                                    description.setText(search.getJSONObject(i).getString("description"));
+                                    rating.setRating(Float.parseFloat(search.getJSONObject(i).getString("review")));
                                 }
 
                             }

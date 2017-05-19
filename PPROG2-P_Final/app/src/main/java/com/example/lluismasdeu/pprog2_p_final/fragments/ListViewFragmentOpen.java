@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,8 +24,6 @@ import com.example.lluismasdeu.pprog2_p_final.adapters.RestorantListViewAdapter;
 import com.example.lluismasdeu.pprog2_p_final.model.Restorants;
 import org.json.JSONArray;
 import org.json.JSONException;
-
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,6 +33,8 @@ import java.util.List;
  * Created by eloy on 18-05-2017.
  */
 
+
+//Fragment para only open
 public class ListViewFragmentOpen extends Fragment {
     private ListView listView;
 

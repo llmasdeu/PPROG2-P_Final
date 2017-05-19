@@ -50,6 +50,8 @@ public class ListViewFragment extends Fragment {
         // Recuperamos el componente gráfico para poder asignarle un adapter.
         listView =(ListView) view.findViewById(R.id.listview);
 
+        //Iniciamos  coneccion con web service mediante voller
+
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         String url ="http://testapi-pprog2.azurewebsites.net/api/locations.php?method=getLocations&s=";
 
@@ -66,6 +68,7 @@ public class ListViewFragment extends Fragment {
                             JSONArray search = response;
                             list = new ArrayList<>(search.length());
                             for (int i = 0; i < search.length(); i++) {
+
                                 Restorants restorants = new Restorants();
                                 restorants.setName(search.getJSONObject(i).getString("name"));
                                 restorants.setAdress(search.getJSONObject(i).getString("address"));
@@ -94,6 +97,7 @@ public class ListViewFragment extends Fragment {
 
         listView.setAdapter(adapter);
 
+        //intent para actividad  de descripcion
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
