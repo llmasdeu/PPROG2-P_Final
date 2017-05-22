@@ -40,7 +40,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     // Constantes
     private static final String DEFAULT_PHOTO = "default_photo.jpg";
-    private static final String PICTURES_FOLDER = "pictures";
     private static final int TAKE_PICTURE = 1;
 
     // Componentes

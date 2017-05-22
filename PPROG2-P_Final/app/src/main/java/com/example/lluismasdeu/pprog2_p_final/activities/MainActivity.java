@@ -1,10 +1,14 @@
 package com.example.lluismasdeu.pprog2_p_final.activities;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
@@ -12,6 +16,9 @@ import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
 import com.example.lluismasdeu.pprog2_p_final.model.User;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Actividad principal de la aplicación.
@@ -22,10 +29,12 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseManagementInterface dbManagement;
 
     // Constantes
+    private static final String APP_LOGO = "app_logo.png";
     public static final String USERNAME_EXTRA = "username";
     public static final String PASSWORD_EXTRA = "password";
 
     // Componentes
+    private ImageView logoImageView;
     private EditText usernameEditText;
     private EditText passwordEditText;
     private TextView errorTextView;
@@ -46,9 +55,12 @@ public class MainActivity extends AppCompatActivity {
         dbManagement = new DatabaseManagement(getApplicationContext());
 
         // Localizamos los componentes en el Layout.
+        logoImageView = (ImageView) findViewById(R.id.logo_imageView);
         usernameEditText = (EditText) findViewById(R.id.username_editText);
         passwordEditText = (EditText) findViewById(R.id.password_editText);
         errorTextView = (TextView) findViewById(R.id.errorLogin_textView);
+
+        setAppLogo();
     }
 
     /**
@@ -111,6 +123,29 @@ public class MainActivity extends AppCompatActivity {
 
         // Reseteamos los componentes.
         resetComponents();
+    }
+
+    private void setAppLogo() {
+        InputStream inputStream = null;
+
+        try {
+            // Cargamos el recurso.
+            AssetManager assetManager = getAssets();
+            inputStream = assetManager.open(APP_LOGO);
+
+            // Decodificamos la imagen, y la colocamos en el componente.
+            Bitmap defaultImage = BitmapFactory.decodeStream(inputStream);
+            logoImageView.setImageBitmap(defaultImage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                inputStream.close();
+                inputStream = null;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
