@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.activities.DescriptionActivity;
 import com.example.lluismasdeu.pprog2_p_final.activities.ResultsActivity;
 import com.example.lluismasdeu.pprog2_p_final.adapters.RestorantListViewAdapter;
-import com.example.lluismasdeu.pprog2_p_final.model.Restorants;
+import com.example.lluismasdeu.pprog2_p_final.model.Restaurants;
 import org.json.JSONArray;
 import org.json.JSONException;
 import java.util.ArrayList;
@@ -63,17 +62,17 @@ public class ListViewFragment extends Fragment {
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        List<Restorants> list = null;
+                        List<Restaurants> list = null;
                         try {
                             JSONArray search = response;
                             list = new ArrayList<>(search.length());
                             for (int i = 0; i < search.length(); i++) {
 
-                                Restorants restorants = new Restorants();
-                                restorants.setName(search.getJSONObject(i).getString("name"));
-                                restorants.setAdress(search.getJSONObject(i).getString("address"));
-                                restorants.setRate(search.getJSONObject(i).getString("review"));
-                                list.add(restorants);
+                                Restaurants restaurants = new Restaurants();
+                                restaurants.setName(search.getJSONObject(i).getString("name"));
+                                restaurants.setAdress(search.getJSONObject(i).getString("address"));
+                                restaurants.setRate(search.getJSONObject(i).getString("review"));
+                                list.add(restaurants);
                             }
 
 

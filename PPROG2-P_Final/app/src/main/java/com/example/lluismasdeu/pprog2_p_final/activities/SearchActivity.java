@@ -28,6 +28,7 @@ import java.util.List;
  */
 public class SearchActivity extends AppCompatActivity {
     private DatabaseManagementInterface dbManagement;
+    private int radiusKm;
 
     // Componentes y estructuras
     private EditText searchEditText;
@@ -52,6 +53,52 @@ public class SearchActivity extends AppCompatActivity {
         radiusSeekBar = (SeekBar) findViewById(R.id.radius_seekBar);
         radiusKmTextView = (TextView) findViewById(R.id.radius_textView);
         recentSearchesListView = (ListView) findViewById(R.id.recentSearches_listView);
+
+        // Iniciamos a 0 la barra de progreso de la SeekBar, y configuramos el mensaje del radio a
+        // 1 Km.
+        radiusKm = 1;
+        radiusSeekBar.setProgress(0);
+        radiusKmTextView.setText(radiusKm + getString(R.string.radius_km));
+
+        // Añadimos el listener a la SeekBar.
+        radiusSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (progress >= 0 && progress <= 10) {
+                    radiusKm = 1;
+                } else if (progress > 10 && progress <= 20) {
+                    radiusKm = 2;
+                } else if (progress > 20 && progress <= 30) {
+                    radiusKm = 3;
+                } else if (progress > 30 && progress <= 40) {
+                    radiusKm = 4;
+                } else if (progress > 40 && progress <= 50) {
+                    radiusKm = 5;
+                } else if (progress > 50 && progress <= 60) {
+                    radiusKm = 6;
+                } else if (progress > 60 && progress <= 70) {
+                    radiusKm = 7;
+                } else if (progress > 70 && progress <= 80) {
+                    radiusKm = 8;
+                } else if (progress > 80 && progress <= 90) {
+                    radiusKm = 9;
+                } else {
+                    radiusKm = 10;
+                }
+
+                radiusKmTextView.setText(radiusKm + getString(R.string.radius_km));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         // Inicializamos el gestor de la base de datos.
         dbManagement = new DatabaseManagement(this);

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         passwordEditText = (EditText) findViewById(R.id.password_editText);
         errorTextView = (TextView) findViewById(R.id.errorLogin_textView);
 
+        // Añadimos el logo de la aplicación.
         setAppLogo();
     }
 
@@ -70,6 +72,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+    }
+
+    /**
+     * Método encargado de reestablecer el estado de la actividad.
+     * @param savedInstanceState
+     */
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     /**
@@ -95,17 +106,18 @@ public class MainActivity extends AppCompatActivity {
             User connectedUser = dbManagement.getUser(new User(String.valueOf(usernameEditText.getText()),
                     String.valueOf(passwordEditText.getText())));
 
-            if (connectedUser != null) {
-                // Guardamos el usuario actual.
-                StaticValues.getInstance(connectedUser);
+            // Guardamos el usuario actual.
+            StaticValues.getInstance().setConnectedUser(connectedUser);
 
-                // Accedemos a la actividad de búsqueda.
-                Intent intent = new Intent(this, SearchActivity.class);
-                startActivity(intent);
+            // Mostramos mensaje por pantalla.
+            Toast.makeText(this, getString(R.string.correct_login), Toast.LENGTH_SHORT).show();
 
-                // Reseteamos los componentes.
-                resetComponents();
-            }
+            // Accedemos a la actividad de búsqueda.
+            Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
+
+            // Reseteamos los componentes.
+            resetComponents();
         }
     }
 
@@ -125,6 +137,9 @@ public class MainActivity extends AppCompatActivity {
         resetComponents();
     }
 
+    /**
+     * Método encargada de posicionar el logo de la aplicación.
+     */
     private void setAppLogo() {
         InputStream inputStream = null;
 

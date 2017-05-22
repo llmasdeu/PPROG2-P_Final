@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
@@ -100,6 +101,15 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     /**
+     * Método encargado de reestablecer el estado de la actividad.
+     * @param savedInstanceState
+     */
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    /**
      * Método encargado de llevar a cabo las tareas cuando el usuario pulsa el botón para hacer la
      * foto de perfil.
      * @param view
@@ -126,18 +136,21 @@ public class RegisterActivity extends AppCompatActivity {
         } else if (String.valueOf(emailEditText.getText()).equals("")) {
             errorTextView.setText(messageErrors[2]);
             errorTextView.setVisibility(View.VISIBLE);
-        } else if (String.valueOf(passwordEditText.getText()).equals("")) {
+        } else if (!checkEmailField()) {
             errorTextView.setText(messageErrors[3]);
+            errorTextView.setVisibility(View.VISIBLE);
+        } else if (String.valueOf(passwordEditText.getText()).equals("")) {
+            errorTextView.setText(messageErrors[4]);
             errorTextView.setVisibility(View.VISIBLE);
         } else if (!String.valueOf(passwordEditText.getText())
                 .equals(String.valueOf(confirmPasswordEditText.getText()))) {
-            errorTextView.setText(messageErrors[4]);
-            errorTextView.setVisibility(View.VISIBLE);
-        } else if (!termsCheckBox.isChecked()) {
             errorTextView.setText(messageErrors[5]);
             errorTextView.setVisibility(View.VISIBLE);
-        } else if (dbManagement.existsUser(new User(String.valueOf(emailEditText.getText())), 2)) {
+        } else if (!termsCheckBox.isChecked()) {
             errorTextView.setText(messageErrors[6]);
+            errorTextView.setVisibility(View.VISIBLE);
+        } else if (dbManagement.existsUser(new User(String.valueOf(emailEditText.getText())), 2)) {
+            errorTextView.setText(messageErrors[7]);
             errorTextView.setVisibility(View.VISIBLE);
         } else {
             StringBuilder builder = new StringBuilder();
@@ -163,20 +176,27 @@ public class RegisterActivity extends AppCompatActivity {
             User connectedUser = dbManagement.getUser(new User(String.valueOf(emailEditText.getText()),
                     String.valueOf(passwordEditText.getText())));
 
-            if (connectedUser != null) {
-                // Guardamos el usuario actual.
-                StaticValues.getInstance(connectedUser);
+            // Guardamos el usuario actual.
+            StaticValues.getInstance().setConnectedUser(connectedUser);
 
-                // Accedemos a la actividad de búsqueda.
-                Intent intent = new Intent(this, SearchActivity.class);
-                startActivity(intent);
+            // Mostramos mensaje por pantalla.
+            Toast.makeText(this, getString(R.string.correct_register), Toast.LENGTH_SHORT).show();
 
-                // Reseteamos los componentes.
-                resetComponents();
-            }
+            // Accedemos a la actividad de búsqueda.
+            Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
+
+            // Reseteamos los componentes.
+            resetComponents();
         }
     }
 
+    /**
+     * Método encargado de controlar los resultados de los Intents.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
@@ -224,6 +244,22 @@ public class RegisterActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Método encargado de comprobar que la dirección de correo electrónico es válida.
+     * @return CIERTO si es válida. FALSO en caso contrario.
+     */
+    private boolean checkEmailField() {
+        int emailCharacters = 0;
+
+        // Comprobamos que exista sólo un carácter '@' en la dirección.
+        for (int i = 0 ; i < String.valueOf(emailEditText.getText()).length(); i++) {
+            if (String.valueOf(emailEditText.getText()).charAt(i) == '@')
+                emailCharacters++;
+        }
+
+        return emailCharacters == 1;
     }
 
     /**

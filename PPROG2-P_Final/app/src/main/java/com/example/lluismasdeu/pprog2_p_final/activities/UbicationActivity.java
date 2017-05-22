@@ -18,9 +18,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 
 public class UbicationActivity extends AppCompatActivity implements OnMapReadyCallback {
-
     float lat;
     float lng;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

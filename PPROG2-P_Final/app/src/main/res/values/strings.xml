@@ -3,7 +3,11 @@
     <string name="app_name">PPROG2-P_Final</string>
 
     <!-- Strings de la aplicación -->
+    <string name="closing">Closing:&#160;</string>
+    <string name="comentary">Coments</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="correct_login">Logged in correctly</string>
+    <string name="correct_register">Registered correctly</string>
     <string name="description">Description</string>
     <string name="edit">Edit</string>
     <string name="email">E-mail</string>
@@ -15,22 +19,21 @@
     <string name="male">Male</string>
     <string name="name">Name</string>
     <string name="nothing_to_show">Nothing to show.</string>
+    <string name="opening">Opening:&#160;</string>
     <string name="password">Password</string>
     <string name="profile">Profile</string>
-    <string name="radius_km"> Km</string>
+    <string name="radius_km">&#160;Km</string>
     <string name="recent_searches">Recent Searches</string>
     <string name="register">Register</string>
     <string name="search">Search</string>
-    <string name="search_hint">Search...</string>
+    <string name="search_hint">Search&#8230;</string>
     <string name="search_radius">Search radius</string>
-    <string name="something_about_you">Something about you...</string>
+    <string name="something_about_you">Something about you&#8230;</string>
     <string name="surname">Surname</string>
     <string name="take_picture">Take Picture</string>
     <string name="terms">Accept terms &amp; conditions</string>
     <string name="username">Username</string>
-    <string name="open">Opening: </string>
-    <string name="closed">Closing: </string>
-    <string name="comentary">Coments</string>
+
     <string name="add_comentary">Add coment</string>
     <string name="send">Send</string>
 
@@ -48,6 +51,7 @@
         <item>Error! Name field can\'t be blank.</item>
         <item>Error! Surname field can\'t be blank.</item>
         <item>Error! E-mail field can\'t be blank.</item>
+        <item>Error! E-mail address is not valid.</item>
         <item>Error! Password fields can\'t be blank.</item>
         <item>Error! Passwords don\'t match.</item>
         <item>Error! You must accept Terms &amp; Conditions.</item>

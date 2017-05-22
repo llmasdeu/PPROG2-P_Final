@@ -6,17 +6,17 @@ import android.graphics.Bitmap;
  * Created by eloy on 10-05-2017.
  */
 
-public class Restorants {
+public class Restaurants {
     private String name;
     private String adress;
     private String rate;
     private Bitmap image;
 
-    public Restorants(){
+    public Restaurants(){
 
     }
 
-    public Restorants(String name, String adress, String rate, Bitmap image) {
+    public Restaurants(String name, String adress, String rate, Bitmap image) {
         this.name = name;
         this.adress = adress;
         this.rate = rate;

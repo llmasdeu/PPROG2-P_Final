@@ -1,18 +1,15 @@
 package com.example.lluismasdeu.pprog2_p_final.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
-import com.example.lluismasdeu.pprog2_p_final.model.Restorants;
+import com.example.lluismasdeu.pprog2_p_final.model.Restaurants;
 
 import java.util.List;
 
@@ -21,10 +18,10 @@ import java.util.List;
  */
 
 public class RestorantListViewAdapter extends BaseAdapter {
-    private List<Restorants> list;
+    private List<Restaurants> list;
     private Context context;
 
-    public RestorantListViewAdapter(List<Restorants> list, Context context) {
+    public RestorantListViewAdapter(List<Restaurants> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -50,15 +47,15 @@ public class RestorantListViewAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View itemView = inflater.inflate(R.layout.listview_cell_layout, parent, false);
-        Restorants restorants=list.get(position);
+        Restaurants restaurants =list.get(position);
 
         TextView title = (TextView) itemView.findViewById(R.id.titulo_textView);
-        title.setText((restorants.getName()));
+        title.setText((restaurants.getName()));
         TextView address = (TextView) itemView.findViewById(R.id.adrress_textView);
-        address.setText(restorants.getAdress());
+        address.setText(restaurants.getAdress());
 
         RatingBar rate=(RatingBar) itemView.findViewById(R.id.rate_stars);
-        rate.setRating(Float.parseFloat(restorants.getRate()));
+        rate.setRating(Float.parseFloat(restaurants.getRate()));
 
 
         return itemView;

@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/text_open"
-                android:text="@string/open"
+                android:text="@string/opening"
                 android:layout_below="@id/text_address"
                 />
             <TextView
@@ -60,7 +60,7 @@
                 android:id="@+id/text_close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/closed"
+                android:text="@string/closing"
                 android:layout_toEndOf="@id/text_open_hour"
                 android:layout_below="@id/text_address"/>
             <TextView

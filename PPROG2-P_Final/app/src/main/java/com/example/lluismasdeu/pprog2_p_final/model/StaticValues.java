@@ -1,27 +1,43 @@
 package com.example.lluismasdeu.pprog2_p_final.model;
 
 /**
- * Created by lluismasdeu on 6/5/17.
+ * Clase encargada de almacenar valores estáticos a lo largo de la aplicación.
+ * @author Eloy Alberto López
+ * @author Lluís Masdeu
  */
 public class StaticValues {
     private static StaticValues instance = null;
     private User connectedUser;
 
-    private StaticValues(User connectedUser) {
-        this.connectedUser = connectedUser;
-    }
+    /**
+     * Constructor de la clase.
+     */
+    private StaticValues() {}
 
-    public static StaticValues getInstance(Object... params) {
+    /**
+     * Getter de la instancia.
+     * @return Instancia de la clase.
+     */
+    public static StaticValues getInstance() {
         if (instance == null)
-            instance = new StaticValues(null);
-
-        if (params.length != 0)
-            instance = new StaticValues((User) params[0]);
+            instance = new StaticValues();
 
         return instance;
     }
 
+    /**
+     * Getter del usuario conectado.
+     * @return Usuario conectado
+     */
     public User getConnectedUser() {
         return connectedUser;
+    }
+
+    /**
+     * Setter del usuario conectado.
+     * @param connectedUser Usuario conectado.
+     */
+    public void setConnectedUser(User connectedUser) {
+        this.connectedUser = connectedUser;
     }
 }
