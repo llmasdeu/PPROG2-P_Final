@@ -5,7 +5,7 @@ package com.example.lluismasdeu.pprog2_p_final.model.webserviceResults;
  * @author Eloy Alberto López
  * @author Lluís Masdeu
  */
-public class Result {
+public class PlaceResult {
     private String name;
     private String type;
     private Location location;

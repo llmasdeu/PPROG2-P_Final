@@ -2,6 +2,7 @@ package com.example.lluismasdeu.pprog2_p_final.utils;
 
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -28,7 +29,7 @@ public class HttpRequestHelper {
     /**
      * Constructor de la clase.
      */
-    private HttpRequestHelper(){}
+    private HttpRequestHelper() {}
 
     /**
      * Getter de la instancia de la clase.
@@ -48,7 +49,8 @@ public class HttpRequestHelper {
      */
     public String doHttpRequest(String url) {
         HttpURLConnection c = null;
-        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+
         try {
             URL u = new URL(url);
             c = (HttpURLConnection) u.openConnection();
@@ -71,10 +73,8 @@ public class HttpRequestHelper {
                         sb.append(line).append("\n");
 
                     br.close();
-
-                    jsonObject = new JSONObject(sb.toString());
+                    jsonArray = new JSONArray(sb.toString());
             }
-
         } catch (Exception ex) {
             Log.e(getClass().getName(), "Exception", ex);
         } finally {
@@ -87,7 +87,7 @@ public class HttpRequestHelper {
             }
         }
 
-        return jsonObject.toString();
+        return jsonArray.toString();
     }
 
     /**

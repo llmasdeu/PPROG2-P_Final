@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,14 +23,12 @@ import android.widget.Toast;
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.fragments.NoRecentSearchesFragment;
 import com.example.lluismasdeu.pprog2_p_final.fragments.RecentSearchesFragment;
-import com.example.lluismasdeu.pprog2_p_final.model.webserviceResults.Response;
-import com.example.lluismasdeu.pprog2_p_final.model.webserviceResults.Result;
+import com.example.lluismasdeu.pprog2_p_final.model.webserviceResults.PlaceResult;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
 import com.example.lluismasdeu.pprog2_p_final.utils.HttpRequestHelper;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,9 +38,11 @@ import java.util.List;
  */
 public class SearchActivity extends AppCompatActivity {
     private static final String SEARCH_RESULT_EXTRA = "search_result";
+    private static final String TAG = "SearchActivity";
     private DatabaseManagementInterface dbManagement;
     private int radiusKm;
-    private Response webserviceResponse;
+    private String serverResponse;
+    int numResults = 0;
 
     // Componentes y estructuras
     private EditText searchEditText;
@@ -53,7 +54,7 @@ public class SearchActivity extends AppCompatActivity {
     private NoRecentSearchesFragment noRecentSearchesFragment;
     private RecentSearchesFragment recentSearchesFragment;
 
-    private class AsyncRequest extends AsyncTask<String, Void, Response> {
+    private class AsyncRequest extends AsyncTask<String, Void, String> {
         private Context context;
         private ProgressDialog progressDialog;
 
@@ -72,21 +73,22 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Response doInBackground(String... params) {
-            Gson gson = new Gson();
-
-            return gson.fromJson(HttpRequestHelper.getInstance().doHttpRequest(params[0]),
-                    Response.class);
+        protected String doInBackground(String... params) {
+            return HttpRequestHelper.getInstance().doHttpRequest(params[0]);
         }
 
         @Override
-        protected void onPostExecute(Response response) {
+        protected void onPostExecute(String response) {
             super.onPostExecute(response);
 
             if (progressDialog.isShowing())
                 progressDialog.dismiss();
 
-            webserviceResponse = response;
+            serverResponse = response;
+
+            Gson gson = new Gson();
+            PlaceResult[] results = gson.fromJson(response, PlaceResult[].class);
+            numResults = results.length;
         }
     }
 
@@ -202,17 +204,11 @@ public class SearchActivity extends AppCompatActivity {
                     .execute(HttpRequestHelper.getInstance()
                             .generateHTTPSearchRequest(String.valueOf(searchEditText.getText())));
 
-            if (webserviceResponse != null) {
-                Toast.makeText(this, messages[1], Toast.LENGTH_SHORT).show();
-            } else if (webserviceResponse.getResults().length == 0) {
+            if (numResults == 0) {
                 Toast.makeText(this, messages[1], Toast.LENGTH_SHORT).show();
             } else {
                 // Registramos la búsqueda reciente.
                 dbManagement.registerRecentSearch(String.valueOf(searchEditText.getText()));
-
-                // Serializamos la respuesta.
-                Gson gson = new Gson();
-                String searchResult = gson.toJson(webserviceResponse).toString();
 
                 // Mostramos mensaje
                 Toast.makeText(this, messages[2], Toast.LENGTH_SHORT).show();
@@ -222,7 +218,7 @@ public class SearchActivity extends AppCompatActivity {
 
                 // Accedemos a la actividad de resultados.
                 Intent intent = new Intent(this, RegisterActivity.class);
-                intent.putExtra(SEARCH_RESULT_EXTRA, searchResult);
+                intent.putExtra(SEARCH_RESULT_EXTRA, serverResponse);
                 startActivity(intent);
             }
         }
