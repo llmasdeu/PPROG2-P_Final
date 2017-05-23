@@ -22,14 +22,9 @@ import com.example.lluismasdeu.pprog2_p_final.model.User;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
 import com.example.lluismasdeu.pprog2_p_final.utils.GeneralUtilities;
-import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Actividad encargada del registro de usuario.
@@ -170,7 +165,7 @@ public class RegisterActivity extends AppCompatActivity {
                     String.valueOf(emailEditText.getText()),
                     String.valueOf(passwordEditText.getText()),
                     gender, String.valueOf(descriptionEditText.getText()), imageFile);
-            dbManagement.addUser(newUser);
+            dbManagement.registerUser(newUser);
 
             // Obtenemos los parámetros completos del usuario conectado.
             User connectedUser = dbManagement.getUser(new User(String.valueOf(emailEditText.getText()),

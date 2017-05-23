@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView errorTextView;
 
     /**
-     * Método encargado de llevar a cabo las tareas iniciales.
+     * Método encargado de crear la actividad.
      * @param savedInstanceState
      */
     @Override

@@ -17,14 +17,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class UbicationActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class LocationActivity extends AppCompatActivity implements OnMapReadyCallback {
     float lat;
     float lng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ubication);
+        setContentView(R.layout.activity_location);
         getSupportActionBar().setTitle("");
 
         //Recuperamos latitud y longitud del inntet

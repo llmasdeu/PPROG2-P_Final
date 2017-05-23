@@ -26,7 +26,7 @@
         <activity android:name=".activities.FavoriteActivity" />
         <activity android:name=".activities.ResultsActivity" />
         <activity android:name=".activities.DescriptionActivity" />
-        <activity android:name=".activities.UbicationActivity" />
+        <activity android:name=".activities.LocationActivity" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_api_key"/>

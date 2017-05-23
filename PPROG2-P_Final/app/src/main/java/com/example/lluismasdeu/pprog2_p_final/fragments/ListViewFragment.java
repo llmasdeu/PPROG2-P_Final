@@ -20,7 +20,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.activities.DescriptionActivity;
 import com.example.lluismasdeu.pprog2_p_final.activities.ResultsActivity;
-import com.example.lluismasdeu.pprog2_p_final.adapters.RestorantListViewAdapter;
+import com.example.lluismasdeu.pprog2_p_final.adapters.RestaurantListViewAdapter;
 import com.example.lluismasdeu.pprog2_p_final.model.Restaurants;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,7 +34,7 @@ import java.util.List;
 public class ListViewFragment extends Fragment {
     private ListView listView;
 
-    private RestorantListViewAdapter adapter;
+    private RestaurantListViewAdapter adapter;
     JsonArrayRequest jsArrayRequest;
 
 
@@ -81,7 +81,7 @@ public class ListViewFragment extends Fragment {
                             e.printStackTrace();
                         }
 
-                        adapter = new RestorantListViewAdapter(list, getActivity());
+                        adapter = new RestaurantListViewAdapter(list, getActivity());
                         listView.setAdapter(adapter);}
 
                 },

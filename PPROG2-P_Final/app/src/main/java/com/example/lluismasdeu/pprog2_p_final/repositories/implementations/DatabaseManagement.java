@@ -49,7 +49,7 @@ public class DatabaseManagement implements DatabaseManagementInterface {
      * @param u Información del usuario a registrar.
      */
     @Override
-    public void addUser(User u) {
+    public void registerUser(User u) {
         // Obtenemos la instancia de la base de datos.
         DatabaseHelper helper = DatabaseHelper.getInstance(context);
 
@@ -72,7 +72,7 @@ public class DatabaseManagement implements DatabaseManagementInterface {
      * @param u Información del usuario a borrar.
      */
     @Override
-    public void removeUser(User u) {
+    public void unregisterUser(User u) {
         // Obtenemos la instancia de la base de datos.
         DatabaseHelper helper = DatabaseHelper.getInstance(context);
 
@@ -227,7 +227,7 @@ public class DatabaseManagement implements DatabaseManagementInterface {
      * @param recentSearch Búsqueda a registrar.
      */
     @Override
-    public void addRecentSearch(String recentSearch) {
+    public void registerRecentSearch(String recentSearch) {
         // Obtenemos la instancia de la base de datos.
         DatabaseHelper helper = DatabaseHelper.getInstance(context);
 

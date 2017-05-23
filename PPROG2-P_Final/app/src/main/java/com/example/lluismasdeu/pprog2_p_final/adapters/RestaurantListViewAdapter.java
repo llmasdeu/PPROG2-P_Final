@@ -17,11 +17,11 @@ import java.util.List;
  * Created by eloy on 16-05-2017.
  */
 
-public class RestorantListViewAdapter extends BaseAdapter {
+public class RestaurantListViewAdapter extends BaseAdapter {
     private List<Restaurants> list;
     private Context context;
 
-    public RestorantListViewAdapter(List<Restaurants> list, Context context) {
+    public RestaurantListViewAdapter(List<Restaurants> list, Context context) {
         this.list = list;
         this.context = context;
     }
