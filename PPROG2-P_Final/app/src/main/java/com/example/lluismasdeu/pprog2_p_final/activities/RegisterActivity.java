@@ -42,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ImageView profileImageView;
     private EditText nameEditText;
     private EditText surnameEditText;
+    private EditText usernameEditText;
     private EditText emailEditText;
     private EditText passwordEditText;
     private EditText confirmPasswordEditText;
@@ -70,6 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
         profileImageView = (ImageView) findViewById(R.id.profile_imageView);
         nameEditText = (EditText) findViewById(R.id.name_editText);
         surnameEditText = (EditText) findViewById(R.id.surname_editText);
+        usernameEditText = (EditText) findViewById(R.id.usernameRegister_editText);
         emailEditText = (EditText) findViewById(R.id.email_editText);
         passwordEditText = (EditText) findViewById(R.id.passwordRegister_editText);
         confirmPasswordEditText = (EditText) findViewById(R.id.confirmPasswordRegister_editText);
@@ -144,7 +146,8 @@ public class RegisterActivity extends AppCompatActivity {
         } else if (!termsCheckBox.isChecked()) {
             errorTextView.setText(messageErrors[6]);
             errorTextView.setVisibility(View.VISIBLE);
-        } else if (dbManagement.existsUser(new User(String.valueOf(emailEditText.getText())), 2)) {
+        } else if (dbManagement.existsUser(new User(String.valueOf(usernameEditText.getText()),
+                String.valueOf(emailEditText.getText())), 2)) {
             errorTextView.setText(messageErrors[7]);
             errorTextView.setVisibility(View.VISIBLE);
         } else {
@@ -162,6 +165,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             User newUser = new User(String.valueOf(nameEditText.getText()),
                     String.valueOf(surnameEditText.getText()),
+                    String.valueOf(usernameEditText.getText()),
                     String.valueOf(emailEditText.getText()),
                     String.valueOf(passwordEditText.getText()),
                     gender, String.valueOf(descriptionEditText.getText()), imageFile);

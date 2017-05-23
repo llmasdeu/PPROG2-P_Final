@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Localizamos los componentes en el Layout.
         logoImageView = (ImageView) findViewById(R.id.logo_imageView);
-        usernameEditText = (EditText) findViewById(R.id.username_editText);
+        usernameEditText = (EditText) findViewById(R.id.usernameLogin_editText);
         passwordEditText = (EditText) findViewById(R.id.password_editText);
         errorTextView = (TextView) findViewById(R.id.errorLogin_textView);
 

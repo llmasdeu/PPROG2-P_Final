@@ -35,6 +35,7 @@ public class DatabaseManagement implements DatabaseManagementInterface {
     private static final String PASSWORD_COLUMN = "password";
     private static final String SEARCH_COLUMN = "search";
     private static final String SURNAME_COLUMN = "surname";
+    private static final String USERNAME_COLUMN = "username";
 
     /**
      * Constructor de la clase.
@@ -46,22 +47,23 @@ public class DatabaseManagement implements DatabaseManagementInterface {
 
     /**
      * Método encargado de registrar un usuario en la base de datos.
-     * @param u Información del usuario a registrar.
+     * @param user Información del usuario a registrar.
      */
     @Override
-    public void registerUser(User u) {
+    public void registerUser(User user) {
         // Obtenemos la instancia de la base de datos.
         DatabaseHelper helper = DatabaseHelper.getInstance(context);
 
         // Configuramos los valores de las distintas columnas.
         ContentValues values = new ContentValues();
-        values.put(NAME_COLUMN, u.getName());
-        values.put(SURNAME_COLUMN, u.getSurname());
-        values.put(EMAIL_COLUMN, u.getEmail());
-        values.put(PASSWORD_COLUMN, u.getPassword());
-        values.put(GENDER_COLUMN, u.getGender());
-        values.put(DESCRIPTION_COLUMN, u.getDescription());
-        values.put(IMAGE_FILE_COLUMN, u.getImageFile());
+        values.put(NAME_COLUMN, user.getName());
+        values.put(SURNAME_COLUMN, user.getSurname());
+        values.put(USERNAME_COLUMN, user.getUsername());
+        values.put(EMAIL_COLUMN, user.getEmail());
+        values.put(PASSWORD_COLUMN, user.getPassword());
+        values.put(GENDER_COLUMN, user.getGender());
+        values.put(DESCRIPTION_COLUMN, user.getDescription());
+        values.put(IMAGE_FILE_COLUMN, user.getImageFile());
 
         // Llevamos a cabo la inserción en la base de datos.
         helper.getWritableDatabase().insert(USERS_TABLE, null, values);
@@ -108,19 +110,22 @@ public class DatabaseManagement implements DatabaseManagementInterface {
 
         // Configuramos la petición.
         String whereClause = "";
-        String[] whereArgs = new String[1];
+        String[] whereArgs = new String[2];
 
         switch (mode) {
             case 1:
-                whereClause = EMAIL_COLUMN + " =? AND " + PASSWORD_COLUMN + " =? ";
-                whereArgs = new String[2];
-                whereArgs[0] = u.getEmail();
-                whereArgs[1] = u.getPassword();
+                whereClause = "(" + USERNAME_COLUMN + " =? OR "+ EMAIL_COLUMN + " =? ) AND "
+                        + PASSWORD_COLUMN + " =? ";
+                whereArgs = new String[3];
+                whereArgs[0] = u.getUsername();
+                whereArgs[1] = u.getEmail();
+                whereArgs[2] = u.getPassword();
                 break;
 
             case 2:
-                whereClause = EMAIL_COLUMN + "=?";
-                whereArgs[0] = u.getEmail();
+                whereClause = USERNAME_COLUMN + " =? OR " + EMAIL_COLUMN + " =? ";
+                whereArgs[0] = u.getUsername();
+                whereArgs[1] = u.getEmail();
                 break;
         }
 
@@ -157,13 +162,14 @@ public class DatabaseManagement implements DatabaseManagementInterface {
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 int id = 0;
-                String name = "", surname = "", email = "", password = "", gender = "",
-                        description = "", imageFile = "";
+                String name = "", surname = "", username = "", email = "", password = "",
+                        gender = "", description = "", imageFile = "";
 
                 do {
                     id = cursor.getInt(cursor.getColumnIndex(ID_COLUMN));
                     name = cursor.getString(cursor.getColumnIndex(NAME_COLUMN));
                     surname = cursor.getString(cursor.getColumnIndex(SURNAME_COLUMN));
+                    username = cursor.getString(cursor.getColumnIndex(USERNAME_COLUMN));
                     email = cursor.getString(cursor.getColumnIndex(EMAIL_COLUMN));
                     password = cursor.getString(cursor.getColumnIndex(PASSWORD_COLUMN));
                     gender = cursor.getString(cursor.getColumnIndex(GENDER_COLUMN));
@@ -171,8 +177,8 @@ public class DatabaseManagement implements DatabaseManagementInterface {
                     imageFile = cursor.getString(cursor.getColumnIndex(IMAGE_FILE_COLUMN));
                 } while (cursor.moveToNext());
 
-                retrievedUser = new User(id, name, surname, email, password, gender, description,
-                        imageFile);
+                retrievedUser = new User(id, name, surname, username, email, password, gender,
+                        description, imageFile);
             }
         }
 
@@ -199,13 +205,14 @@ public class DatabaseManagement implements DatabaseManagementInterface {
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 int id = 0;
-                String name = "", surname = "", email = "", password = "", gender = "",
+                String name = "", surname = "", username = "", email = "", password = "", gender = "",
                         description = "", imageFile = "";
 
                 do {
                     id = cursor.getInt(cursor.getColumnIndex(ID_COLUMN));
                     name = cursor.getString(cursor.getColumnIndex(NAME_COLUMN));
                     surname = cursor.getString(cursor.getColumnIndex(SURNAME_COLUMN));
+                    username = cursor.getString(cursor.getColumnIndex(USERNAME_COLUMN));
                     email = cursor.getString(cursor.getColumnIndex(EMAIL_COLUMN));
                     password = cursor.getString(cursor.getColumnIndex(PASSWORD_COLUMN));
                     gender = cursor.getString(cursor.getColumnIndex(GENDER_COLUMN));
@@ -213,8 +220,8 @@ public class DatabaseManagement implements DatabaseManagementInterface {
                     imageFile = cursor.getString(cursor.getColumnIndex(IMAGE_FILE_COLUMN));
 
                     // Añadimos el usuario en el ArrayList.
-                    users.add(new User(id, name, surname, email, password, gender, description,
-                            imageFile));
+                    users.add(new User(id, name, surname, username, email, password, gender,
+                            description, imageFile));
                 } while (cursor.moveToNext());
             }
         }

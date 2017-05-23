@@ -71,9 +71,20 @@
                 android:hint="@string/surname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+                android:layout_marginBottom="@dimen/activity_vertical_margin" />
 
-            <!-- Mail de usuario -->
+            <TextView
+                android:text="@string/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/usernameRegister_editText"
+                android:hint="@string/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+            <!-- E-mail del usuario -->
             <TextView
                 android:text="@string/email"
                 android:layout_width="wrap_content"

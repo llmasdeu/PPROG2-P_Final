@@ -1,7 +1,9 @@
 package com.example.lluismasdeu.pprog2_p_final.model.webserviceResults;
 
 /**
- * Created by lluismasdeu on 23/5/17.
+ * Clase encargada de guardar el resultado de la respuesta del Webservice.
+ * @author Eloy Alberto López
+ * @author Lluís Masdeu
  */
 public class Result {
     private String name;

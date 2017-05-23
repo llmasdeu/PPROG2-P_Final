@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/text_comentary"
-                android:text="@string/comentary"
+                android:text="@string/comments"
                 android:layout_below="@id/text_description"/>
             <ListView
                 android:layout_width="match_parent"
@@ -106,13 +106,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/listview_comentary"
                 android:id="@+id/text_addComentary"
-                android:text="@string/add_comentary"/>
+                android:text="@string/add_comment"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_addComentary"
                 android:id="@+id/editText_Comentary"
-                android:hint="@string/add_comentary"
+                android:hint="@string/add_comment"
                 />
             <Button
                 android:layout_width="wrap_content"

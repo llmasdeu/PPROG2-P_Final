@@ -3,8 +3,9 @@
     <string name="app_name">PPROG2-P_Final</string>
 
     <!-- Strings de la aplicación -->
+    <string name="add_comment">Add comment</string>
     <string name="closing">Closing:&#160;</string>
-    <string name="comentary">Coments</string>
+    <string name="comments">Comments</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="correct_login">Logged in correctly</string>
     <string name="correct_register">Registered correctly</string>
@@ -15,6 +16,7 @@
     <string name="female">Female</string>
     <string name="filter">Filter</string>
     <string name="gender">Gender</string>
+    <string name="google_maps_api_key">AIzaSyBe-pt29XImZIY0H8R34chHQMG9WEvejl0</string>
     <string name="login">Login</string>
     <string name="male">Male</string>
     <string name="name">Name</string>
@@ -33,19 +35,13 @@
     <string name="take_picture">Take Picture</string>
     <string name="terms">Accept terms &amp; conditions</string>
     <string name="username">Username</string>
-
-    <string name="add_comentary">Add coment</string>
     <string name="send">Send</string>
-
-    <string name="google_maps_api_key">
-        AIzaSyBe-pt29XImZIY0H8R34chHQMG9WEvejl0
-    </string>
 
     <!-- String-Arrays de errores -->
     <string-array name="main_activity_errors">
-        <item>Error! User field can\'t be blank.</item>
+        <item>Error! Username field can\'t be blank.</item>
         <item>Error! Password field can\'t be blank.</item>
-        <item>Error! Either the username or password is incorrect.</item>
+        <item>Error! There isn't any user registered with this e-mail/username and password.</item>
     </string-array>
     <string-array name="register_activity_errors">
         <item>Error! Name field can\'t be blank.</item>
