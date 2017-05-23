@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView errorTextView;
 
     /**
-     * Método encargado de llevar a cabo las tareas iniciales.
+     * Método encargado de llevar a cabo las tareas cuando se crea la actividad.
      * @param savedInstanceState
      */
     @Override
@@ -83,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Recuperamos el nombre de usuario y la contraseña enviadas desde la actividad principal.
         getPreviousValues();
-        
+
         // Definimos la imagen de perfil predefinida.
         setDefaultProfilePhoto();
     }
@@ -122,46 +122,43 @@ public class RegisterActivity extends AppCompatActivity {
      * @param view
      */
     public void onRegisterUserButtonClick(View view) {
-        String[] messageErrors = getResources().getStringArray(R.array.register_activity_errors);
+        String[] messages = getResources().getStringArray(R.array.register_activity_messages);
 
         if (String.valueOf(nameEditText.getText()).equals("")) {
-            errorTextView.setText(messageErrors[0]);
+            errorTextView.setText(messages[0]);
             errorTextView.setVisibility(View.VISIBLE);
         } else if (String.valueOf(surnameEditText.getText()).equals("")) {
-            errorTextView.setText(messageErrors[1]);
+            errorTextView.setText(messages[1]);
             errorTextView.setVisibility(View.VISIBLE);
-        } else if (String.valueOf(emailEditText.getText()).equals("")) {
-            errorTextView.setText(messageErrors[2]);
+        } else if (String.valueOf(usernameEditText.getText()).equals("")) {
+            errorTextView.setText(messages[2]);
+            errorTextView.setVisibility(View.VISIBLE);
+        }else if (String.valueOf(emailEditText.getText()).equals("")) {
+            errorTextView.setText(messages[3]);
             errorTextView.setVisibility(View.VISIBLE);
         } else if (!checkEmailField()) {
-            errorTextView.setText(messageErrors[3]);
+            errorTextView.setText(messages[4]);
             errorTextView.setVisibility(View.VISIBLE);
         } else if (String.valueOf(passwordEditText.getText()).equals("")) {
-            errorTextView.setText(messageErrors[4]);
+            errorTextView.setText(messages[5]);
             errorTextView.setVisibility(View.VISIBLE);
         } else if (!String.valueOf(passwordEditText.getText())
                 .equals(String.valueOf(confirmPasswordEditText.getText()))) {
-            errorTextView.setText(messageErrors[5]);
+            errorTextView.setText(messages[6]);
             errorTextView.setVisibility(View.VISIBLE);
         } else if (!termsCheckBox.isChecked()) {
-            errorTextView.setText(messageErrors[6]);
+            errorTextView.setText(messages[7]);
             errorTextView.setVisibility(View.VISIBLE);
         } else if (dbManagement.existsUser(new User(String.valueOf(usernameEditText.getText()),
                 String.valueOf(emailEditText.getText())), 2)) {
-            errorTextView.setText(messageErrors[7]);
+            errorTextView.setText(messages[8]);
             errorTextView.setVisibility(View.VISIBLE);
         } else {
-            StringBuilder builder = new StringBuilder();
-            builder.append("img_").append(GeneralUtilities.getNumberPictures() + 1).append(".jpg");
-            String imageFile = builder.toString(), gender = "";
+            String imageFile = getImageFileName(), gender = getGender();
+
+            // Guardamos la imagen de perfil.
             GeneralUtilities.saveImage(((BitmapDrawable) profileImageView.getDrawable())
                     .getBitmap(), imageFile);
-
-            if (femaleRadioButton.isChecked()) {
-                gender = "female";
-            } else {
-                gender = "male";
-            }
 
             User newUser = new User(String.valueOf(nameEditText.getText()),
                     String.valueOf(surnameEditText.getText()),
@@ -172,14 +169,16 @@ public class RegisterActivity extends AppCompatActivity {
             dbManagement.registerUser(newUser);
 
             // Obtenemos los parámetros completos del usuario conectado.
-            User connectedUser = dbManagement.getUser(new User(String.valueOf(emailEditText.getText()),
-                    String.valueOf(passwordEditText.getText())));
+            User connectedUser = dbManagement.getConnectedUser(
+                    new User(String.valueOf(usernameEditText.getText()),
+                            String.valueOf(emailEditText.getText()),
+                            String.valueOf(passwordEditText.getText())));
 
             // Guardamos el usuario actual.
             StaticValues.getInstance().setConnectedUser(connectedUser);
 
             // Mostramos mensaje por pantalla.
-            Toast.makeText(this, getString(R.string.correct_register), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, messages[9], Toast.LENGTH_SHORT).show();
 
             // Accedemos a la actividad de búsqueda.
             Intent intent = new Intent(this, SearchActivity.class);
@@ -259,6 +258,35 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         return emailCharacters == 1;
+    }
+
+    /**
+     * Método encargado de generar el nombre del fichero de la imagen de perfil.
+     * @return Nombre del fichero de la imagen de perfil.
+     */
+    private String getImageFileName() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("img_").append(GeneralUtilities.getNumberPictures() + 1).append(".jpg");
+
+        return builder.toString();
+    }
+
+    /**
+     * Método encargado de obtener el género del usuario.
+     * @return Género del usuario.
+     */
+    private String getGender() {
+        String gender = "";
+
+        if (femaleRadioButton.isChecked()) {
+            gender = "female";
+        } else if (maleRadioButton.isChecked()) {
+            gender = "male";
+        } else {
+            gender = "other";
+        }
+
+        return gender;
     }
 
     /**

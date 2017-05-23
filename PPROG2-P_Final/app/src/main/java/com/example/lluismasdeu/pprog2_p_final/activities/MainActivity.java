@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView errorTextView;
 
     /**
-     * Método encargado de crear la actividad.
+     * Método encargado de llevar a cabo las tareas cuando se crea la actividad.
      * @param savedInstanceState
      */
     @Override
@@ -89,28 +89,32 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void onLoginButtonClick(View view) {
-        String[] messageErrors = getResources().getStringArray(R.array.main_activity_errors);
+        String[] messages = getResources().getStringArray(R.array.main_activity_messages);
 
         if (String.valueOf(usernameEditText.getText()).equals("")) {
-            errorTextView.setText(messageErrors[0]);
+            errorTextView.setText(messages[0]);
             errorTextView.setVisibility(View.VISIBLE);
         } else if (String.valueOf(passwordEditText.getText()).equals("")) {
-            errorTextView.setText(messageErrors[1]);
+            errorTextView.setText(messages[1]);
             errorTextView.setVisibility(View.VISIBLE);
-        } else if (!dbManagement.existsUser(new User(String.valueOf(usernameEditText.getText()),
-                String.valueOf(passwordEditText.getText())), 1)) {
-            errorTextView.setText(messageErrors[2]);
+        } else if (!dbManagement.existsUser(
+                new User(String.valueOf(usernameEditText.getText()),
+                        String.valueOf(usernameEditText.getText()),
+                        String.valueOf(passwordEditText.getText())), 1)) {
+            errorTextView.setText(messages[2]);
             errorTextView.setVisibility(View.VISIBLE);
         } else {
             // Obtenemos los parámetros completos del usuario conectado.
-            User connectedUser = dbManagement.getUser(new User(String.valueOf(usernameEditText.getText()),
-                    String.valueOf(passwordEditText.getText())));
+            User connectedUser = dbManagement.getConnectedUser(
+                    new User(String.valueOf(usernameEditText.getText()),
+                            String.valueOf(usernameEditText.getText()),
+                            String.valueOf(passwordEditText.getText())));
 
             // Guardamos el usuario actual.
             StaticValues.getInstance().setConnectedUser(connectedUser);
 
             // Mostramos mensaje por pantalla.
-            Toast.makeText(this, getString(R.string.correct_login), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, messages[3], Toast.LENGTH_SHORT).show();
 
             // Accedemos a la actividad de búsqueda.
             Intent intent = new Intent(this, SearchActivity.class);

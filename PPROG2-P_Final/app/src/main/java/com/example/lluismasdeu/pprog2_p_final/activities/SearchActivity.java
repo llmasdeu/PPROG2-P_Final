@@ -1,7 +1,10 @@
 package com.example.lluismasdeu.pprog2_p_final.activities;
 
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,21 +17,31 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.fragments.NoRecentSearchesFragment;
 import com.example.lluismasdeu.pprog2_p_final.fragments.RecentSearchesFragment;
+import com.example.lluismasdeu.pprog2_p_final.model.webserviceResults.Response;
+import com.example.lluismasdeu.pprog2_p_final.model.webserviceResults.Result;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
+import com.example.lluismasdeu.pprog2_p_final.utils.HttpRequestHelper;
+import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lluismasdeu on 20/4/17.
+ * Actividad de búsqueda de la aplicación.
+ * @author Eloy Alberto López
+ * @author Lluís Masdeu
  */
 public class SearchActivity extends AppCompatActivity {
+    private static final String SEARCH_RESULT_EXTRA = "search_result";
     private DatabaseManagementInterface dbManagement;
     private int radiusKm;
+    private Response webserviceResponse;
 
     // Componentes y estructuras
     private EditText searchEditText;
@@ -40,11 +53,52 @@ public class SearchActivity extends AppCompatActivity {
     private NoRecentSearchesFragment noRecentSearchesFragment;
     private RecentSearchesFragment recentSearchesFragment;
 
+    private class AsyncRequest extends AsyncTask<String, Void, Response> {
+        private Context context;
+        private ProgressDialog progressDialog;
+
+        public AsyncRequest(Context context) {
+            this.context = context;
+
+            progressDialog = new ProgressDialog(context);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog.setMessage(getString(R.string.please_wait));
+            progressDialog.show();
+        }
+
+        @Override
+        protected Response doInBackground(String... params) {
+            Gson gson = new Gson();
+
+            return gson.fromJson(HttpRequestHelper.getInstance().doHttpRequest(params[0]),
+                    Response.class);
+        }
+
+        @Override
+        protected void onPostExecute(Response response) {
+            super.onPostExecute(response);
+
+            if (progressDialog.isShowing())
+                progressDialog.dismiss();
+
+            webserviceResponse = response;
+        }
+    }
+
+    /**
+     * Método encaragado de llevar a cabo las tareas iniciales cuando se crea la actividad.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
 
+        setContentView(R.layout.activity_search);
         getSupportActionBar().setTitle("");
 
         // Localizamos los componentes en el layout.
@@ -53,12 +107,6 @@ public class SearchActivity extends AppCompatActivity {
         radiusSeekBar = (SeekBar) findViewById(R.id.radius_seekBar);
         radiusKmTextView = (TextView) findViewById(R.id.radius_textView);
         recentSearchesListView = (ListView) findViewById(R.id.recentSearches_listView);
-
-        // Iniciamos a 0 la barra de progreso de la SeekBar, y configuramos el mensaje del radio a
-        // 1 Km.
-        radiusKm = 1;
-        radiusSeekBar.setProgress(0);
-        radiusKmTextView.setText(radiusKm + getString(R.string.radius_km));
 
         // Añadimos el listener a la SeekBar.
         radiusSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -103,26 +151,23 @@ public class SearchActivity extends AppCompatActivity {
         // Inicializamos el gestor de la base de datos.
         dbManagement = new DatabaseManagement(this);
 
-        // Obtenemos las búsquedas recientes.
-        updateRecentSearchesList();
-
         // Inicializamos los fragmentos.
         noRecentSearchesFragment = new NoRecentSearchesFragment();
         recentSearchesFragment = new RecentSearchesFragment(this, recentSearchesList);
-
-        // Comprobamos qué fragment hay que mostrar.
-        manageRecentSearchesFragments();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
+
+        // Iniciamos a 0 la barra de progreso de la SeekBar, y configuramos el mensaje del radio a
+        // 1 Km.
+        radiusKm = 1;
+        radiusSeekBar.setProgress(0);
+        radiusKmTextView.setText(radiusKm + getString(R.string.radius_km));
 
         // Actualizamos la lista de búsquedas recientes.
         updateRecentSearchesList();
-
-        // Comprobamos qué fragment hay que mostrar.
-        manageRecentSearchesFragments();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -143,11 +188,44 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void onClearButtonClick(View view) {
-        // TODO
+        // Limpiamos el campo de búsqueda.
+        searchEditText.setText("");
     }
 
     public void onSearchButtonClick(View view) {
-        // TODO
+        String[] messages = getResources().getStringArray(R.array.search_activity_messages);
+
+        if (String.valueOf(searchEditText.getText()).equals("")) {
+            Toast.makeText(this, messages[0], Toast.LENGTH_SHORT).show();
+        } else {
+            new AsyncRequest(this)
+                    .execute(HttpRequestHelper.getInstance()
+                            .generateHTTPSearchRequest(String.valueOf(searchEditText.getText())));
+
+            if (webserviceResponse != null) {
+                Toast.makeText(this, messages[1], Toast.LENGTH_SHORT).show();
+            } else if (webserviceResponse.getResults().length == 0) {
+                Toast.makeText(this, messages[1], Toast.LENGTH_SHORT).show();
+            } else {
+                // Registramos la búsqueda reciente.
+                dbManagement.registerRecentSearch(String.valueOf(searchEditText.getText()));
+
+                // Serializamos la respuesta.
+                Gson gson = new Gson();
+                String searchResult = gson.toJson(webserviceResponse).toString();
+
+                // Mostramos mensaje
+                Toast.makeText(this, messages[2], Toast.LENGTH_SHORT).show();
+
+                // Reiniciamos la interfaz gráfica.
+                resetFields();
+
+                // Accedemos a la actividad de resultados.
+                Intent intent = new Intent(this, RegisterActivity.class);
+                intent.putExtra(SEARCH_RESULT_EXTRA, searchResult);
+                startActivity(intent);
+            }
+        }
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -173,9 +251,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private void updateRecentSearchesList() {
         recentSearchesList = dbManagement.getAllRecentSearches();
-    }
-
-    private void manageRecentSearchesFragments() {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
         if (recentSearchesList.isEmpty()) {
@@ -185,5 +260,12 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         transaction.commit();
+    }
+
+    private void resetFields() {
+        searchEditText.setText("");
+        radiusKm = 1;
+        radiusSeekBar.setProgress(0);
+        radiusKmTextView.setText(radiusKm + getString(R.string.radius_km));
     }
 }

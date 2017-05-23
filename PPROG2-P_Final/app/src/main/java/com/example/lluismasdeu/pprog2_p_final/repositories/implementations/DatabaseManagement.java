@@ -97,14 +97,14 @@ public class DatabaseManagement implements DatabaseManagementInterface {
 
     /**
      * Método encargado de consultar si el usuario existe en la base de datos.
-     * @param u Usuario a consultar.
+     * @param user Usuario a consultar.
      * @param mode Modo de búsqueda.
      *             1 - Consulta de login.
      *             2 - Consulta de registro.
      * @return
      */
     @Override
-    public boolean existsUser(User u, int mode) {
+    public boolean existsUser(User user, int mode) {
         // Obtenemos la instancia de la base de datos.
         DatabaseHelper helper = DatabaseHelper.getInstance(context);
 
@@ -117,15 +117,15 @@ public class DatabaseManagement implements DatabaseManagementInterface {
                 whereClause = "(" + USERNAME_COLUMN + " =? OR "+ EMAIL_COLUMN + " =? ) AND "
                         + PASSWORD_COLUMN + " =? ";
                 whereArgs = new String[3];
-                whereArgs[0] = u.getUsername();
-                whereArgs[1] = u.getEmail();
-                whereArgs[2] = u.getPassword();
+                whereArgs[0] = user.getUsername();
+                whereArgs[1] = user.getEmail();
+                whereArgs[2] = user.getPassword();
                 break;
 
             case 2:
                 whereClause = USERNAME_COLUMN + " =? OR " + EMAIL_COLUMN + " =? ";
-                whereArgs[0] = u.getUsername();
-                whereArgs[1] = u.getEmail();
+                whereArgs[0] = user.getUsername();
+                whereArgs[1] = user.getEmail();
                 break;
         }
 
@@ -139,11 +139,11 @@ public class DatabaseManagement implements DatabaseManagementInterface {
 
     /**
      * Método encargado de obtener un usuario de la base de datos.
-     * @param u Información del usuario a buscar.
+     * @param user Información del usuario a buscar.
      * @return Información completa del usuario.
      */
     @Override
-    public User getUser(User u) {
+    public User getConnectedUser(User user) {
         User retrievedUser = null;
 
         // Obtenemos la instancia de la base de datos.
@@ -151,8 +151,9 @@ public class DatabaseManagement implements DatabaseManagementInterface {
 
         // Configuramos la petición.
         String[] selectColumns = null;
-        String whereClause = EMAIL_COLUMN + "=? and " + PASSWORD_COLUMN + "=?";
-        String[] whereArgs = {u.getEmail(), u.getPassword()};
+        String whereClause = "(" + USERNAME_COLUMN + " =? OR " + EMAIL_COLUMN + " =? ) AND "
+                + PASSWORD_COLUMN + " =? ";
+        String[] whereArgs = {user.getUsername(), user.getEmail(), user.getPassword()};
 
         // Llevamos a cabo la consulta en la base de datos.
         Cursor cursor = helper.getReadableDatabase()

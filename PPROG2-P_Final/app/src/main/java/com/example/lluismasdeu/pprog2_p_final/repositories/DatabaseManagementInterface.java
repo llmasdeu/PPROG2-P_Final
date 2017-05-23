@@ -14,7 +14,7 @@ public interface DatabaseManagementInterface {
     void unregisterUser(User u);
     void updateUser(User u);
     boolean existsUser(User u, int mode);
-    User getUser(User u);
+    User getConnectedUser(User u);
     List<User> getAllUsers();
     void registerRecentSearch(String recentSearch);
     List<String> getAllRecentSearches();

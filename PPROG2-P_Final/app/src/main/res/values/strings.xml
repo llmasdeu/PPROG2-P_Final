@@ -7,8 +7,6 @@
     <string name="closing">Closing:&#160;</string>
     <string name="comments">Comments</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="correct_login">Logged in correctly</string>
-    <string name="correct_register">Registered correctly</string>
     <string name="description">Description</string>
     <string name="edit">Edit</string>
     <string name="email">E-mail</string>
@@ -23,6 +21,7 @@
     <string name="nothing_to_show">Nothing to show.</string>
     <string name="opening">Opening:&#160;</string>
     <string name="password">Password</string>
+    <string name="please_wait">Please wait&#8230;</string>
     <string name="profile">Profile</string>
     <string name="radius_km">&#160;Km</string>
     <string name="recent_searches">Recent Searches</string>
@@ -30,27 +29,35 @@
     <string name="search">Search</string>
     <string name="search_hint">Search&#8230;</string>
     <string name="search_radius">Search radius</string>
+    <string name="send">Send</string>
     <string name="something_about_you">Something about you&#8230;</string>
     <string name="surname">Surname</string>
     <string name="take_picture">Take Picture</string>
     <string name="terms">Accept terms &amp; conditions</string>
     <string name="username">Username</string>
-    <string name="send">Send</string>
 
     <!-- String-Arrays de errores -->
-    <string-array name="main_activity_errors">
+    <string-array name="main_activity_messages">
         <item>Error! Username field can\'t be blank.</item>
         <item>Error! Password field can\'t be blank.</item>
-        <item>Error! There isn't any user registered with this e-mail/username and password.</item>
+        <item>Error! There isn\'t any user registered with this e-mail/username and password.</item>
+        <item>Logged in correctly</item>
     </string-array>
-    <string-array name="register_activity_errors">
+    <string-array name="register_activity_messages">
         <item>Error! Name field can\'t be blank.</item>
         <item>Error! Surname field can\'t be blank.</item>
+        <item>Error! Username can\'t be blank.</item>
         <item>Error! E-mail field can\'t be blank.</item>
         <item>Error! E-mail address is not valid.</item>
         <item>Error! Password fields can\'t be blank.</item>
         <item>Error! Passwords don\'t match.</item>
         <item>Error! You must accept Terms &amp; Conditions.</item>
         <item>Error! This user already exists.</item>
+        <item>Registered correctly</item>
+    </string-array>
+    <string-array name="search_activity_messages">
+        <item>Error! Search field can\'t be blank</item>
+        <item>There are no places matching your search</item>
+        <item>Searched correctly</item>
     </string-array>
 </resources>
