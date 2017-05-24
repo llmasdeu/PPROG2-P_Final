@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,9 +37,9 @@ import java.util.List;
 //Fragment para only open
 public class ListViewFragmentOpen extends Fragment {
     private ListView listView;
-
     private RestaurantListViewAdapter adapter;
     JsonArrayRequest jsArrayRequest;
+    List<Restaurants> list;
 
     @Nullable
     @Override
@@ -49,6 +50,8 @@ public class ListViewFragmentOpen extends Fragment {
         final String datetime = dateformat.format(c.getTime());
         ResultsActivity activity = (ResultsActivity) getActivity();
         String searchParameter = activity.getMyData();
+
+        list=null;
 
         // Recuperamos el componente gráfico para poder asignarle un adapter.
         listView =(ListView) view.findViewById(R.id.listview);
@@ -64,7 +67,7 @@ public class ListViewFragmentOpen extends Fragment {
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        List<Restaurants> list = null;
+
                         try {
                             JSONArray search = response;
                             list = new ArrayList<>(search.length());
@@ -76,6 +79,7 @@ public class ListViewFragmentOpen extends Fragment {
                                     restaurants.setName(search.getJSONObject(i).getString("name"));
                                     restaurants.setAdress(search.getJSONObject(i).getString("address"));
                                     restaurants.setRate(search.getJSONObject(i).getString("review"));
+                                    restaurants.setType(search.getJSONObject(i).getString("type"));
                                     list.add(restaurants);
                                 }
 
@@ -100,7 +104,8 @@ public class ListViewFragmentOpen extends Fragment {
 
         queue.add(jsArrayRequest);
 
-        listView.setAdapter(adapter);
+
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

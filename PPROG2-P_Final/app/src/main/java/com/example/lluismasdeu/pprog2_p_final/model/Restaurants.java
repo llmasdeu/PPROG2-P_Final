@@ -11,16 +11,18 @@ public class Restaurants {
     private String adress;
     private String rate;
     private Bitmap image;
+    private String type;
 
     public Restaurants(){
 
     }
 
-    public Restaurants(String name, String adress, String rate, Bitmap image) {
+    public Restaurants(String name, String adress, String rate, Bitmap image,String type) {
         this.name = name;
         this.adress = adress;
         this.rate = rate;
         this.image = image;
+        this.type=type;
     }
 
     public Bitmap getImage() {
@@ -55,4 +57,11 @@ public class Restaurants {
         this.name = name;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
