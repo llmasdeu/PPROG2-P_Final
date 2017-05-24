@@ -248,6 +248,27 @@ public class DatabaseManagement implements DatabaseManagementInterface {
     }
 
     /**
+     * Método encargado de comprobar si una búsqueda está registrada en la base de datos.
+     * @param recentSearch Búsqueda a comprobar.
+     * @return CIERTO si está registrada. FALSO en caso contrario.
+     */
+    public boolean existsRecentSearch(String recentSearch) {
+        // Obtenemos la instancia de la base de datos.
+        DatabaseHelper helper = DatabaseHelper.getInstance(context);
+
+        // Configuramos la petición.
+        String whereClause = SEARCH_COLUMN + " =? ";
+        String[] whereArgs = {recentSearch};
+
+        // Llevamos a cabo la consulta en la base de datos.
+        SQLiteDatabase db = helper.getReadableDatabase();
+        long count = DatabaseUtils.queryNumEntries(db, SEARCHES_TABLE, whereClause, whereArgs);
+
+        // Comprovamos si existe alguno.
+        return count > 0;
+    }
+
+    /**
      * Método encargado de obtener todas las búsquedas de la base de datos.
      * @return Búsquedas registradas en la base de datos.
      */

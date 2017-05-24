@@ -47,7 +47,7 @@ public class HttpRequestHelper {
      * @param url Petición a enviar.
      * @return Respuesta del Webservice.
      */
-    public String doHttpRequest(String url) {
+    public JSONArray doHttpRequest(String url) {
         HttpURLConnection c = null;
         JSONArray jsonArray = new JSONArray();
 
@@ -87,7 +87,7 @@ public class HttpRequestHelper {
             }
         }
 
-        return jsonArray.toString();
+        return jsonArray;
     }
 
     /**

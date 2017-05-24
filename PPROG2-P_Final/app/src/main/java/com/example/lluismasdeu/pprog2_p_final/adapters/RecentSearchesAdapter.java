@@ -27,6 +27,9 @@ public class RecentSearchesAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+        if (recentSearchesList == null)
+            return 0;
+
         return recentSearchesList.size();
     }
 

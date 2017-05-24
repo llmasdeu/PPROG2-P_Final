@@ -8,7 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,11 +24,11 @@ import android.widget.Toast;
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.fragments.NoRecentSearchesFragment;
 import com.example.lluismasdeu.pprog2_p_final.fragments.RecentSearchesFragment;
-import com.example.lluismasdeu.pprog2_p_final.model.webserviceResults.PlaceResult;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
 import com.example.lluismasdeu.pprog2_p_final.utils.HttpRequestHelper;
-import com.google.gson.Gson;
+
+import org.json.JSONArray;
 
 import java.util.List;
 
@@ -41,8 +42,6 @@ public class SearchActivity extends AppCompatActivity {
     private static final String TAG = "SearchActivity";
     private DatabaseManagementInterface dbManagement;
     private int radiusKm;
-    private String serverResponse;
-    int numResults = 0;
 
     // Componentes y estructuras
     private EditText searchEditText;
@@ -54,7 +53,7 @@ public class SearchActivity extends AppCompatActivity {
     private NoRecentSearchesFragment noRecentSearchesFragment;
     private RecentSearchesFragment recentSearchesFragment;
 
-    private class AsyncRequest extends AsyncTask<String, Void, String> {
+    private class AsyncRequest extends AsyncTask<String, Void, JSONArray> {
         private Context context;
         private ProgressDialog progressDialog;
 
@@ -73,22 +72,18 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(String... params) {
+        protected JSONArray doInBackground(String... params) {
             return HttpRequestHelper.getInstance().doHttpRequest(params[0]);
         }
 
         @Override
-        protected void onPostExecute(String response) {
-            super.onPostExecute(response);
+        protected void onPostExecute(JSONArray jsonArray) {
+            super.onPostExecute(jsonArray);
 
             if (progressDialog.isShowing())
                 progressDialog.dismiss();
 
-            serverResponse = response;
-
-            Gson gson = new Gson();
-            PlaceResult[] results = gson.fromJson(response, PlaceResult[].class);
-            numResults = results.length;
+            manageActivityTransition(jsonArray.toString(), jsonArray.length());
         }
     }
 
@@ -155,7 +150,7 @@ public class SearchActivity extends AppCompatActivity {
 
         // Inicializamos los fragmentos.
         noRecentSearchesFragment = new NoRecentSearchesFragment();
-        recentSearchesFragment = new RecentSearchesFragment(this, recentSearchesList);
+        recentSearchesFragment = new RecentSearchesFragment(this);
     }
 
     @Override
@@ -172,6 +167,14 @@ public class SearchActivity extends AppCompatActivity {
         updateRecentSearchesList();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Actualizamos la lista de búsquedas recientes.
+        updateRecentSearchesList();
+    }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         //Mostramos actionBar
         MenuInflater inflater = getMenuInflater();
@@ -183,6 +186,11 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     public void onLocationSearchButtonClick(View view) {
@@ -203,24 +211,6 @@ public class SearchActivity extends AppCompatActivity {
             new AsyncRequest(this)
                     .execute(HttpRequestHelper.getInstance()
                             .generateHTTPSearchRequest(String.valueOf(searchEditText.getText())));
-
-            if (numResults == 0) {
-                Toast.makeText(this, messages[1], Toast.LENGTH_SHORT).show();
-            } else {
-                // Registramos la búsqueda reciente.
-                dbManagement.registerRecentSearch(String.valueOf(searchEditText.getText()));
-
-                // Mostramos mensaje
-                Toast.makeText(this, messages[2], Toast.LENGTH_SHORT).show();
-
-                // Reiniciamos la interfaz gráfica.
-                resetFields();
-
-                // Accedemos a la actividad de resultados.
-                Intent intent = new Intent(this, RegisterActivity.class);
-                intent.putExtra(SEARCH_RESULT_EXTRA, serverResponse);
-                startActivity(intent);
-            }
         }
     }
 
@@ -245,11 +235,41 @@ public class SearchActivity extends AppCompatActivity {
         return true;
     }
 
+    private void manageActivityTransition(String response, int numResults) {
+        String[] messages = getResources().getStringArray(R.array.search_activity_messages);
+
+        if (numResults == 0) {
+            //Limpiamos el campo de búsqueda.
+            searchEditText.setText("");
+
+            Toast.makeText(this, messages[1], Toast.LENGTH_SHORT).show();
+        } else {
+            // Registramos la búsqueda reciente, si no estaba registrada previamente.
+            if (!dbManagement.existsRecentSearch(String.valueOf(searchEditText.getText())))
+                dbManagement.registerRecentSearch(String.valueOf(searchEditText.getText()));
+
+            // Mostramos mensaje
+            Toast.makeText(this, messages[2], Toast.LENGTH_SHORT).show();
+
+            // Reiniciamos la interfaz gráfica.
+            resetFields();
+
+            // Accedemos a la actividad de resultados.
+            Intent intent = new Intent(this, ResultsActivity.class);
+            intent.putExtra(SEARCH_RESULT_EXTRA, response);
+            startActivity(intent);
+        }
+    }
+
     private void updateRecentSearchesList() {
         recentSearchesList = dbManagement.getAllRecentSearches();
+        recentSearchesFragment.setRecentSearchesList(recentSearchesList);
+
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-        if (recentSearchesList.isEmpty()) {
+        if (recentSearchesList == null) {
+            transaction.replace(R.id.recentSearches_frameLayout, noRecentSearchesFragment);
+        } else if (recentSearchesList.isEmpty()) {
             transaction.replace(R.id.recentSearches_frameLayout, noRecentSearchesFragment);
         } else {
             transaction.replace(R.id.recentSearches_frameLayout, recentSearchesFragment);

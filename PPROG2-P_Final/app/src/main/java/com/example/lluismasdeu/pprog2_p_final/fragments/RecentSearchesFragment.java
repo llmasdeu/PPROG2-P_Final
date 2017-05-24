@@ -24,11 +24,8 @@ public class RecentSearchesFragment extends Fragment {
     private List<String> recentSearchesList;
     private ListView recentSearchesListView;
 
-    public RecentSearchesFragment(Context context, List<String> recentSearchesList) {
+    public RecentSearchesFragment(Context context) {
         this.context = context;
-        this.recentSearchesList = recentSearchesList;
-
-        adapter = new RecentSearchesAdapter(context, recentSearchesList);
     }
 
     @Nullable
@@ -40,5 +37,11 @@ public class RecentSearchesFragment extends Fragment {
         recentSearchesListView.setAdapter(adapter);
 
         return view;
+    }
+
+    public void setRecentSearchesList(List<String> recentSearchesList) {
+        this.recentSearchesList = recentSearchesList;
+
+        adapter = new RecentSearchesAdapter(context, recentSearchesList);
     }
 }

@@ -17,5 +17,6 @@ public interface DatabaseManagementInterface {
     User getConnectedUser(User u);
     List<User> getAllUsers();
     void registerRecentSearch(String recentSearch);
+    boolean existsRecentSearch(String recentSearch);
     List<String> getAllRecentSearches();
 }
