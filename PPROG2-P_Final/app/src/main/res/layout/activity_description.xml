@@ -6,15 +6,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.lluismasdeu.pprog2_p_final.activities.DescriptionActivity">
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/coordinator">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/image_restorant"
         android:src="@mipmap/ic_launcher"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/favorite_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_favorite"
+        android:layout_gravity="bottom|end"
+        app:backgroundTint="@color/errorMessageColor"
+        app:layout_anchor="@id/image_restorant"
+        app:layout_anchorGravity="bottom|right|end"
+        android:onClick="onClickFavorite"/>
+    </android.support.design.widget.CoordinatorLayout>
     <ScrollView
         android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp"
-        android:layout_below="@id/image_restorant"
+        android:layout_below="@id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout

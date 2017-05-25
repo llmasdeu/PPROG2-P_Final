@@ -101,6 +101,10 @@ public class DescriptionActivity extends AppCompatActivity {
         queue.add(jsArrayRequest);
 
     }
+    public void onClickFavorite(View view){
+        //TODO
+
+    }
     public boolean onCreateOptionsMenu(Menu menu) {
         //Mostramos actionBar
         MenuInflater inflater = getMenuInflater();
