@@ -17,7 +17,7 @@ import java.io.InputStream;
  * Created by lluismasdeu on 6/5/17.
  */
 public class GeneralUtilities {
-    private static final String PROFILE_PICTURES_FOLDER = "profile_images/";
+    private static final String PROFILE_PICTURES_FOLDER = "/profile_images/";
     private static final String DEFAULT_PHOTO = "default_photo.jpg";
     private static final String TAG = "GeneralUtilities";
 
