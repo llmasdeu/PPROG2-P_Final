@@ -1,9 +1,7 @@
 package com.example.lluismasdeu.pprog2_p_final.activities;
 
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -22,9 +20,6 @@ import com.example.lluismasdeu.pprog2_p_final.model.User;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
 import com.example.lluismasdeu.pprog2_p_final.utils.GeneralUtilities;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Actividad encargada del registro de usuario.
@@ -80,9 +75,6 @@ public class RegisterActivity extends AppCompatActivity {
         descriptionEditText = (EditText) findViewById(R.id.description_editText);
         termsCheckBox = (CheckBox) findViewById(R.id.terms_checkBox);
         errorTextView = (TextView) findViewById(R.id.errorRegister_textView);
-
-        // Recuperamos el nombre de usuario y la contraseña enviadas desde la actividad principal.
-        getPreviousValues();
 
         // Definimos la imagen de perfil predefinida.
         setDefaultProfilePhoto();
@@ -157,7 +149,7 @@ public class RegisterActivity extends AppCompatActivity {
             String imageFile = getImageFileName(), gender = getGender();
 
             // Guardamos la imagen de perfil.
-            GeneralUtilities.saveImage(((BitmapDrawable) profileImageView.getDrawable())
+            GeneralUtilities.saveProfilePicture(((BitmapDrawable) profileImageView.getDrawable())
                     .getBitmap(), imageFile);
 
             User newUser = new User(String.valueOf(nameEditText.getText()),
@@ -210,38 +202,13 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     /**
-     * Método encargado de recuperar los valores introducidos en los campos de usuario y contraseña
-     * de la actividad anterior.
-     */
-    private void getPreviousValues() {
-        emailEditText.setText(getIntent().getExtras().getString(MainActivity.USERNAME_EXTRA));
-        passwordEditText.setText(getIntent().getExtras().getString(MainActivity.PASSWORD_EXTRA));
-    }
-
-    /**
      * Método encargado de cargar la imagen de perfil por defecto.
      */
     private void setDefaultProfilePhoto() {
-        InputStream inputStream = null;
+        Bitmap image = GeneralUtilities.getInstance(this).getDefaultProfilePhoto();
 
-        try {
-            // Cargamos el recurso.
-            AssetManager assetManager = getAssets();
-            inputStream = assetManager.open(DEFAULT_PHOTO);
-
-            // Decodificamos la imagen, y la colocamos en el componente.
-            Bitmap defaultImage = BitmapFactory.decodeStream(inputStream);
-            profileImageView.setImageBitmap(defaultImage);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                inputStream.close();
-                inputStream = null;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        if (image != null)
+            profileImageView.setImageBitmap(image);
     }
 
     /**

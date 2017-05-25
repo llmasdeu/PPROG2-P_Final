@@ -31,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     // Constantes
     private static final String APP_LOGO = "app_logo.png";
-    public static final String USERNAME_EXTRA = "username";
-    public static final String PASSWORD_EXTRA = "password";
 
     // Componentes
     private ImageView logoImageView;
@@ -133,8 +131,6 @@ public class MainActivity extends AppCompatActivity {
     public void onRegisterButtonClick(View view) {
         // Accedemos a la actividad de registro.
         Intent intent = new Intent(this, RegisterActivity.class);
-        intent.putExtra(USERNAME_EXTRA, String.valueOf(usernameEditText.getText()));
-        intent.putExtra(PASSWORD_EXTRA, String.valueOf(passwordEditText.getText()));
         startActivity(intent);
 
         // Reseteamos los componentes.

@@ -8,3 +8,15 @@ http://stackoverflow.com/questions/20329090/how-to-convert-a-bitmap-to-a-jpeg-fi
 
 · Save bitmap to location
 http://stackoverflow.com/questions/649154/save-bitmap-to-location
+
+· Storage Options
+https://developer.android.com/guide/topics/data/data-storage.html
+
+· Android - Save images in an specific folder
+https://stackoverflow.com/questions/18010739/android-save-images-in-an-specific-folder
+
+· Save bitmap to file function
+https://stackoverflow.com/questions/11274715/save-bitmap-to-file-function
+
+· Android Save Camera Image in Custom Folder
+https://stackoverflow.com/questions/13962922/android-save-camera-image-in-custom-folder
