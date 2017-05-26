@@ -1,11 +1,18 @@
 package com.example.lluismasdeu.pprog2_p_final.activities;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -27,10 +34,10 @@ import com.example.lluismasdeu.pprog2_p_final.utils.GeneralUtilities;
  * @author Lluís Masdeu
  */
 public class RegisterActivity extends AppCompatActivity {
+    private static final String TAG = "RegisterActivity";
     private DatabaseManagementInterface dbManagement;
 
     // Constantes
-    private static final String DEFAULT_PHOTO = "default_photo.jpg";
     private static final int TAKE_PICTURE = 1;
 
     // Componentes
@@ -54,9 +61,9 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
 
-        // Escondemos la ActionBar en esta actividad.
+        // Definimos el Layout, y escondemos la ActionBar en esta actividad.
+        setContentView(R.layout.activity_register);
         getSupportActionBar().hide();
 
         // Creamos la comunicación con la base de datos.

@@ -1,9 +1,15 @@
 package com.example.lluismasdeu.pprog2_p_final.activities;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -31,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
     // Constantes
     private static final String APP_LOGO = "app_logo.png";
+    private static final int PERMISSIONS_ALL = 12345;
+    private static final int MY_PERMISSIONS_REQUEST_CAMERA = 101;
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 202;
+    private static final int MY_PERMISSIONS_REQUEST_READ_STORAGE = 303;
 
     // Componentes
     private ImageView logoImageView;
@@ -63,6 +73,22 @@ public class MainActivity extends AppCompatActivity {
         setAppLogo();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            String[] permissions = new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+            ActivityCompat.requestPermissions(this, permissions, PERMISSIONS_ALL);
+        }
+    }
+
     /**
      * Método encargado de guardar el estado de la actividad.
      * @param outState
@@ -79,6 +105,67 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_ALL:
+                if (grantResults.length >= 3) {
+                    if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                        if (shouldShowRequestPermissionRationale(permissions[0])) {
+                            notifyWriteStoragePermissionsDenied();
+                        }
+                    }
+
+                    if (grantResults[1] == PackageManager.PERMISSION_DENIED) {
+                        if (shouldShowRequestPermissionRationale(permissions[1])) {
+                            notifyReadStoragePermissionsDenied();
+                        }
+                    }
+
+                    if (grantResults[2] == PackageManager.PERMISSION_DENIED) {
+                        if (shouldShowRequestPermissionRationale(permissions[2])) {
+                            notifyCameraPermissionsDenied();
+                        }
+                    }
+                }
+                break;
+        }
+    }
+
+    private void notifyCameraPermissionsDenied() {
+        new AlertDialog.Builder(this).setTitle(getString(R.string.camera_permissions_denied_title))
+                .setMessage(getString(R.string.camera_permissions_denied_message))
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create().show();
+    }
+
+    private void notifyReadStoragePermissionsDenied() {
+        new AlertDialog.Builder(this).setTitle(getString(R.string.write_storage_permissions_denied_title))
+                .setMessage(getString(R.string.write_storage_permissions_denied_message))
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create().show();
+    }
+
+    private void notifyWriteStoragePermissionsDenied() {
+        new AlertDialog.Builder(this).setTitle(getString(R.string.write_storage_permissions_denied_title))
+                .setMessage(getString(R.string.write_storage_permissions_denied_message))
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create().show();
     }
 
     /**

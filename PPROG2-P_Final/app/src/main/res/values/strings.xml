@@ -4,6 +4,10 @@
 
     <!-- Strings de la aplicación -->
     <string name="add_comment">Add comment</string>
+    <string name="camera_permissions_denied_message">
+        Camera permissions have been denied. To enable them, go to Settings.
+    </string>
+    <string name="camera_permissions_denied_title">Camera Permissions Not Granted</string>
     <string name="closing">Closing:&#160;</string>
     <string name="comments">Comments</string>
     <string name="confirm_password">Confirm Password</string>
@@ -19,11 +23,18 @@
     <string name="male">Male</string>
     <string name="name">Name</string>
     <string name="nothing_to_show">Nothing to show.</string>
+    <string name="ok">OK</string>
     <string name="opening">Opening:&#160;</string>
     <string name="password">Password</string>
     <string name="please_wait">Please wait&#8230;</string>
     <string name="profile">Profile</string>
     <string name="radius_km">&#160;Km</string>
+    <string name="read_storage_permissions_denied_message">
+        Read External Storage permissions have been denied. To enable them, go to Settings.
+    </string>
+    <string name="read_storage_permissions_denied_title">
+        Read External Storage Permissions Not Granted
+    </string>
     <string name="recent_searches">Recent Searches</string>
     <string name="register">Register</string>
     <string name="search">Search</string>
@@ -35,6 +46,12 @@
     <string name="take_picture">Take Picture</string>
     <string name="terms">Accept terms &amp; conditions</string>
     <string name="username">Username</string>
+    <string name="write_storage_permissions_denied_message">
+        Write External Storage permissions have been denied. To enable them, go to Settings.
+    </string>
+    <string name="write_storage_permissions_denied_title">
+        Write External Storage Permissions Not Granted
+    </string>
 
     <!-- String-Arrays de errores -->
     <string-array name="main_activity_messages">

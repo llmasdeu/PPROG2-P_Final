@@ -103,35 +103,22 @@ public class GeneralUtilities {
      * @param fileName Nombre del fichero.
      */
     public static void saveProfilePicture(Bitmap image, String fileName) {
-        Log.d(TAG, "saveProfilePicture: saving image...");
         String directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath()
                 + PROFILE_PICTURES_FOLDER;
         File directory = new File(directoryPath);
         File file = new File(directory, fileName);
         FileOutputStream out = null;
 
-        if (!directory.exists()) {
-            Log.d(TAG, "saveProfilePicture: directory didn't exist...");
+        if (!directory.exists())
             directory.mkdirs();
 
-            if (directory.exists())
-                Log.d(TAG, "saveProfilePicture: ...but now exists");
-        }
-
         try {
-            Log.d(TAG, "saveProfilePicture: try 0");
             if (file.exists())
                 file.delete();
 
-            Log.d(TAG, "saveProfilePicture: try 1");
             out = new FileOutputStream(file);
-            Log.d(TAG, "saveProfilePicture: try 2");
             image.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            Log.d(TAG, "saveProfilePicture: try 3");
-
-            Log.d(TAG, "saveProfilePicture: " + getNumberPictures());
         } catch (Exception e) {
-            Log.d(TAG, "saveProfilePicture: image could not be saved");
             e.printStackTrace();
         } finally {
             try {
