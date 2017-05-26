@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lluismasdeu.pprog2_p_final.R;
+import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
 import com.example.lluismasdeu.pprog2_p_final.model.User;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
@@ -41,6 +42,7 @@ public class DescriptionActivity extends AppCompatActivity {
     RatingBar rating;
     TextView description;
     FloatingActionButton favorite;
+    Favorite favorite_list;
     User user;
     private DatabaseManagementInterface databaseManagementInterface;
     @Override
@@ -92,8 +94,6 @@ public class DescriptionActivity extends AppCompatActivity {
                                 }
 
                             }
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -118,14 +118,17 @@ public class DescriptionActivity extends AppCompatActivity {
 
               if(!databaseManagementInterface.existFavorite(name.getText().toString()))
                 {
-                 databaseManagementInterface.registerFavorite(name.getText().toString(),address.getText().toString(),
-                        String.valueOf(rating.getRating()),1);
-                    Log.d("bla","bla");
+                    favorite_list=new Favorite();
+                    favorite_list.setName(name.getText().toString());
+                    favorite_list.setAddress(address.getText().toString());
+                    favorite_list.setRate(String.valueOf(rating.getRating()));
+                    favorite_list.setId(1);
+                    databaseManagementInterface.registerFavorite(favorite_list);
+
                 }
                 else
               {
                   databaseManagementInterface.deleteFavorite(name.getText().toString());
-                  Log.d("bla","blue");
               }
 
 

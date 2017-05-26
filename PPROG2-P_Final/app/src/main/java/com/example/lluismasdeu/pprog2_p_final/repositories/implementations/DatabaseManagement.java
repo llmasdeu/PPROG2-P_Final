@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
 import com.example.lluismasdeu.pprog2_p_final.model.User;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.utils.DatabaseHelper;
@@ -309,15 +310,15 @@ public class DatabaseManagement implements DatabaseManagementInterface {
     }
 
     @Override
-    public void registerFavorite(String name, String address, String rate, int id) {
+    public void registerFavorite(Favorite favorite) {
         DatabaseHelper helper = DatabaseHelper.getInstance(context);
 
         // Configuramos los valores de las distintas columnas.
         ContentValues values = new ContentValues();
-        values.put(NAME_RESTAURANT_COLUMN, name);
-        values.put(ADDRESS_RESTAURANT_COLUMN, address);
-        values.put(RATE_RESTAURANT_COLUMN, rate);
-        values.put(ID_USER_COLUMN, id);
+        values.put(NAME_RESTAURANT_COLUMN, favorite.getName());
+        values.put(ADDRESS_RESTAURANT_COLUMN,favorite.getAddress());
+        values.put(RATE_RESTAURANT_COLUMN, favorite.getRate());
+        values.put(ID_USER_COLUMN, favorite.getId());
 
 
         // Llevamos a cabo la inserción en la base de datos.
@@ -350,5 +351,32 @@ public class DatabaseManagement implements DatabaseManagementInterface {
         String[] whereArgs = {name};
 
         helper.getWritableDatabase().delete(FAVORITE_TABLE, whereClause, whereArgs);
+    }
+
+    @Override
+    public List<Favorite> getAllFavorite() {
+        List<Favorite> list = new ArrayList<>();
+
+        DatabaseHelper helper = DatabaseHelper.getInstance(context);
+
+        String[] selectColumns = null;
+
+        Cursor cursor = helper.getReadableDatabase().
+                query(FAVORITE_TABLE, selectColumns, null, null, null, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    String favoriteName = cursor.getString(cursor.getColumnIndex(NAME_RESTAURANT_COLUMN));
+                    String favoriteAddress = cursor.getString(cursor.getColumnIndex(ADDRESS_RESTAURANT_COLUMN));
+                    String favoriteRate = cursor.getString(cursor.getColumnIndex(RATE_RESTAURANT_COLUMN));
+                    int favoriteId= cursor.getInt(cursor.getColumnIndex(ID_USER_COLUMN));
+                    list.add(new Favorite(favoriteName, favoriteAddress,favoriteRate,favoriteId));
+
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+
+        return list;
     }
 }

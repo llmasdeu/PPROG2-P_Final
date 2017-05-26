@@ -1,5 +1,6 @@
 package com.example.lluismasdeu.pprog2_p_final.repositories;
 
+import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
 import com.example.lluismasdeu.pprog2_p_final.model.User;
 
 import java.util.List;
@@ -19,7 +20,8 @@ public interface DatabaseManagementInterface {
     void registerRecentSearch(String recentSearch);
     boolean existsRecentSearch(String recentSearch);
     List<String> getAllRecentSearches();
-    void registerFavorite(String name,String address,String rate,int id);
+    void registerFavorite(Favorite favorite);
     boolean existFavorite(String name);
     void deleteFavorite(String name);
+    List<Favorite> getAllFavorite();
 }
