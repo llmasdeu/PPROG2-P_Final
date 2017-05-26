@@ -114,21 +114,15 @@ public class MainActivity extends AppCompatActivity {
             case PERMISSIONS_ALL:
                 if (grantResults.length >= 3) {
                     if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                        if (shouldShowRequestPermissionRationale(permissions[0])) {
-                            notifyWriteStoragePermissionsDenied();
-                        }
+                        notifyWriteStoragePermissionsDenied();
                     }
 
                     if (grantResults[1] == PackageManager.PERMISSION_DENIED) {
-                        if (shouldShowRequestPermissionRationale(permissions[1])) {
-                            notifyReadStoragePermissionsDenied();
-                        }
+                        notifyReadStoragePermissionsDenied();
                     }
 
                     if (grantResults[2] == PackageManager.PERMISSION_DENIED) {
-                        if (shouldShowRequestPermissionRationale(permissions[2])) {
-                            notifyCameraPermissionsDenied();
-                        }
+                        notifyCameraPermissionsDenied();
                     }
                 }
                 break;
