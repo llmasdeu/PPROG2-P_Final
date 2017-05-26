@@ -3,8 +3,10 @@ package com.example.lluismasdeu.pprog2_p_final.activities;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +20,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lluismasdeu.pprog2_p_final.R;
+import com.example.lluismasdeu.pprog2_p_final.model.User;
+import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
+import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,13 +40,16 @@ public class DescriptionActivity extends AppCompatActivity {
     TextView longitud;
     RatingBar rating;
     TextView description;
-
+    FloatingActionButton favorite;
+    User user;
+    private DatabaseManagementInterface databaseManagementInterface;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_description);
         name=(TextView) findViewById(R.id.text_name);
+        favorite=(FloatingActionButton) findViewById(R.id.favorite_button);
         address=(TextView) findViewById(R.id.text_address);
         open=(TextView) findViewById(R.id.text_open_hour);
         close=(TextView) findViewById(R.id.text_close_hour);
@@ -100,11 +109,32 @@ public class DescriptionActivity extends AppCompatActivity {
         );
         queue.add(jsArrayRequest);
 
-    }
-    public void onClickFavorite(View view){
-        //TODO
+        favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                databaseManagementInterface=new DatabaseManagement(getApplicationContext());
+
+
+              if(!databaseManagementInterface.existFavorite(name.getText().toString()))
+                {
+                 databaseManagementInterface.registerFavorite(name.getText().toString(),address.getText().toString(),
+                        String.valueOf(rating.getRating()),1);
+                    Log.d("bla","bla");
+                }
+                else
+              {
+                  databaseManagementInterface.deleteFavorite(name.getText().toString());
+                  Log.d("bla","blue");
+              }
+
+
+            }
+        });
 
     }
+
+
     public boolean onCreateOptionsMenu(Menu menu) {
         //Mostramos actionBar
         MenuInflater inflater = getMenuInflater();

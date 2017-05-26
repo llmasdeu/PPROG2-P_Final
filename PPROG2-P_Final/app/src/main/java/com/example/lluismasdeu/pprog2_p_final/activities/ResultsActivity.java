@@ -28,7 +28,8 @@ import java.util.ArrayList;
 public class ResultsActivity extends AppCompatActivity {
 
     Spinner filter;
-    private String searchParameter="Barcelona";
+    private static final String SEARCH_RESULT_EXTRA = "search_result";
+    private String searchParameter="Search";
     ArrayList<String> types=new ArrayList<String>();
     JsonArrayRequest jsArrayRequest;
     @Override
@@ -41,10 +42,11 @@ public class ResultsActivity extends AppCompatActivity {
 
         //creamos tabs
         createTabs();
+        searchParameter=getIntent().getStringExtra(SEARCH_RESULT_EXTRA);
 
         //llenamos spinner
         types.add("Filter");
-        String url ="http://testapi-pprog2.azurewebsites.net/api/locations.php?method=getLocations&s=";
+        String url ="http://testapi-pprog2.azurewebsites.net/api/locations.php?method=getLocations&";
         RequestQueue queue = Volley.newRequestQueue(this);
         jsArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,

@@ -15,3 +15,11 @@ CREATE TABLE searches(
     search VARCHAR(255) DEFAULT ''
 );
 
+CREATE TABLE favorites(
+    _id INT PRIMARY KEY,
+    name_restaurant VARCHAR(255),
+    address_restaurant VARCHAR(1000),
+    rate_restaurant VARCHAR(255),
+    id_user INT
+)
+

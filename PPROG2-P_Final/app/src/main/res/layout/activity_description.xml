@@ -23,8 +23,7 @@
         android:layout_gravity="bottom|end"
         app:backgroundTint="@color/errorMessageColor"
         app:layout_anchor="@id/image_restorant"
-        app:layout_anchorGravity="bottom|right|end"
-        android:onClick="onClickFavorite"/>
+        app:layout_anchorGravity="bottom|right|end" />
     </android.support.design.widget.CoordinatorLayout>
     <ScrollView
         android:layout_marginRight="15dp"

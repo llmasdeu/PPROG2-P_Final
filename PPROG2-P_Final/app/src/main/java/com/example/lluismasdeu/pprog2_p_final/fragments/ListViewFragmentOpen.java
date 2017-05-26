@@ -40,6 +40,8 @@ public class ListViewFragmentOpen extends Fragment {
     private RestaurantListViewAdapter adapter;
     JsonArrayRequest jsArrayRequest;
     List<Restaurants> list;
+    private Spinner filtro;
+    List<Restaurants> list_tmp;
 
     @Nullable
     @Override
@@ -51,13 +53,15 @@ public class ListViewFragmentOpen extends Fragment {
         ResultsActivity activity = (ResultsActivity) getActivity();
         String searchParameter = activity.getMyData();
 
+        filtro=(Spinner) getActivity().findViewById(R.id.menuSort);
+
         list=null;
 
         // Recuperamos el componente gráfico para poder asignarle un adapter.
         listView =(ListView) view.findViewById(R.id.listview);
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-        String url ="http://testapi-pprog2.azurewebsites.net/api/locations.php?method=getLocations&s=";
+        String url ="http://testapi-pprog2.azurewebsites.net/api/locations.php?method=getLocations&";
 
         jsArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,

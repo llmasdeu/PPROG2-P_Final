@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -251,12 +252,15 @@ public class SearchActivity extends AppCompatActivity {
             // Mostramos mensaje
             Toast.makeText(this, messages[2], Toast.LENGTH_SHORT).show();
 
+
+            String prueba=searchEditText.getText().toString();
             // Reiniciamos la interfaz gráfica.
             resetFields();
 
             // Accedemos a la actividad de resultados.
             Intent intent = new Intent(this, ResultsActivity.class);
-            intent.putExtra(SEARCH_RESULT_EXTRA, response);
+
+            intent.putExtra(SEARCH_RESULT_EXTRA, "s="+prueba);
             startActivity(intent);
         }
     }

@@ -38,7 +38,6 @@ public class ListViewFragment extends Fragment {
     private RestaurantListViewAdapter adapter;
     JsonArrayRequest jsArrayRequest;
     List<Restaurants> list_tmp;
-    private RestaurantListViewAdapter adapter_tmp;
     private Spinner filtro;
     List<Restaurants> list;
 
@@ -61,7 +60,7 @@ public class ListViewFragment extends Fragment {
         //Iniciamos  coneccion con web service mediante volley
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-        String url ="http://testapi-pprog2.azurewebsites.net/api/locations.php?method=getLocations&s=";
+        String url ="http://testapi-pprog2.azurewebsites.net/api/locations.php?method=getLocations&";
 
         jsArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -123,7 +122,7 @@ public class ListViewFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Log.d("bla",String.valueOf(filtro.getSelectedItem()));
+
                 if("Filter"!=filtro.getSelectedItem()) {
                     list_tmp=new ArrayList<>(list.size());
                     for(int w=0;w<list.size();w++){
@@ -138,8 +137,13 @@ public class ListViewFragment extends Fragment {
                         }
 
                     }
-                    adapter_tmp = new RestaurantListViewAdapter(list_tmp, getActivity());
-                    listView.setAdapter(adapter_tmp);
+
+                    //usar mismo adapter
+                    //vaciarlo
+                    //notifyadapter
+                    adapter = new RestaurantListViewAdapter(list_tmp, getActivity());
+                    adapter.notifyDataSetChanged();
+                    listView.setAdapter(adapter);
                 }
 
 

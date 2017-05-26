@@ -24,6 +24,7 @@ public class DatabaseManagement implements DatabaseManagementInterface {
     // Nombres de las tablas
     private static final String SEARCHES_TABLE = "searches";
     private static final String USERS_TABLE = "users";
+    private static final String FAVORITE_TABLE="favorites";
 
     // Nombres de las columnas.
     private static final String DESCRIPTION_COLUMN = "description";
@@ -36,6 +37,12 @@ public class DatabaseManagement implements DatabaseManagementInterface {
     private static final String SEARCH_COLUMN = "search";
     private static final String SURNAME_COLUMN = "surname";
     private static final String USERNAME_COLUMN = "username";
+
+    //Nombres de las columnas tabla favoritos
+    private static final String NAME_RESTAURANT_COLUMN = "name_restaurant";
+    private static final String ADDRESS_RESTAURANT_COLUMN = "address_restaurant";
+    private static final String RATE_RESTAURANT_COLUMN = "rate_restaurant";
+    private static final String ID_USER_COLUMN = "id_user";
 
     /**
      * Constructor de la clase.
@@ -299,5 +306,49 @@ public class DatabaseManagement implements DatabaseManagementInterface {
         }
 
         return recentSearches;
+    }
+
+    @Override
+    public void registerFavorite(String name, String address, String rate, int id) {
+        DatabaseHelper helper = DatabaseHelper.getInstance(context);
+
+        // Configuramos los valores de las distintas columnas.
+        ContentValues values = new ContentValues();
+        values.put(NAME_RESTAURANT_COLUMN, name);
+        values.put(ADDRESS_RESTAURANT_COLUMN, address);
+        values.put(RATE_RESTAURANT_COLUMN, rate);
+        values.put(ID_USER_COLUMN, id);
+
+
+        // Llevamos a cabo la inserción en la base de datos.
+        helper.getWritableDatabase().insert(FAVORITE_TABLE, null, values);
+    }
+
+    @Override
+    public boolean existFavorite(String name) {
+        DatabaseHelper helper = DatabaseHelper.getInstance(context);
+
+
+        String whereClause = NAME_RESTAURANT_COLUMN + "=?";
+        String[] whereArgs = {name};
+
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        long count = DatabaseUtils.queryNumEntries(db, FAVORITE_TABLE, whereClause, whereArgs);
+
+        return count > 0;
+    }
+
+    @Override
+    public void deleteFavorite(String name) {
+        DatabaseHelper helper = DatabaseHelper.getInstance(context);
+
+        // Preparamos la cláusula del where. Su formato es: "<nombre columna> = ?" donde ? se
+        // sustituirá por el valor añadido en los argumentos.
+        String whereClause = NAME_RESTAURANT_COLUMN+ "=? ";
+        // Preparamos los argumentos a sustituir por los '?' de la cláusula.
+        String[] whereArgs = {name};
+
+        helper.getWritableDatabase().delete(FAVORITE_TABLE, whereClause, whereArgs);
     }
 }

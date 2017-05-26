@@ -19,4 +19,7 @@ public interface DatabaseManagementInterface {
     void registerRecentSearch(String recentSearch);
     boolean existsRecentSearch(String recentSearch);
     List<String> getAllRecentSearches();
+    void registerFavorite(String name,String address,String rate,int id);
+    boolean existFavorite(String name);
+    void deleteFavorite(String name);
 }
