@@ -8,8 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -225,7 +223,7 @@ public class SearchActivity extends AppCompatActivity {
 
             case R.id.action_favorite:
                 //intent para ingresar a favoritos
-                Intent intentFavorite = new Intent(this, FavoriteActivity.class);
+                Intent intentFavorite = new Intent(this, FavoritesActivity.class);
                 startActivity(intentFavorite);
                 break;
 

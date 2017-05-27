@@ -38,9 +38,6 @@ public class MainActivity extends AppCompatActivity {
     // Constantes
     private static final String APP_LOGO = "app_logo.png";
     private static final int PERMISSIONS_ALL = 12345;
-    private static final int MY_PERMISSIONS_REQUEST_CAMERA = 101;
-    private static final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 202;
-    private static final int MY_PERMISSIONS_REQUEST_READ_STORAGE = 303;
 
     // Componentes
     private ImageView logoImageView;
@@ -73,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         setAppLogo();
     }
 
+    /**
+     * Método encargado de llevar a cabo las tareas cuando se inicia la actividad.
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -81,10 +81,9 @@ public class MainActivity extends AppCompatActivity {
                 this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED) {
             String[] permissions = new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+                    Manifest.permission.READ_EXTERNAL_STORAGE};
             ActivityCompat.requestPermissions(this, permissions, PERMISSIONS_ALL);
         }
     }
@@ -107,6 +106,12 @@ public class MainActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
     }
 
+    /**
+     * Método encargado de controlar los resultados de la petición de los permisos.
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -120,26 +125,15 @@ public class MainActivity extends AppCompatActivity {
                     if (grantResults[1] == PackageManager.PERMISSION_DENIED) {
                         notifyReadStoragePermissionsDenied();
                     }
-
-                    if (grantResults[2] == PackageManager.PERMISSION_DENIED) {
-                        notifyCameraPermissionsDenied();
-                    }
                 }
                 break;
         }
     }
 
-    private void notifyCameraPermissionsDenied() {
-        new AlertDialog.Builder(this).setTitle(getString(R.string.camera_permissions_denied_title))
-                .setMessage(getString(R.string.camera_permissions_denied_message))
-                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).create().show();
-    }
-
+    /**
+     * Método encargado de notificar que los permisos de lectura del almacenamiento externo no se
+     * encuentran habilitados.
+     */
     private void notifyReadStoragePermissionsDenied() {
         new AlertDialog.Builder(this).setTitle(getString(R.string.write_storage_permissions_denied_title))
                 .setMessage(getString(R.string.write_storage_permissions_denied_message))
@@ -151,6 +145,10 @@ public class MainActivity extends AppCompatActivity {
                 }).create().show();
     }
 
+    /**
+     * Método encargado de notificar que los permisos de escritura del almacenamiento externo no se
+     * encuentran habilitados.
+     */
     private void notifyWriteStoragePermissionsDenied() {
         new AlertDialog.Builder(this).setTitle(getString(R.string.write_storage_permissions_denied_title))
                 .setMessage(getString(R.string.write_storage_permissions_denied_message))

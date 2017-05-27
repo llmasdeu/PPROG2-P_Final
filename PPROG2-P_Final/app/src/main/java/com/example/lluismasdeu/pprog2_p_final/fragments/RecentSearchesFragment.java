@@ -1,16 +1,27 @@
 package com.example.lluismasdeu.pprog2_p_final.fragments;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
+import com.example.lluismasdeu.pprog2_p_final.activities.ResultsActivity;
 import com.example.lluismasdeu.pprog2_p_final.adapters.RecentSearchesAdapter;
+import com.example.lluismasdeu.pprog2_p_final.utils.HttpRequestHelper;
+
+import org.json.JSONArray;
 
 import java.util.List;
 
@@ -33,7 +44,11 @@ public class RecentSearchesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recent_searches, container, false);
+
+        // Localizamos los componentes en el layout.
         recentSearchesListView = (ListView) view.findViewById(R.id.recentSearches_listView);
+
+        // Añadimos el adapter a la ListView
         recentSearchesListView.setAdapter(adapter);
 
         return view;

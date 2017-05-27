@@ -17,12 +17,12 @@ import java.util.List;
  * Created by eloy on 26-05-2017.
  */
 
-public class FavoriteAdapter extends BaseAdapter{
+public class FavoritesAdapter extends BaseAdapter{
 
     List<Favorite> list;
     private Context context;
 
-    public FavoriteAdapter(List<Favorite> list, Context context) {
+    public FavoritesAdapter(List<Favorite> list, Context context) {
         this.list = list;
         this.context = context;
     }

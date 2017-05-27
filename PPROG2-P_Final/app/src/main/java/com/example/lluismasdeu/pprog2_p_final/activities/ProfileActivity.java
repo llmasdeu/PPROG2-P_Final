@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
-import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
 import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
 import com.example.lluismasdeu.pprog2_p_final.utils.GeneralUtilities;
 
@@ -56,7 +55,7 @@ public class ProfileActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_favorite:
                 // Intent para ingresar al perfil
-                Intent intentPerfil = new Intent(this, FavoriteActivity.class);
+                Intent intentPerfil = new Intent(this, FavoritesActivity.class);
                 startActivity(intentPerfil);
                 break;
 
@@ -84,9 +83,12 @@ public class ProfileActivity extends AppCompatActivity {
         surnameEditText.setText(StaticValues.getInstance().getConnectedUser().getSurname());
         descriptionEditText.setText(StaticValues.getInstance().getConnectedUser().getDescription());
 
-        Bitmap image =
-                GeneralUtilities.getInstance(this)
-                        .getImage(StaticValues.getInstance().getConnectedUser().getImageFile());
+        Bitmap image = GeneralUtilities.getInstance(this).getDefaultProfilePhoto();
+
+        if (StaticValues.getInstance().getConnectedUser().getImageFile() != null) {
+            image = GeneralUtilities.getInstance(this)
+                    .getImage(StaticValues.getInstance().getConnectedUser().getImageFile());
+        }
 
         if (image != null)
             profileImageView.setImageBitmap(image);

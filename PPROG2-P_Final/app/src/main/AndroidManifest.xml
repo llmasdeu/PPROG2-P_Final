@@ -3,6 +3,7 @@
     package="com.example.lluismasdeu.pprog2_p_final">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
@@ -24,7 +25,7 @@
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.SearchActivity" />
         <activity android:name=".activities.ProfileActivity" />
-        <activity android:name=".activities.FavoriteActivity" />
+        <activity android:name=".activities.FavoritesActivity" />
         <activity android:name=".activities.ResultsActivity" />
         <activity android:name=".activities.DescriptionActivity" />
         <activity android:name=".activities.LocationActivity" />

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.activities.DescriptionActivity;
 import com.example.lluismasdeu.pprog2_p_final.activities.ResultsActivity;
-import com.example.lluismasdeu.pprog2_p_final.adapters.RestaurantListViewAdapter;
+import com.example.lluismasdeu.pprog2_p_final.adapters.RestaurantsAdapter;
 import com.example.lluismasdeu.pprog2_p_final.model.Restaurants;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +34,7 @@ import java.util.List;
 
 public class ListViewFragment extends Fragment {
     private ListView listView;
-    private RestaurantListViewAdapter adapter;
+    private RestaurantsAdapter adapter;
     JsonArrayRequest jsArrayRequest;
     List<Restaurants> list_tmp;
     private Spinner filtro;
@@ -90,7 +89,7 @@ public class ListViewFragment extends Fragment {
                             e.printStackTrace();
                         }
 
-                        adapter = new RestaurantListViewAdapter(list, getActivity());
+                        adapter = new RestaurantsAdapter(list, getActivity());
                         listView.setAdapter(adapter);}
 
                 },
@@ -141,7 +140,7 @@ public class ListViewFragment extends Fragment {
                     //usar mismo adapter
                     //vaciarlo
                     //notifyadapter
-                    adapter = new RestaurantListViewAdapter(list_tmp, getActivity());
+                    adapter = new RestaurantsAdapter(list_tmp, getActivity());
                     adapter.notifyDataSetChanged();
                     listView.setAdapter(adapter);
                 }

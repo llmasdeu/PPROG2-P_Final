@@ -57,7 +57,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
 
             case R.id.action_favorite:
                 //intent para ingresar a favoritos
-                Intent intentFavorite = new Intent(this, FavoriteActivity.class);
+                Intent intentFavorite = new Intent(this, FavoritesActivity.class);
                 startActivity(intentFavorite);
                 break;
 

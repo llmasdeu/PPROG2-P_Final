@@ -1,15 +1,12 @@
 package com.example.lluismasdeu.pprog2_p_final.activities;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,10 +31,10 @@ import com.example.lluismasdeu.pprog2_p_final.utils.GeneralUtilities;
  * @author Lluís Masdeu
  */
 public class RegisterActivity extends AppCompatActivity {
-    private static final String TAG = "RegisterActivity";
     private DatabaseManagementInterface dbManagement;
 
     // Constantes
+    private static final String TAG = "RegisterActivity";
     private static final int TAKE_PICTURE = 1;
 
     // Componentes
@@ -155,9 +152,19 @@ public class RegisterActivity extends AppCompatActivity {
         } else {
             String imageFile = getImageFileName(), gender = getGender();
 
-            // Guardamos la imagen de perfil.
-            GeneralUtilities.saveProfilePicture(((BitmapDrawable) profileImageView.getDrawable())
-                    .getBitmap(), imageFile);
+            // Comprobamos si los permisos de lectura/escritura en el almacenamiento externo se
+            // encuentran habilitados.
+            if (ActivityCompat.checkSelfPermission(
+                    this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED ||
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                imageFile = null;
+            } else {
+                // Guardamos la imagen de perfil.
+                GeneralUtilities.saveProfilePicture(((BitmapDrawable) profileImageView.getDrawable())
+                        .getBitmap(), imageFile);
+            }
 
             User newUser = new User(String.valueOf(nameEditText.getText()),
                     String.valueOf(surnameEditText.getText()),

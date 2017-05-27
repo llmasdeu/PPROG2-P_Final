@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.List;
 
 
-public class TabAdapter extends FragmentPagerAdapter {
+public class TabsAdapter extends FragmentPagerAdapter {
 
     public static class TabEntry {
         private Fragment fragment;
@@ -33,7 +33,7 @@ public class TabAdapter extends FragmentPagerAdapter {
     private List<TabEntry> entries;
 
 
-    public TabAdapter(FragmentManager fm, List<TabEntry> entries) {
+    public TabsAdapter(FragmentManager fm, List<TabEntry> entries) {
         super(fm);
         this.entries = entries;
     }

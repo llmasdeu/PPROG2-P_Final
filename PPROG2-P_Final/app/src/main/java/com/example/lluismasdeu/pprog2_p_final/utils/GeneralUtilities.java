@@ -51,26 +51,24 @@ public class GeneralUtilities {
      * @return Imagen de perfil por defecto decodificada.
      */
     public static Bitmap getDefaultProfilePhoto() {
-        Bitmap defaultImage = null;
-        InputStream inputStream = null;
+        Bitmap defaultImage;
 
         try {
+            Log.d(TAG, "getDefaultProfilePhoto: 1");
             // Cargamos el recurso.
             AssetManager assetManager = context.getAssets();
-            inputStream = assetManager.open(DEFAULT_PHOTO);
+            Log.d(TAG, "getDefaultProfilePhoto: 2");
+            InputStream inputStream = assetManager.open(DEFAULT_PHOTO);
+            Log.d(TAG, "getDefaultProfilePhoto: 3");
 
             // Decodificamos la imagen, y la colocamos en el componente.
             defaultImage = BitmapFactory.decodeStream(inputStream);
 
+            // Cerramos
+            inputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                inputStream.close();
-                inputStream = null;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            defaultImage = null;
         }
 
         return defaultImage;

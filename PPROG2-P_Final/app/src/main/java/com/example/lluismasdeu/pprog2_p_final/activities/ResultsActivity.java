@@ -7,7 +7,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -18,12 +17,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lluismasdeu.pprog2_p_final.R;
-import com.example.lluismasdeu.pprog2_p_final.adapters.TabAdapter;
+import com.example.lluismasdeu.pprog2_p_final.adapters.TabsAdapter;
 import com.example.lluismasdeu.pprog2_p_final.fragments.ListViewFragment;
 import com.example.lluismasdeu.pprog2_p_final.fragments.ListViewFragmentOpen;
 import org.json.JSONArray;
 import org.json.JSONException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ResultsActivity extends AppCompatActivity {
 
@@ -91,7 +91,7 @@ public class ResultsActivity extends AppCompatActivity {
     }
     //Intent para Favorite Activity
     public void onClickFavorite(View view){
-        Intent intent=new Intent(this,FavoriteActivity.class);
+        Intent intent=new Intent(this,FavoritesActivity.class);
         startActivity(intent);
     }
     private void createTabs() {
@@ -100,11 +100,11 @@ public class ResultsActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
 
-        ArrayList<TabAdapter.TabEntry> entries = new ArrayList<>();
-        entries.add(new TabAdapter.TabEntry(new ListViewFragment(), getString(R.string.all)));
-        entries.add(new TabAdapter.TabEntry(new ListViewFragmentOpen(), getString(R.string.only_open)));
+        List<TabsAdapter.TabEntry> entries = new ArrayList<>();
+        entries.add(new TabsAdapter.TabEntry(new ListViewFragment(), getString(R.string.all)));
+        entries.add(new TabsAdapter.TabEntry(new ListViewFragmentOpen(), getString(R.string.only_open)));
 
-        TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), entries);
+        TabsAdapter adapter = new TabsAdapter(getSupportFragmentManager(), entries);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
