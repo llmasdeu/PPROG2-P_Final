@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.adapters.TabAdapter;
@@ -27,6 +28,10 @@ public class FavoriteActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         createTabs();
     }
+    public void onClickFavorite(View view){
+        Intent intent=new Intent(this,ProfileActivity.class);
+        startActivity(intent);
+    }
     private void createTabs() {
 
 
@@ -34,8 +39,8 @@ public class FavoriteActivity extends AppCompatActivity {
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager_favorite);
 
         ArrayList<TabAdapter.TabEntry> entries = new ArrayList<>();
-        entries.add(new TabAdapter.TabEntry(new ListViewFavoriteFragment(), "All"));
-       entries.add(new TabAdapter.TabEntry(new ListViewFavoriteOpenFragment(), "Only open"));
+        entries.add(new TabAdapter.TabEntry(new ListViewFavoriteFragment(), getString(R.string.all)));
+       entries.add(new TabAdapter.TabEntry(new ListViewFavoriteOpenFragment(), getString(R.string.only_open)));
 
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), entries);
         viewPager.setAdapter(adapter);

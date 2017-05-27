@@ -31,7 +31,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_profile"
-                android:id="@+id/profile_imageView"/>
+                android:id="@+id/profile_imageView"
+                android:onClick="onClickFavorite"/>
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>

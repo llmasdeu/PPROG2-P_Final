@@ -256,7 +256,8 @@ public class SearchActivity extends AppCompatActivity {
             String prueba=searchEditText.getText().toString();
             // Reiniciamos la interfaz gráfica.
             resetFields();
-
+            prueba=prueba.replace(" ","%20");
+            Log.d("bla",prueba);
             // Accedemos a la actividad de resultados.
             Intent intent = new Intent(this, ResultsActivity.class);
 

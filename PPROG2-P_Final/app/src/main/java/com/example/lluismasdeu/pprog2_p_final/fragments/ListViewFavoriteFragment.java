@@ -1,14 +1,18 @@
 package com.example.lluismasdeu.pprog2_p_final.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
+import com.example.lluismasdeu.pprog2_p_final.activities.DescriptionActivity;
 import com.example.lluismasdeu.pprog2_p_final.adapters.FavoriteAdapter;
 import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
@@ -35,9 +39,26 @@ public class ListViewFavoriteFragment extends Fragment {
         databaseManagementInterface=new DatabaseManagement(getActivity());
         list=(databaseManagementInterface.getAllFavorite());
         favoriteAdapter=new FavoriteAdapter(list,getActivity());
-       listView.setAdapter(favoriteAdapter);
+        listView.setAdapter(favoriteAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                TextView temp = (TextView) view.findViewById(R.id.titulo_textView);
+
+                String str = temp.getText().toString();
+
+                updateDetail(str);
+            }
+        });
 
         return view;
+
     }
+    public void updateDetail(String str) {
+        Intent intent = new Intent(getActivity(), DescriptionActivity.class);
+        intent.putExtra("name",str);
+        startActivity(intent);
+    }
+
 }

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
+import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
 import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
 import com.example.lluismasdeu.pprog2_p_final.utils.GeneralUtilities;
 
@@ -53,9 +54,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_profile:
+            case R.id.action_favorite:
                 // Intent para ingresar al perfil
-                Intent intentPerfil = new Intent(this, ProfileActivity.class);
+                Intent intentPerfil = new Intent(this, FavoriteActivity.class);
                 startActivity(intentPerfil);
                 break;
 

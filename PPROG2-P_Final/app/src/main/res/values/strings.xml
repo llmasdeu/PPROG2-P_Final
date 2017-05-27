@@ -52,6 +52,9 @@
     <string name="write_storage_permissions_denied_title">
         Write External Storage Permissions Not Granted
     </string>
+    <string name="all">All</string>
+    <string name="only_open">Only Open</string>
+    <string name="add_to_favorite">Added to favorite</string>
 
     <!-- String-Arrays de errores -->
     <string-array name="main_activity_messages">

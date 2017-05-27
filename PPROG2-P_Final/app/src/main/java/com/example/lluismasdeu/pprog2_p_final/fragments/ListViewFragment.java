@@ -123,7 +123,7 @@ public class ListViewFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
 
-                if("Filter"!=filtro.getSelectedItem()) {
+                if(getString(R.string.filter)!=filtro.getSelectedItem()) {
                     list_tmp=new ArrayList<>(list.size());
                     for(int w=0;w<list.size();w++){
                         if(filtro.getSelectedItem().equals(list.get(w).getType()))

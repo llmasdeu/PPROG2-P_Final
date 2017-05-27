@@ -45,7 +45,7 @@ public class ResultsActivity extends AppCompatActivity {
         searchParameter=getIntent().getStringExtra(SEARCH_RESULT_EXTRA);
 
         //llenamos spinner
-        types.add("Filter");
+        types.add(getString(R.string.filter));
         String url ="http://testapi-pprog2.azurewebsites.net/api/locations.php?method=getLocations&";
         RequestQueue queue = Volley.newRequestQueue(this);
         jsArrayRequest = new JsonArrayRequest(
@@ -101,8 +101,8 @@ public class ResultsActivity extends AppCompatActivity {
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
 
         ArrayList<TabAdapter.TabEntry> entries = new ArrayList<>();
-        entries.add(new TabAdapter.TabEntry(new ListViewFragment(), "All"));
-        entries.add(new TabAdapter.TabEntry(new ListViewFragmentOpen(), "Only open"));
+        entries.add(new TabAdapter.TabEntry(new ListViewFragment(), getString(R.string.all)));
+        entries.add(new TabAdapter.TabEntry(new ListViewFragmentOpen(), getString(R.string.only_open)));
 
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), entries);
         viewPager.setAdapter(adapter);

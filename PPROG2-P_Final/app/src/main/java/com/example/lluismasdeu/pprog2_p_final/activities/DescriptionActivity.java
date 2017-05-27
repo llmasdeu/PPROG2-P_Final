@@ -1,6 +1,7 @@
 package com.example.lluismasdeu.pprog2_p_final.activities;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -109,6 +112,17 @@ public class DescriptionActivity extends AppCompatActivity {
                 }
         );
         queue.add(jsArrayRequest);
+        databaseManagementInterface=new DatabaseManagement(this);
+        if(databaseManagementInterface.existFavorite(nombre))
+        {
+
+            favorite.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
+        }
+        else
+        {
+            favorite.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.errorMessageColor)));
+
+        }
 
         favorite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,11 +142,12 @@ public class DescriptionActivity extends AppCompatActivity {
                     favorite_list.setClose(close.getText().toString());
                     favorite_list.setType(type);
                     databaseManagementInterface.registerFavorite(favorite_list);
-
+                    favorite.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
                 }
                 else
               {
                   databaseManagementInterface.deleteFavorite(name.getText().toString());
+                  favorite.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.errorMessageColor)));
               }
 
 
@@ -177,5 +192,7 @@ public class DescriptionActivity extends AppCompatActivity {
         intent.putExtra("longitud",longitud.getText().toString());
         startActivity(intent);
     }
+
+
 
 }
