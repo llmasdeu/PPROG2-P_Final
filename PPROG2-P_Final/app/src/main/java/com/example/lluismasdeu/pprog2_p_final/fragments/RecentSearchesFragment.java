@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -51,6 +52,16 @@ public class RecentSearchesFragment extends Fragment {
         // Añadimos el adapter a la ListView
         recentSearchesListView.setAdapter(adapter);
 
+        //Listener para listView
+        recentSearchesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView tmp=(TextView) view.findViewById(R.id.recentSearch_textView);
+                String name_tmp=tmp.getText().toString();
+                name_tmp=name_tmp.replace(" ","%20");
+                updateDetail(name_tmp);
+            }
+        });
         return view;
     }
 
@@ -58,5 +69,11 @@ public class RecentSearchesFragment extends Fragment {
         this.recentSearchesList = recentSearchesList;
 
         adapter = new RecentSearchesAdapter(context, recentSearchesList);
+    }
+    //Intent de listview hacia resultados
+    public void updateDetail(String str) {
+        Intent intent = new Intent(getActivity(), ResultsActivity.class);
+        intent.putExtra("search_result","s="+str);
+        startActivity(intent);
     }
 }

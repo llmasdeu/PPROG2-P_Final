@@ -14,7 +14,8 @@ import android.widget.TextView;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.activities.DescriptionActivity;
-import com.example.lluismasdeu.pprog2_p_final.adapters.FavoriteAdapter;
+import com.example.lluismasdeu.pprog2_p_final.activities.ResultsActivity;
+import com.example.lluismasdeu.pprog2_p_final.adapters.FavoritesAdapter;
 import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
@@ -30,7 +31,7 @@ import java.util.List;
 
 public class ListViewFavoriteOpenFragment extends Fragment {
     private ListView listView;
-    private FavoriteAdapter favoriteAdapter;
+    private FavoritesAdapter favoriteAdapter;
     List<Favorite> list;
     List<Favorite> list_tmp;
     DatabaseManagementInterface databaseManagementInterface;
@@ -56,7 +57,7 @@ public class ListViewFavoriteOpenFragment extends Fragment {
                 }
 
             }
-            favoriteAdapter=new FavoriteAdapter(list_tmp,getActivity());
+            favoriteAdapter=new FavoritesAdapter(list_tmp,getActivity());
            listView.setAdapter(favoriteAdapter);
 
         }

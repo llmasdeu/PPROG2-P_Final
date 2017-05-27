@@ -9,19 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.example.lluismasdeu.pprog2_p_final.R;
-<<<<<<< Updated upstream
 import com.example.lluismasdeu.pprog2_p_final.activities.DescriptionActivity;
-import com.example.lluismasdeu.pprog2_p_final.adapters.FavoriteAdapter;
-=======
 import com.example.lluismasdeu.pprog2_p_final.adapters.FavoritesAdapter;
->>>>>>> Stashed changes
 import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,8 +28,11 @@ import java.util.List;
 public class ListViewFavoriteFragment extends Fragment {
     private ListView listView;
     private FavoritesAdapter favoritesAdapter;
+    private FavoritesAdapter adapter;
     List<Favorite> list;
     DatabaseManagementInterface databaseManagementInterface;
+    List<Favorite> list_tmp;
+    Spinner filtro;
 
     @Nullable
     @Override
@@ -42,22 +42,50 @@ public class ListViewFavoriteFragment extends Fragment {
         listView=(ListView) view.findViewById(R.id.listview_favorite);
         databaseManagementInterface=new DatabaseManagement(getActivity());
         list=(databaseManagementInterface.getAllFavorite());
-<<<<<<< Updated upstream
-        favoriteAdapter=new FavoriteAdapter(list,getActivity());
-        listView.setAdapter(favoriteAdapter);
+        filtro=(Spinner) getActivity().findViewById(R.id.menuSort) ;
+        favoritesAdapter=new FavoritesAdapter(list,getActivity());
+        listView.setAdapter(favoritesAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-=======
-        favoritesAdapter =new FavoritesAdapter(list,getActivity());
        listView.setAdapter(favoritesAdapter);
->>>>>>> Stashed changes
 
                 TextView temp = (TextView) view.findViewById(R.id.titulo_textView);
 
                 String str = temp.getText().toString();
 
                 updateDetail(str);
+            }
+        });
+        filtro.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                if(getString(R.string.filter)!=filtro.getSelectedItem()) {
+                    list_tmp=new ArrayList<>(list.size());
+                    for(int w=0;w<list.size();w++){
+                        if(filtro.getSelectedItem().equals(list.get(w).getType()))
+                        {
+                            Favorite tmp_rest= new Favorite();
+                            tmp_rest.setName(list.get(w).getName());
+                            tmp_rest.setAddress(list.get(w).getAddress());
+                            tmp_rest.setRate(list.get(w).getRate());
+                            list_tmp.add(tmp_rest);
+
+                        }
+
+                    }
+                    adapter = new FavoritesAdapter(list_tmp,getActivity());
+                    adapter.notifyDataSetChanged();
+                    listView.setAdapter(adapter);
+                }
+
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 

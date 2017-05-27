@@ -1,36 +1,52 @@
 package com.example.lluismasdeu.pprog2_p_final.activities;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-<<<<<<< Updated upstream
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-=======
->>>>>>> Stashed changes
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.adapters.TabsAdapter;
 import com.example.lluismasdeu.pprog2_p_final.fragments.ListViewFavoriteFragment;
-<<<<<<< Updated upstream
 import com.example.lluismasdeu.pprog2_p_final.fragments.ListViewFavoriteOpenFragment;
-import com.example.lluismasdeu.pprog2_p_final.fragments.ListViewFragment;
-import com.example.lluismasdeu.pprog2_p_final.fragments.ListViewFragmentOpen;
-=======
->>>>>>> Stashed changes
+import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
+import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
+import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FavoritesActivity extends AppCompatActivity {
+
+    Spinner filter;
+    ArrayList<String> types=new ArrayList<String>();
+    DatabaseManagementInterface databaseManagementInterface;
+    List<Favorite> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
         getSupportActionBar().hide();
+        filter=(Spinner) findViewById(R.id.menuSort);
+        databaseManagementInterface=new DatabaseManagement(this);
+        list=(databaseManagementInterface.getAllFavorite());
+        types.add(getString(R.string.filter));
+        for (int i=0;i<list.size();i++)
+        {
+            if(!types.contains(list.get(i).getType()))
+            {
+
+                types.add(list.get(i).getType());
+            }
+        }
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,types);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filter.setAdapter(adapter);
         createTabs();
     }
     public void onClickFavorite(View view){
@@ -43,15 +59,10 @@ public class FavoritesActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs_favorite);
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager_favorite);
 
-<<<<<<< Updated upstream
-        ArrayList<TabAdapter.TabEntry> entries = new ArrayList<>();
-        entries.add(new TabAdapter.TabEntry(new ListViewFavoriteFragment(), getString(R.string.all)));
-       entries.add(new TabAdapter.TabEntry(new ListViewFavoriteOpenFragment(), getString(R.string.only_open)));
-=======
         ArrayList<TabsAdapter.TabEntry> entries = new ArrayList<>();
-        entries.add(new TabsAdapter.TabEntry(new ListViewFavoriteFragment(), "All"));
-       // entries.add(new TabsAdapter.TabEntry(new ListViewFragmentOpen(), "Only open"));
->>>>>>> Stashed changes
+        entries.add(new TabsAdapter.TabEntry(new ListViewFavoriteFragment(), getString(R.string.all)));
+       entries.add(new TabsAdapter.TabEntry(new ListViewFavoriteOpenFragment(), getString(R.string.only_open)));
+
 
         TabsAdapter adapter = new TabsAdapter(getSupportFragmentManager(), entries);
         viewPager.setAdapter(adapter);

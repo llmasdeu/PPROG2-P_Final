@@ -250,12 +250,14 @@ public class SearchActivity extends AppCompatActivity {
             // Mostramos mensaje
             Toast.makeText(this, messages[2], Toast.LENGTH_SHORT).show();
 
-
+            //Guardamos textview y eliminamos espacios
             String prueba=searchEditText.getText().toString();
+            prueba=prueba.replace(" ","%20");
+
             // Reiniciamos la interfaz gráfica.
             resetFields();
-            prueba=prueba.replace(" ","%20");
-            Log.d("bla",prueba);
+
+
             // Accedemos a la actividad de resultados.
             Intent intent = new Intent(this, ResultsActivity.class);
 
