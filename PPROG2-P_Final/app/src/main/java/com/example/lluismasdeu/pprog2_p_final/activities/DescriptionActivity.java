@@ -43,6 +43,7 @@ public class DescriptionActivity extends AppCompatActivity {
     TextView description;
     FloatingActionButton favorite;
     Favorite favorite_list;
+    String type;
     User user;
     private DatabaseManagementInterface databaseManagementInterface;
     @Override
@@ -86,7 +87,7 @@ public class DescriptionActivity extends AppCompatActivity {
                                     close.setText(search.getJSONObject(i).getString("closing"));
                                     description.setText(search.getJSONObject(i).getString("description"));
                                     rating.setRating(Float.parseFloat(search.getJSONObject(i).getString("review")));
-
+                                    type=search.getJSONObject(i).getString("type");
                                     JSONObject location=new JSONObject( search.getJSONObject(i).getString("location"));
                                     longitud.setText(location.getString("lng"));
                                     latitud.setText(location.getString("lat"));
@@ -123,6 +124,9 @@ public class DescriptionActivity extends AppCompatActivity {
                     favorite_list.setAddress(address.getText().toString());
                     favorite_list.setRate(String.valueOf(rating.getRating()));
                     favorite_list.setId(1);
+                    favorite_list.setOpen(open.getText().toString());
+                    favorite_list.setClose(close.getText().toString());
+                    favorite_list.setType(type);
                     databaseManagementInterface.registerFavorite(favorite_list);
 
                 }

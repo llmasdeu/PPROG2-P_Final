@@ -44,6 +44,10 @@ public class DatabaseManagement implements DatabaseManagementInterface {
     private static final String ADDRESS_RESTAURANT_COLUMN = "address_restaurant";
     private static final String RATE_RESTAURANT_COLUMN = "rate_restaurant";
     private static final String ID_USER_COLUMN = "id_user";
+    private static final String TYPE_RESTAURANT_COLUMN = "type_restaurant";
+    private static final String OPEN_RESTAURANT_COLUMN = "open_restaurant";
+    private static final String CLOSE_RESTAURANT_COLUMN = "close_restaurant";
+
 
     /**
      * Constructor de la clase.
@@ -319,6 +323,9 @@ public class DatabaseManagement implements DatabaseManagementInterface {
         values.put(ADDRESS_RESTAURANT_COLUMN,favorite.getAddress());
         values.put(RATE_RESTAURANT_COLUMN, favorite.getRate());
         values.put(ID_USER_COLUMN, favorite.getId());
+        values.put(TYPE_RESTAURANT_COLUMN,favorite.getType());
+        values.put(OPEN_RESTAURANT_COLUMN,favorite.getOpen());
+        values.put(CLOSE_RESTAURANT_COLUMN,favorite.getClose());
 
 
         // Llevamos a cabo la inserción en la base de datos.
@@ -369,8 +376,11 @@ public class DatabaseManagement implements DatabaseManagementInterface {
                     String favoriteName = cursor.getString(cursor.getColumnIndex(NAME_RESTAURANT_COLUMN));
                     String favoriteAddress = cursor.getString(cursor.getColumnIndex(ADDRESS_RESTAURANT_COLUMN));
                     String favoriteRate = cursor.getString(cursor.getColumnIndex(RATE_RESTAURANT_COLUMN));
+                    String favoriteOpen=cursor.getString(cursor.getColumnIndex(OPEN_RESTAURANT_COLUMN));
+                    String favoriteClose=cursor.getString(cursor.getColumnIndex(CLOSE_RESTAURANT_COLUMN));
+                    String favoriteType=cursor.getString(cursor.getColumnIndex(TYPE_RESTAURANT_COLUMN));
                     int favoriteId= cursor.getInt(cursor.getColumnIndex(ID_USER_COLUMN));
-                    list.add(new Favorite(favoriteName, favoriteAddress,favoriteRate,favoriteId));
+                    list.add(new Favorite(favoriteName, favoriteAddress,favoriteRate,favoriteId,favoriteType,favoriteOpen,favoriteClose));
 
                 } while (cursor.moveToNext());
             }

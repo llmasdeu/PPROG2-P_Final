@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.adapters.TabAdapter;
 import com.example.lluismasdeu.pprog2_p_final.fragments.ListViewFavoriteFragment;
+import com.example.lluismasdeu.pprog2_p_final.fragments.ListViewFavoriteOpenFragment;
 import com.example.lluismasdeu.pprog2_p_final.fragments.ListViewFragment;
 import com.example.lluismasdeu.pprog2_p_final.fragments.ListViewFragmentOpen;
 
@@ -34,7 +35,7 @@ public class FavoriteActivity extends AppCompatActivity {
 
         ArrayList<TabAdapter.TabEntry> entries = new ArrayList<>();
         entries.add(new TabAdapter.TabEntry(new ListViewFavoriteFragment(), "All"));
-       // entries.add(new TabAdapter.TabEntry(new ListViewFragmentOpen(), "Only open"));
+       entries.add(new TabAdapter.TabEntry(new ListViewFavoriteOpenFragment(), "Only open"));
 
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager(), entries);
         viewPager.setAdapter(adapter);
