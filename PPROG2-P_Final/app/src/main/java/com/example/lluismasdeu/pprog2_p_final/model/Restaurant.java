@@ -6,20 +6,20 @@ import android.graphics.Bitmap;
  * Created by eloy on 10-05-2017.
  */
 
-public class Restaurants {
+public class Restaurant {
     private String name;
-    private String adress;
-    private String rate;
+    private String address;
+    private double rate;
     private Bitmap image;
     private String type;
 
-    public Restaurants(){
+    public Restaurant(){
 
     }
 
-    public Restaurants(String name, String adress, String rate, Bitmap image,String type) {
+    public Restaurant(String name, String address, double rate, Bitmap image, String type) {
         this.name = name;
-        this.adress = adress;
+        this.address = address;
         this.rate = rate;
         this.image = image;
         this.type=type;
@@ -33,20 +33,20 @@ public class Restaurants {
         this.image = image;
     }
 
-    public String getRate() {
+    public double getRate() {
         return rate;
     }
 
-    public void setRate(String rate) {
+    public void setRate(double rate) {
         this.rate = rate;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getName() {

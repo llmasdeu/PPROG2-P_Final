@@ -12,19 +12,14 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.activities.DescriptionActivity;
 import com.example.lluismasdeu.pprog2_p_final.activities.ResultsActivity;
 import com.example.lluismasdeu.pprog2_p_final.adapters.RestaurantsAdapter;
-import com.example.lluismasdeu.pprog2_p_final.model.Restaurants;
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.example.lluismasdeu.pprog2_p_final.model.Restaurant;
+import com.example.lluismasdeu.pprog2_p_final.model.webserviceResults.PlaceResult;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,10 +31,14 @@ public class ListViewFragment extends Fragment {
     private ListView listView;
     private RestaurantsAdapter adapter;
     JsonArrayRequest jsArrayRequest;
-    List<Restaurants> list_tmp;
+    List<Restaurant> list_tmp;
     private Spinner filtro;
-    List<Restaurants> list;
+    List<Restaurant> restaurantsList;
+    private List<PlaceResult> placeResults;
 
+    public ListViewFragment(List<PlaceResult> placeResults) {
+        this.placeResults = placeResults;
+    }
 
     @Nullable
     @Override
@@ -49,13 +48,27 @@ public class ListViewFragment extends Fragment {
         ResultsActivity activity = (ResultsActivity) getActivity();
         String searchParameter = activity.getMyData();
 
-        filtro=(Spinner) getActivity().findViewById(R.id.menuSort) ;
-
-        list=null;
+        filtro = (Spinner) getActivity().findViewById(R.id.menuSort) ;
 
         // Recuperamos el componente gráfico para poder asignarle un adapter.
         listView =(ListView) view.findViewById(R.id.listview);
 
+        restaurantsList = new ArrayList<Restaurant>();
+        Restaurant restaurant;
+
+        for (int i = 0; i < placeResults.size(); i++) {
+            restaurant = new Restaurant();
+            restaurant.setName(placeResults.get(i).getName());
+            restaurant.setType(placeResults.get(i).getType());
+            restaurant.setAddress(placeResults.get(i).getAddress());
+            restaurant.setRate(placeResults.get(i).getReview());
+            restaurantsList.add(restaurant);
+        }
+
+        adapter = new RestaurantsAdapter(restaurantsList, getActivity());
+        listView.setAdapter(adapter);
+
+        /*
         //Iniciamos  coneccion con web service mediante volley
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
@@ -72,15 +85,15 @@ public class ListViewFragment extends Fragment {
 
                         try {
                             JSONArray search = response;
-                            list = new ArrayList<>(search.length());
+                            restaurantsList = new ArrayList<>(search.length());
                             for (int i = 0; i < search.length(); i++) {
 
-                                Restaurants restaurants = new Restaurants();
+                                Restaurant restaurants = new Restaurant();
                                 restaurants.setName(search.getJSONObject(i).getString("name"));
-                                restaurants.setAdress(search.getJSONObject(i).getString("address"));
+                                restaurants.setAddress(search.getJSONObject(i).getString("address"));
                                 restaurants.setRate(search.getJSONObject(i).getString("review"));
                                 restaurants.setType(search.getJSONObject(i).getString("type"));
-                                list.add(restaurants);
+                                restaurantsList.add(restaurants);
                             }
 
 
@@ -89,7 +102,7 @@ public class ListViewFragment extends Fragment {
                             e.printStackTrace();
                         }
 
-                        adapter = new RestaurantsAdapter(list, getActivity());
+                        adapter = new RestaurantsAdapter(restaurantsList, getActivity());
                         listView.setAdapter(adapter);}
 
                 },
@@ -101,6 +114,7 @@ public class ListViewFragment extends Fragment {
         );
 
         queue.add(jsArrayRequest);
+        */
 
 
         //Listener de listView
@@ -123,14 +137,14 @@ public class ListViewFragment extends Fragment {
 
 
                 if(getString(R.string.filter)!=filtro.getSelectedItem()) {
-                    list_tmp=new ArrayList<>(list.size());
-                    for(int w=0;w<list.size();w++){
-                        if(filtro.getSelectedItem().equals(list.get(w).getType()))
+                    list_tmp=new ArrayList<>(restaurantsList.size());
+                    for(int w = 0; w< restaurantsList.size(); w++){
+                        if(filtro.getSelectedItem().equals(restaurantsList.get(w).getType()))
                         {
-                            Restaurants tmp_rest= new Restaurants();
-                            tmp_rest.setName(list.get(w).getName());
-                            tmp_rest.setAdress(list.get(w).getAdress());
-                            tmp_rest.setRate(list.get(w).getRate());
+                            Restaurant tmp_rest= new Restaurant();
+                            tmp_rest.setName(restaurantsList.get(w).getName());
+                            tmp_rest.setAddress(restaurantsList.get(w).getAddress());
+                            tmp_rest.setRate(restaurantsList.get(w).getRate());
                             list_tmp.add(tmp_rest);
 
                         }

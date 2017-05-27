@@ -7,11 +7,21 @@ import com.google.gson.annotations.SerializedName;
  * @author Eloy Alberto López
  * @author Lluís Masdeu
  */
-public class Location {
+public class PlaceLocation {
     @SerializedName("lat")
     private double latitude;
     @SerializedName("lng")
     private double longitude;
+
+    /**
+     * Constructor de la clase.
+     * @param latitude Latitud de la localización.
+     * @param longitude Longitud de la localización.
+     */
+    public PlaceLocation(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
     /**
      * Getter de la latitud de la localización.

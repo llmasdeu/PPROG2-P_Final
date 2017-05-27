@@ -8,12 +8,35 @@ package com.example.lluismasdeu.pprog2_p_final.model.webserviceResults;
 public class PlaceResult {
     private String name;
     private String type;
-    private Location location;
+    private PlaceLocation location;
     private String address;
     private String opening;
     private String closing;
     private double review;
     private String description;
+
+    /**
+     * Constructor de la clase.
+     * @param name Nombre de la localización.
+     * @param type Tipo de comida de la localización.
+     * @param location Coordenadas de la localización.
+     * @param address Dirección de la localización.
+     * @param opening Hora de apertura de la localización.
+     * @param closing Hora de clausura de la localización.
+     * @param review Valoración media de la localización.
+     * @param description Descripción de la localización.
+     */
+    public PlaceResult(String name, String type, PlaceLocation location, String address,
+                       String opening, String closing, double review, String description) {
+        this.name = name;
+        this.type = type;
+        this.location = location;
+        this.address = address;
+        this.opening = opening;
+        this.closing = closing;
+        this.review = review;
+        this.description = description;
+    }
 
     /**
      * Getter del nombre de la localización.
@@ -35,7 +58,7 @@ public class PlaceResult {
      * Getter de las coordenadas de la localización.
      * @return Coordenadas de la localización.
      */
-    public Location getLocation() {
+    public PlaceLocation getLocation() {
         return location;
     }
 

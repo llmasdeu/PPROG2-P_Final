@@ -21,7 +21,8 @@ import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.activities.DescriptionActivity;
 import com.example.lluismasdeu.pprog2_p_final.activities.ResultsActivity;
 import com.example.lluismasdeu.pprog2_p_final.adapters.RestaurantsAdapter;
-import com.example.lluismasdeu.pprog2_p_final.model.Restaurants;
+import com.example.lluismasdeu.pprog2_p_final.model.Restaurant;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import java.text.SimpleDateFormat;
@@ -39,9 +40,9 @@ public class ListViewFragmentOpen extends Fragment {
     private ListView listView;
     private RestaurantsAdapter adapter;
     JsonArrayRequest jsArrayRequest;
-    List<Restaurants> list;
+    List<Restaurant> list;
     private Spinner filtro;
-    List<Restaurants> list_tmp;
+    List<Restaurant> list_tmp;
 
     @Nullable
     @Override
@@ -77,14 +78,14 @@ public class ListViewFragmentOpen extends Fragment {
                             list = new ArrayList<>(search.length());
                             for (int i = 0; i < search.length(); i++) {
 
-                                Restaurants restaurants = new Restaurants();
+                                Restaurant restaurant = new Restaurant();
                                 if(datetime.compareTo(search.getJSONObject(i).getString("opening"))>=0 && datetime.compareTo(search.getJSONObject(i).getString("closing"))<=0)
                                 {
-                                    restaurants.setName(search.getJSONObject(i).getString("name"));
-                                    restaurants.setAdress(search.getJSONObject(i).getString("address"));
-                                    restaurants.setRate(search.getJSONObject(i).getString("review"));
-                                    restaurants.setType(search.getJSONObject(i).getString("type"));
-                                    list.add(restaurants);
+                                    restaurant.setName(search.getJSONObject(i).getString("name"));
+                                    restaurant.setAddress(search.getJSONObject(i).getString("address"));
+                                    restaurant.setRate(search.getJSONObject(i).getDouble("review"));
+                                    restaurant.setType(search.getJSONObject(i).getString("type"));
+                                    list.add(restaurant);
                                 }
 
                             }

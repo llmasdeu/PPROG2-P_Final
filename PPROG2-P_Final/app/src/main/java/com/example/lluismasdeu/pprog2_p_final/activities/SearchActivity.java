@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,7 +40,7 @@ import java.util.List;
  */
 public class SearchActivity extends AppCompatActivity {
     private static final String TAG = "SearchActivity";
-    private static final String SEARCH_RESULT_EXTRA = "search_result";
+    public static final String SEARCH_RESULT_EXTRA = "search_result";
 
     private DatabaseManagementInterface dbManagement;
     private EditText searchEditText;
@@ -53,8 +52,6 @@ public class SearchActivity extends AppCompatActivity {
     private EmptyRecentSearchesFragment emptyRecentSearchesFragment;
     private RecentSearchesFragment recentSearchesFragment;
     private int radiusKm;
-    private double latitude;
-    private double longitude;
 
     // Clase encargada de peticiones asíncronas.
     private class AsyncRequest extends AsyncTask<String, Void, JSONArray> {
@@ -248,8 +245,8 @@ public class SearchActivity extends AppCompatActivity {
         if (location == null) {
             Toast.makeText(this, messages[2], Toast.LENGTH_SHORT).show();
         } else {
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
 
             new AsyncRequest(this).execute(HttpRequestHelper.getInstance()
                     .generateHTTPLocationRequest(latitude, longitude, radiusKm));
@@ -330,27 +327,19 @@ public class SearchActivity extends AppCompatActivity {
             // Mostramos mensaje
             Toast.makeText(this, messages[3], Toast.LENGTH_SHORT).show();
 
+            //Guardamos textview y eliminamos espacios
+            String prueba=searchEditText.getText().toString();
+            prueba=prueba.replace(" ","%20");
+
+            // Reiniciamos la interfaz gráfica.
+            resetFields();
 
 
             // Accedemos a la actividad de resultados.
             Intent intent = new Intent(this, ResultsActivity.class);
-            String prueba=searchEditText.getText().toString();
 
-
-           if (prueba.equals(""))
-            {
-                intent.putExtra(SEARCH_RESULT_EXTRA,"lat="+latitude+"&lon="+longitude+"&dist="+radiusKm);
-
-            }
-            else
-           {
-               prueba=prueba.replace(" ","%20");
-               intent.putExtra(SEARCH_RESULT_EXTRA, "s="+prueba);
-           }
+            intent.putExtra(SEARCH_RESULT_EXTRA, response);
             startActivity(intent);
-
-            // Reiniciamos la interfaz gráfica.
-            resetFields();
         }
     }
 
