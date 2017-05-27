@@ -13,12 +13,12 @@ import com.example.lluismasdeu.pprog2_p_final.R;
  * Created by lluismasdeu on 13/5/17.
  */
 
-public class NoRecentSearchesFragment extends Fragment {
+public class EmptyRecentSearchesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_no_recent_searches, container,false);
+        View view = inflater.inflate(R.layout.fragment_empty_recent_searches, container,false);
 
         return view;
     }

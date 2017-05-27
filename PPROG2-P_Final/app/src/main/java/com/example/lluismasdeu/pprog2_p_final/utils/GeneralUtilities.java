@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by lluismasdeu on 6/5/17.
+ * Clase encargada de llevar a cabo tareas a lo largo de la aplicación.
+ * @author Eloy Alberto López
+ * @author Lluís Masdeu
  */
 public class GeneralUtilities {
     private static final String PROFILE_PICTURES_FOLDER = "/profile_images/";
@@ -47,38 +49,10 @@ public class GeneralUtilities {
     }
 
     /**
-     * Método encargado de obtener la imagen de perfil por defecto decodificada.
-     * @return Imagen de perfil por defecto decodificada.
-     */
-    public static Bitmap getDefaultProfilePhoto() {
-        Bitmap defaultImage;
-
-        try {
-            Log.d(TAG, "getDefaultProfilePhoto: 1");
-            // Cargamos el recurso.
-            AssetManager assetManager = context.getAssets();
-            Log.d(TAG, "getDefaultProfilePhoto: 2");
-            InputStream inputStream = assetManager.open(DEFAULT_PHOTO);
-            Log.d(TAG, "getDefaultProfilePhoto: 3");
-
-            // Decodificamos la imagen, y la colocamos en el componente.
-            defaultImage = BitmapFactory.decodeStream(inputStream);
-
-            // Cerramos
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            defaultImage = null;
-        }
-
-        return defaultImage;
-    }
-
-    /**
      * Método encargado de obtener el número de ficheros en la carpeta de imágenes.
      * @return Número de ficheros en la carpeta de imágenes.
      */
-    public static int getNumberPictures() {
+    public static int getNumberProfilePictures() {
         String directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath()
                 + PROFILE_PICTURES_FOLDER;
         File directory = new File(directoryPath);
@@ -130,7 +104,40 @@ public class GeneralUtilities {
         }
     }
 
-    public static Bitmap getImage(String imageFile) {
+    /**
+     * Método encargado de obtener la imagen de perfil por defecto decodificada.
+     * @return Imagen de perfil por defecto decodificada.
+     */
+    public static Bitmap getDefaultProfilePhoto() {
+        Bitmap defaultImage;
+
+        try {
+            Log.d(TAG, "getDefaultProfilePhoto: 1");
+            // Cargamos el recurso.
+            AssetManager assetManager = context.getAssets();
+            Log.d(TAG, "getDefaultProfilePhoto: 2");
+            InputStream inputStream = assetManager.open(DEFAULT_PHOTO);
+            Log.d(TAG, "getDefaultProfilePhoto: 3");
+
+            // Decodificamos la imagen, y la colocamos en el componente.
+            defaultImage = BitmapFactory.decodeStream(inputStream);
+
+            // Cerramos
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            defaultImage = null;
+        }
+
+        return defaultImage;
+    }
+
+    /**
+     * Método encargado de obtener la imagen de perfil indicada.
+     * @param imageFile Nombre de la imagen de perfil a buscar.
+     * @return Imagen de perfil decodificada.
+     */
+    public static Bitmap getProfilePhoto(String imageFile) {
         String directoryPath = Environment.getExternalStorageDirectory().getAbsolutePath()
                 + PROFILE_PICTURES_FOLDER;
         FileInputStream inputStream = null;

@@ -4,6 +4,8 @@
 
     <!-- Strings de la aplicación -->
     <string name="add_comment">Add comment</string>
+    <string name="added_to_favorite">Added to favorite</string>
+    <string name="all">All</string>
     <string name="camera_permissions_denied_message">
         Camera permissions have been denied. To enable them, go to Settings.
     </string>
@@ -24,6 +26,7 @@
     <string name="name">Name</string>
     <string name="nothing_to_show">Nothing to show.</string>
     <string name="ok">OK</string>
+    <string name="only_open">Only Open</string>
     <string name="opening">Opening:&#160;</string>
     <string name="password">Password</string>
     <string name="please_wait">Please wait&#8230;</string>
@@ -52,9 +55,6 @@
     <string name="write_storage_permissions_denied_title">
         Write External Storage Permissions Not Granted
     </string>
-    <string name="all">All</string>
-    <string name="only_open">Only Open</string>
-    <string name="add_to_favorite">Added to favorite</string>
 
     <!-- String-Arrays de errores -->
     <string-array name="main_activity_messages">
@@ -78,6 +78,7 @@
     <string-array name="search_activity_messages">
         <item>Error! Search field can\'t be blank</item>
         <item>There are no places matching your search</item>
+        <item>Error! There are issues with your current location</item>
         <item>Searched correctly</item>
     </string-array>
 </resources>

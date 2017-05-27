@@ -33,13 +33,11 @@ import java.io.InputStream;
  * @author Lluís Masdeu
  */
 public class MainActivity extends AppCompatActivity {
-    private DatabaseManagementInterface dbManagement;
-
-    // Constantes
+    private static final String TAG = "MainActivity";
     private static final String APP_LOGO = "app_logo.png";
     private static final int PERMISSIONS_ALL = 12345;
 
-    // Componentes
+    private DatabaseManagementInterface dbManagement;
     private ImageView logoImageView;
     private EditText usernameEditText;
     private EditText passwordEditText;

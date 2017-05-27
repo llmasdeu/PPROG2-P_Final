@@ -11,11 +11,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by eloy on 09-05-2017.
+ * Clase encargada de la gestión con el Webservice.
+ * @author Eloy Alberto López
+ * @author Lluís Masdeu
  */
-
 public class HttpRequestHelper {
-    // Constantes
+    private static final String TAG = "HttpRequestHelper";
     private static final String WEBSERVICE_URL =
             "http://testapi-pprog2.azurewebsites.net/api/locations.php?method=getLocations";
     private static final String WEBSERVICE_SEARCH_METHOD = "&s=";

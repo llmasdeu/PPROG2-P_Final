@@ -9,7 +9,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -31,13 +30,10 @@ import com.example.lluismasdeu.pprog2_p_final.utils.GeneralUtilities;
  * @author Lluís Masdeu
  */
 public class RegisterActivity extends AppCompatActivity {
-    private DatabaseManagementInterface dbManagement;
-
-    // Constantes
     private static final String TAG = "RegisterActivity";
     private static final int TAKE_PICTURE = 1;
 
-    // Componentes
+    private DatabaseManagementInterface dbManagement;
     private ImageView profileImageView;
     private EditText nameEditText;
     private EditText surnameEditText;
@@ -247,7 +243,7 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private String getImageFileName() {
         StringBuilder builder = new StringBuilder();
-        builder.append("img_").append(GeneralUtilities.getNumberPictures() + 1).append(".jpg");
+        builder.append("img_").append(GeneralUtilities.getNumberProfilePictures() + 1).append(".jpg");
 
         return builder.toString();
     }

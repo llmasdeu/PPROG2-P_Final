@@ -18,6 +18,8 @@ import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
 import com.example.lluismasdeu.pprog2_p_final.utils.GeneralUtilities;
 
 public class ProfileActivity extends AppCompatActivity {
+    private static final String TAG = "ProfileActivity";
+
     private ImageView profileImageView;
     private EditText nameEditText;
     private EditText surnameEditText;
@@ -87,7 +89,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         if (StaticValues.getInstance().getConnectedUser().getImageFile() != null) {
             image = GeneralUtilities.getInstance(this)
-                    .getImage(StaticValues.getInstance().getConnectedUser().getImageFile());
+                    .getProfilePhoto(StaticValues.getInstance().getConnectedUser().getImageFile());
         }
 
         if (image != null)

@@ -4,11 +4,12 @@ import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,10 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
-import com.example.lluismasdeu.pprog2_p_final.fragments.NoRecentSearchesFragment;
+import com.example.lluismasdeu.pprog2_p_final.fragments.EmptyRecentSearchesFragment;
 import com.example.lluismasdeu.pprog2_p_final.fragments.RecentSearchesFragment;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
+import com.example.lluismasdeu.pprog2_p_final.services.LocationService;
 import com.example.lluismasdeu.pprog2_p_final.utils.HttpRequestHelper;
 
 import org.json.JSONArray;
@@ -37,21 +39,21 @@ import java.util.List;
  * @author Lluís Masdeu
  */
 public class SearchActivity extends AppCompatActivity {
-    private static final String SEARCH_RESULT_EXTRA = "search_result";
     private static final String TAG = "SearchActivity";
-    private DatabaseManagementInterface dbManagement;
-    private int radiusKm;
+    private static final String SEARCH_RESULT_EXTRA = "search_result";
 
-    // Componentes y estructuras
+    private DatabaseManagementInterface dbManagement;
     private EditText searchEditText;
     private ImageButton clearImageButton;
     private SeekBar radiusSeekBar;
     private TextView radiusKmTextView;
     private ListView recentSearchesListView;
     private List<String> recentSearchesList;
-    private NoRecentSearchesFragment noRecentSearchesFragment;
+    private EmptyRecentSearchesFragment emptyRecentSearchesFragment;
     private RecentSearchesFragment recentSearchesFragment;
+    private int radiusKm;
 
+    // Clase encargada de peticiones asíncronas.
     private class AsyncRequest extends AsyncTask<String, Void, JSONArray> {
         private Context context;
         private ProgressDialog progressDialog;
@@ -87,7 +89,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     /**
-     * Método encaragado de llevar a cabo las tareas iniciales cuando se crea la actividad.
+     * Método encaragado de llevar a cabo las tareas cuando se crea la actividad.
      * @param savedInstanceState
      */
     @Override
@@ -148,10 +150,13 @@ public class SearchActivity extends AppCompatActivity {
         dbManagement = new DatabaseManagement(this);
 
         // Inicializamos los fragmentos.
-        noRecentSearchesFragment = new NoRecentSearchesFragment();
+        emptyRecentSearchesFragment = new EmptyRecentSearchesFragment();
         recentSearchesFragment = new RecentSearchesFragment(this);
     }
 
+    /**
+     * Método encargado de llevar a cabo las tareas cuando se inicia la actividad.
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -164,8 +169,15 @@ public class SearchActivity extends AppCompatActivity {
 
         // Actualizamos la lista de búsquedas recientes.
         updateRecentSearchesList();
+
+        // Inicializamos la clase encargada de gestionar la geolocalización.
+        LocationService locationService = LocationService.getInstance(getApplicationContext());
+        locationService.registerListeners(this);
     }
 
+    /**
+     * Método encargado de llevar a cabo las tareas cuando se reanuda la actividad.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -174,6 +186,43 @@ public class SearchActivity extends AppCompatActivity {
         updateRecentSearchesList();
     }
 
+    /**
+     * Método encargado de llevar a cabo las tareas cuando se para la actividad.
+     */
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        // Cerramos la clase encargada de gestionar la geolocalización.
+        LocationService locationService = LocationService.getInstance(getApplicationContext());
+        locationService.unregisterListeners();
+    }
+
+    /**
+     * Método encargado de guardar el estado actual de la actividad.
+     * @param outState
+     * @param outPersistentState
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    /**
+     * Método encargado de reestablecer el estado actual de la actividad.
+     * @param savedInstanceState
+     * @param persistentState
+     */
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+    }
+
+    /**
+     * Método encargado de añadir el menú en la actividad.
+     * @param menu Menú a añadir.
+     * @return CIERTO.
+     */
     public boolean onCreateOptionsMenu(Menu menu) {
         //Mostramos actionBar
         MenuInflater inflater = getMenuInflater();
@@ -182,25 +231,42 @@ public class SearchActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-    }
-
+    /**
+     * Método encargado de gestionar cuando el usuario pulsa el botón de búsqueda mediante
+     * geolocalización.
+     * @param view
+     */
     public void onLocationSearchButtonClick(View view) {
-        // TODO
+        String[] messages = getResources().getStringArray(R.array.search_activity_messages);
+
+        // Obtenemos la localización actual.
+        Location location = LocationService.getInstance(getApplicationContext()).getLocation();
+
+        if (location == null) {
+            Toast.makeText(this, messages[2], Toast.LENGTH_SHORT).show();
+        } else {
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+
+            new AsyncRequest(this).execute(HttpRequestHelper.getInstance()
+                    .generateHTTPLocationRequest(latitude, longitude, radiusKm));
+        }
     }
 
+    /**
+     * Método encargado de gestionar cuando el usuario pulsa el botón para borrar el campo de
+     * búsqueda.
+     * @param view
+     */
     public void onClearButtonClick(View view) {
         // Limpiamos el campo de búsqueda.
         searchEditText.setText("");
     }
 
+    /**
+     * Método encargado de gestionar cuando el usuario pulsa el botón para realizar la búsqueda.
+     * @param view
+     */
     public void onSearchButtonClick(View view) {
         String[] messages = getResources().getStringArray(R.array.search_activity_messages);
 
@@ -213,6 +279,11 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Método encargado de gestionar los ítems del menú.
+     * @param item
+     * @return CIERTO.
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_profile:
@@ -228,12 +299,18 @@ public class SearchActivity extends AppCompatActivity {
                 break;
 
             default:
+                // Nada.
                 break;
         }
 
         return true;
     }
 
+    /**
+     * Método encargado de gestionar la transición hacia la actividad de resultados.
+     * @param response Respuesta del Webservice.
+     * @param numResults Número de resultados.
+     */
     private void manageActivityTransition(String response, int numResults) {
         String[] messages = getResources().getStringArray(R.array.search_activity_messages);
 
@@ -248,7 +325,7 @@ public class SearchActivity extends AppCompatActivity {
                 dbManagement.registerRecentSearch(String.valueOf(searchEditText.getText()));
 
             // Mostramos mensaje
-            Toast.makeText(this, messages[2], Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, messages[3], Toast.LENGTH_SHORT).show();
 
             //Guardamos textview y eliminamos espacios
             String prueba=searchEditText.getText().toString();
@@ -266,6 +343,9 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Método encargado de actualizar el listado de las búsquedas recientes.
+     */
     private void updateRecentSearchesList() {
         recentSearchesList = dbManagement.getAllRecentSearches();
         recentSearchesFragment.setRecentSearchesList(recentSearchesList);
@@ -273,9 +353,9 @@ public class SearchActivity extends AppCompatActivity {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
         if (recentSearchesList == null) {
-            transaction.replace(R.id.recentSearches_frameLayout, noRecentSearchesFragment);
+            transaction.replace(R.id.recentSearches_frameLayout, emptyRecentSearchesFragment);
         } else if (recentSearchesList.isEmpty()) {
-            transaction.replace(R.id.recentSearches_frameLayout, noRecentSearchesFragment);
+            transaction.replace(R.id.recentSearches_frameLayout, emptyRecentSearchesFragment);
         } else {
             transaction.replace(R.id.recentSearches_frameLayout, recentSearchesFragment);
         }
@@ -283,6 +363,9 @@ public class SearchActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    /**
+     * Método encargado de limpiar los campos.
+     */
     private void resetFields() {
         searchEditText.setText("");
         radiusKm = 1;
