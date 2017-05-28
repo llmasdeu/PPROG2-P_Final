@@ -98,18 +98,18 @@ public class RecentSearchesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recent_searches, container, false);
-        View originalView = container.getRootView();
+        View rootView = container.getRootView();
 
         // Localizamos los componentes en el layout.
-        searchEditText = (EditText) originalView.findViewById(R.id.search_editText);
-        radiusSeekBar = (SeekBar) originalView.findViewById(R.id.radius_seekBar);
-        radiusKmTextView = (TextView) originalView.findViewById(R.id.radius_textView);
+        searchEditText = (EditText) rootView.findViewById(R.id.search_editText);
+        radiusSeekBar = (SeekBar) rootView.findViewById(R.id.radius_seekBar);
+        radiusKmTextView = (TextView) rootView.findViewById(R.id.radius_textView);
         recentSearchesListView = (ListView) view.findViewById(R.id.recentSearches_listView);
 
-        // Añadimos el adapter a la ListView
+        // Añadimos el adapter a la ListView.
         recentSearchesListView.setAdapter(adapter);
 
-        //Listener para listView
+        // Listener para la ListView.
         recentSearchesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
