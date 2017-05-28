@@ -10,12 +10,12 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -291,7 +291,7 @@ public class SearchActivity extends AppCompatActivity {
                 break;
 
             case R.id.action_favorite:
-                //intent para ingresar a favoritos
+                // Intent para ingresar a favoritos
                 Intent intentFavorite = new Intent(this, FavoritesActivity.class);
                 startActivity(intentFavorite);
                 break;
@@ -313,7 +313,7 @@ public class SearchActivity extends AppCompatActivity {
         String[] messages = getResources().getStringArray(R.array.search_activity_messages);
 
         if (numResults == 0) {
-            //Limpiamos el campo de búsqueda.
+            // Limpiamos el campo de búsqueda.
             searchEditText.setText("");
 
             Toast.makeText(this, messages[1], Toast.LENGTH_SHORT).show();
@@ -343,14 +343,21 @@ public class SearchActivity extends AppCompatActivity {
         recentSearchesFragment.setRecentSearchesList(recentSearchesList);
 
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.recentSearches_frameLayout, emptyRecentSearchesFragment);
+        Log.d(TAG, "updateRecentSearchesList: receantSearchesList.size() = " + recentSearchesList.size());
 
+        /*
         if (recentSearchesList == null) {
             transaction.replace(R.id.recentSearches_frameLayout, emptyRecentSearchesFragment);
-        } else if (recentSearchesList.isEmpty()) {
+        } else if (recentSearchesList.size() == 0) {
+            Log.d(TAG, "updateRecentSearchesList: changing view");
             transaction.replace(R.id.recentSearches_frameLayout, emptyRecentSearchesFragment);
         } else {
             transaction.replace(R.id.recentSearches_frameLayout, recentSearchesFragment);
         }
+        */
+        if (recentSearchesList.size() >= 1)
+            transaction.replace(R.id.recentSearches_frameLayout, recentSearchesFragment);
 
         transaction.commit();
     }

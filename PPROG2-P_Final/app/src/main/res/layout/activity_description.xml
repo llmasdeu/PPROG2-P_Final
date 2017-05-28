@@ -9,60 +9,69 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:id="@+id/coordinator">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/image_restorant"
-        android:src="@mipmap/ic_launcher"/>
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/favorite_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_favorite"
-        android:layout_gravity="bottom|end"
-        app:backgroundTint="@color/errorMessageColor"
-        app:layout_anchor="@id/image_restorant"
-        app:layout_anchorGravity="bottom|right|end" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/image_restorant"
+            android:src="@mipmap/ic_launcher"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/favorite_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_favorite"
+            android:layout_gravity="bottom|end"
+            app:backgroundTint="@color/errorMessageColor"
+            app:layout_anchor="@id/image_restorant"
+            app:layout_anchorGravity="bottom|right|end" />
     </android.support.design.widget.CoordinatorLayout>
+
     <ScrollView
         android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp"
         android:layout_below="@id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
+                android:id="@+id/text_name"
+                android:textSize="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/text_name"/>
+                android:layout_marginBottom="4dp"/>
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/text_latitud"
-                android:visibility="gone"
-                android:clickable="false"
-                />
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:clickable="false" />
+
+            <TextView
                 android:id="@+id/text_longitud"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
                 android:clickable="false"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" 
                 android:id="@+id/text_address"
                 android:layout_below="@id/text_name"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/text_open"
                 android:text="@string/opening"
-                android:layout_below="@id/text_address"
-                />
+                android:layout_below="@id/text_address" />
             <TextView
                 android:layout_below="@id/text_address"
                 android:layout_width="wrap_content"
@@ -83,13 +92,15 @@
                 android:id="@+id/text_close_hour"
                 android:layout_below="@id/text_address"
                 android:layout_toEndOf="@id/text_close"/>
+
             <RatingBar
                 android:id="@+id/resultRate_ratingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_open"
                 android:isIndicator="true"
-                android:numStars="5" />
+                android:numStars="5"
+                style="@style/customRatingBar"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
