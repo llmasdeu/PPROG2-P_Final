@@ -14,6 +14,7 @@ import com.example.lluismasdeu.pprog2_p_final.adapters.TabsAdapter;
 import com.example.lluismasdeu.pprog2_p_final.fragments.ListViewFavoriteFragment;
 import com.example.lluismasdeu.pprog2_p_final.fragments.ListViewFavoriteOpenFragment;
 import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
+import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
 
@@ -40,8 +41,11 @@ public class FavoritesActivity extends AppCompatActivity {
         {
             if(!types.contains(list.get(i).getType()))
             {
+                if(list.get(i).getUsername().equals(StaticValues.getInstance().getConnectedUser().getUsername()))
+                {
+                    types.add(list.get(i).getType());
+                }
 
-                types.add(list.get(i).getType());
             }
         }
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,types);

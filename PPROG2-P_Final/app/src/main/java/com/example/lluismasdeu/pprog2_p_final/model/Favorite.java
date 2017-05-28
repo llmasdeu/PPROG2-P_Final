@@ -12,30 +12,23 @@ public class Favorite {
     private String type;
     private String open;
     private String close;
-    private int id;
+    private String username;
 
     public Favorite()
     {
 
     }
 
-    public Favorite(String name, String address, String rate, int id,String type,String open,String close) {
+    public Favorite(String name, String address, String rate, String username,String type,String open,String close) {
         this.name = name;
         this.address = address;
         this.rate = rate;
-        this.id = id;
+        this.username =username;
         this.type=type;
         this.open=open;
         this.close=close;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getRate() {
         return rate;
@@ -83,5 +76,13 @@ public class Favorite {
 
     public void setClose(String close) {
         this.close = close;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

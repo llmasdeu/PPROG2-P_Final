@@ -17,6 +17,7 @@ import com.example.lluismasdeu.pprog2_p_final.activities.DescriptionActivity;
 import com.example.lluismasdeu.pprog2_p_final.activities.ResultsActivity;
 import com.example.lluismasdeu.pprog2_p_final.adapters.FavoritesAdapter;
 import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
+import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
 
@@ -50,10 +51,12 @@ public class ListViewFavoriteOpenFragment extends Fragment {
             for (int i = 0; i < list.size(); i++) {
                 Favorite favorite=new Favorite();
                 if (datetime.compareTo(list.get(i).getOpen()) >= 0 && datetime.compareTo(list.get(i).getClose()) <= 0) {
-                   favorite.setName(list.get(i).getName());
-                    favorite.setAddress(list.get(i).getAddress());
-                    favorite.setRate(list.get(i).getRate());
-                  list_tmp.add(favorite);
+                    if(list.get(i).getUsername().equals(StaticValues.getInstance().getConnectedUser().getUsername())) {
+                        favorite.setName(list.get(i).getName());
+                        favorite.setAddress(list.get(i).getAddress());
+                        favorite.setRate(list.get(i).getRate());
+                        list_tmp.add(favorite);
+                    }
                 }
 
             }

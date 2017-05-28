@@ -22,6 +22,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
+import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
 import com.example.lluismasdeu.pprog2_p_final.model.User;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
@@ -135,7 +136,7 @@ public class DescriptionActivity extends AppCompatActivity {
                     favorite_list.setName(name.getText().toString());
                     favorite_list.setAddress(address.getText().toString());
                     favorite_list.setRate(String.valueOf(rating.getRating()));
-                    favorite_list.setId(1);
+                    favorite_list.setUsername(StaticValues.getInstance().getConnectedUser().getUsername());
                     favorite_list.setOpen(open.getText().toString());
                     favorite_list.setClose(close.getText().toString());
                     favorite_list.setType(type);

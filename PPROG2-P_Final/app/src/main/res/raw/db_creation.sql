@@ -23,6 +23,6 @@ CREATE TABLE favorites(
     type_restaurant VARCHAR(255),
     open_restaurant VARCHAR(255),
     close_restaurant VARCHAR(255),
-    id_user INT
+    username_user VARCHAR(255)
 )
 

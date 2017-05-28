@@ -15,6 +15,7 @@ import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.activities.DescriptionActivity;
 import com.example.lluismasdeu.pprog2_p_final.adapters.FavoritesAdapter;
 import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
+import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
 
@@ -33,6 +34,7 @@ public class ListViewFavoriteFragment extends Fragment {
     DatabaseManagementInterface databaseManagementInterface;
     List<Favorite> list_tmp;
     Spinner filtro;
+    List<Favorite> list_favorite;
 
     @Nullable
     @Override
@@ -40,10 +42,20 @@ public class ListViewFavoriteFragment extends Fragment {
         View view = inflater.inflate(R.layout.listview_favorite, container, false);
         list=null;
         listView=(ListView) view.findViewById(R.id.listview_favorite);
+
+
         databaseManagementInterface=new DatabaseManagement(getActivity());
         list=(databaseManagementInterface.getAllFavorite());
         filtro=(Spinner) getActivity().findViewById(R.id.menuSort) ;
-        favoritesAdapter=new FavoritesAdapter(list,getActivity());
+        list_favorite=new ArrayList<>(list.size());
+        for(int i=0;i<list.size();i++)
+        {
+            if(list.get(i).getUsername().equals(StaticValues.getInstance().getConnectedUser().getUsername()))
+            {
+                list_favorite.add(list.get(i));
+            }
+        }
+        favoritesAdapter=new FavoritesAdapter(list_favorite,getActivity());
         listView.setAdapter(favoritesAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -63,14 +75,14 @@ public class ListViewFavoriteFragment extends Fragment {
 
 
                 if(getString(R.string.filter)!=filtro.getSelectedItem()) {
-                    list_tmp=new ArrayList<>(list.size());
-                    for(int w=0;w<list.size();w++){
-                        if(filtro.getSelectedItem().equals(list.get(w).getType()))
+                    list_tmp=new ArrayList<>(list_favorite.size());
+                    for(int w=0;w<list_favorite.size();w++){
+                        if(filtro.getSelectedItem().equals(list_favorite.get(w).getType()))
                         {
                             Favorite tmp_rest= new Favorite();
-                            tmp_rest.setName(list.get(w).getName());
-                            tmp_rest.setAddress(list.get(w).getAddress());
-                            tmp_rest.setRate(list.get(w).getRate());
+                            tmp_rest.setName(list_favorite.get(w).getName());
+                            tmp_rest.setAddress(list_favorite.get(w).getAddress());
+                            tmp_rest.setRate(list_favorite.get(w).getRate());
                             list_tmp.add(tmp_rest);
 
                         }
