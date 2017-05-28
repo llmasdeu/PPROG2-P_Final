@@ -11,20 +11,29 @@ import com.example.lluismasdeu.pprog2_p_final.R;
 
 import java.util.List;
 
-
 /**
- * Created by lluismasdeu on 13/5/17.
+ * Adapter de la ListView de las búsquedas recientes.
+ * @author Eloy Alberto López
+ * @author Lluís Masdeu
  */
-
 public class RecentSearchesAdapter extends BaseAdapter {
     private Context context;
     private List<String> recentSearchesList;
 
+    /**
+     * Constructor de la clase.
+     * @param context
+     * @param recentSearchesList
+     */
     public RecentSearchesAdapter(Context context, List<String> recentSearchesList) {
         this.context = context;
         this.recentSearchesList = recentSearchesList;
     }
 
+    /**
+     * Getter del número de entradas.
+     * @return Número de entradas.
+     */
     @Override
     public int getCount() {
         if (recentSearchesList == null)
@@ -33,16 +42,33 @@ public class RecentSearchesAdapter extends BaseAdapter {
         return recentSearchesList.size();
     }
 
+    /**
+     * Getter del objeto actual.
+     * @param position Posición actual.
+     * @return Objeto actual.
+     */
     @Override
     public Object getItem(int position) {
         return recentSearchesList.get(position);
     }
 
+    /**
+     * Getter del identificador del objeto actual.
+     * @param position Posición actual.
+     * @return Identificador del objeto actual.
+     */
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
+    /**
+     * Getter de la vista del objeto actual.
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return Vista del objeto actual.
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
