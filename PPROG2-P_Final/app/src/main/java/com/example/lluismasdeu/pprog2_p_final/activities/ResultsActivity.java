@@ -33,7 +33,6 @@ public class ResultsActivity extends AppCompatActivity {
     List<PlaceResult> openPlaceResults;
     List<String> types;
     private Spinner typesFilter;
-    private String searchParameter = "Search";
     private ResultsListFragment allPlacesFragment;
     private OpenResultsListFragment openPlacesFragment;
 
@@ -135,6 +134,8 @@ public class ResultsActivity extends AppCompatActivity {
 
             boolean flag;
 
+            types.add(getString(R.string.all));
+
             for (int i = 0; i < placeResults.size(); i++) {
                 flag = false;
 
@@ -149,9 +150,5 @@ public class ResultsActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public String getMyData() {
-        return searchParameter;
     }
 }

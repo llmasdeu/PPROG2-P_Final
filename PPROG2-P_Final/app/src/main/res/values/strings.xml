@@ -4,7 +4,7 @@
 
     <!-- Strings de la aplicación -->
     <string name="add_comment">Add comment</string>
-    <string name="added_to_favorite">Added to favorite</string>
+    <string name="added_to_favorite">Added to favorites</string>
     <string name="all">All</string>
     <string name="camera_permissions_denied_message">
         Camera permissions have been denied. To enable them, go to Settings.

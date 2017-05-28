@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.model.Restaurant;
+import com.example.lluismasdeu.pprog2_p_final.model.webserviceResults.PlaceResult;
 
 import java.util.List;
 
@@ -17,11 +18,11 @@ import java.util.List;
  * Created by eloy on 16-05-2017.
  */
 
-public class RestaurantsAdapter extends BaseAdapter {
-    private List<Restaurant> list;
+public class ResultsAdapter extends BaseAdapter {
+    private List<PlaceResult> list;
     private Context context;
 
-    public RestaurantsAdapter(List<Restaurant> list, Context context) {
+    public ResultsAdapter(List<PlaceResult> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -47,16 +48,15 @@ public class RestaurantsAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View itemView = inflater.inflate(R.layout.listview_cell_layout, parent, false);
-        Restaurant restaurant =list.get(position);
+        PlaceResult result = list.get(position);
 
         TextView title = (TextView) itemView.findViewById(R.id.titulo_textView);
-        title.setText((restaurant.getName()));
+        title.setText((result.getName()));
         TextView address = (TextView) itemView.findViewById(R.id.adrress_textView);
-        address.setText(restaurant.getAddress());
+        address.setText(result.getAddress());
 
-        RatingBar rate=(RatingBar) itemView.findViewById(R.id.rate_stars);
-        //rate.setRating(Float.parseFloat(restaurant.getRate()));
-
+        RatingBar rate = (RatingBar) itemView.findViewById(R.id.rate_stars);
+        rate.setRating((float) result.getReview());
 
         return itemView;
     }

@@ -19,16 +19,14 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.activities.DescriptionActivity;
-import com.example.lluismasdeu.pprog2_p_final.activities.ResultsActivity;
-import com.example.lluismasdeu.pprog2_p_final.adapters.RestaurantsAdapter;
+import com.example.lluismasdeu.pprog2_p_final.adapters.ResultsAdapter;
 import com.example.lluismasdeu.pprog2_p_final.model.Restaurant;
 import com.example.lluismasdeu.pprog2_p_final.model.webserviceResults.PlaceResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -39,12 +37,12 @@ import java.util.List;
 //Fragment para only open
 public class OpenResultsListFragment extends Fragment {
     private ListView listView;
-    private RestaurantsAdapter adapter;
+    private ResultsAdapter adapter;
     private List<PlaceResult> openPlaceResults;
-    JsonArrayRequest jsArrayRequest;
-    List<Restaurant> list;
-    private Spinner filtro;
-    List<Restaurant> list_tmp;
+    //JsonArrayRequest jsArrayRequest;
+    //List<Restaurant> list;
+    private Spinner typesFilter;
+    List<PlaceResult> resultsByType;
 
     public OpenResultsListFragment(List<PlaceResult> openPlaceResults) {
         this.openPlaceResults = openPlaceResults;
@@ -53,20 +51,26 @@ public class OpenResultsListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.listview_results, container, false);
+        View view = inflater.inflate(R.layout.fragment_results, container, false);
+        /*
         Calendar c = Calendar.getInstance();
         SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm");
         final String datetime = dateformat.format(c.getTime());
         ResultsActivity activity = (ResultsActivity) getActivity();
         String searchParameter = activity.getMyData();
+        */
 
-        filtro=(Spinner) getActivity().findViewById(R.id.menuSort);
+        typesFilter = (Spinner) getActivity().findViewById(R.id.menuSort);
 
-        list=null;
+        //list=null;
 
         // Recuperamos el componente gráfico para poder asignarle un adapter.
-        listView =(ListView) view.findViewById(R.id.listview);
+        listView = (ListView) view.findViewById(R.id.listview);
 
+        adapter = new ResultsAdapter(openPlaceResults, getActivity());
+        listView.setAdapter(adapter);
+
+        /*
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         String url ="http://testapi-pprog2.azurewebsites.net/api/locations.php?method=getLocations&";
 
@@ -102,7 +106,7 @@ public class OpenResultsListFragment extends Fragment {
                             e.printStackTrace();
                         }
 
-                        adapter = new RestaurantsAdapter(list, getActivity());
+                        adapter = new ResultsAdapter(list, getActivity());
                         listView.setAdapter(adapter);}
 
                 },
@@ -114,22 +118,45 @@ public class OpenResultsListFragment extends Fragment {
         );
 
         queue.add(jsArrayRequest);
-
-
-
+        */
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
                 TextView temp = (TextView) view.findViewById(R.id.titulo_textView);
-
                 String str = temp.getText().toString();
-
                 updateDetail(str);
             }
         });
 
+        // typesFilter para la lista mediante spinner
+        typesFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (getString(R.string.filter) != typesFilter.getSelectedItem()) {
+                    resultsByType = new ArrayList<PlaceResult>(openPlaceResults.size());
+
+                    if (typesFilter.getSelectedItem().equals(getString(R.string.all))) {
+                        resultsByType = openPlaceResults;
+                    } else {
+                        for (int w = 0; w < openPlaceResults.size(); w++) {
+                            if (typesFilter.getSelectedItem()
+                                    .equals(openPlaceResults.get(w).getType()))
+                                resultsByType.add(openPlaceResults.get(w));
+                        }
+                    }
+
+                    adapter = new ResultsAdapter(resultsByType, getActivity());
+                    adapter.notifyDataSetChanged();
+                    listView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         return view;
     }
