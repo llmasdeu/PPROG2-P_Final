@@ -27,7 +27,7 @@ import java.util.List;
  * Created by eloy on 16-05-2017.
  */
 
-public class ListViewFragment extends Fragment {
+public class ResultsListFragment extends Fragment {
     private ListView listView;
     private RestaurantsAdapter adapter;
     JsonArrayRequest jsArrayRequest;
@@ -36,7 +36,7 @@ public class ListViewFragment extends Fragment {
     List<Restaurant> restaurantsList;
     private List<PlaceResult> placeResults;
 
-    public ListViewFragment(List<PlaceResult> placeResults) {
+    public ResultsListFragment(List<PlaceResult> placeResults) {
         this.placeResults = placeResults;
     }
 

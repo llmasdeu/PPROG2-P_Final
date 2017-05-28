@@ -22,6 +22,7 @@ import com.example.lluismasdeu.pprog2_p_final.activities.DescriptionActivity;
 import com.example.lluismasdeu.pprog2_p_final.activities.ResultsActivity;
 import com.example.lluismasdeu.pprog2_p_final.adapters.RestaurantsAdapter;
 import com.example.lluismasdeu.pprog2_p_final.model.Restaurant;
+import com.example.lluismasdeu.pprog2_p_final.model.webserviceResults.PlaceResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,13 +37,18 @@ import java.util.List;
 
 
 //Fragment para only open
-public class ListViewFragmentOpen extends Fragment {
+public class OpenResultsListFragment extends Fragment {
     private ListView listView;
     private RestaurantsAdapter adapter;
+    private List<PlaceResult> openPlaceResults;
     JsonArrayRequest jsArrayRequest;
     List<Restaurant> list;
     private Spinner filtro;
     List<Restaurant> list_tmp;
+
+    public OpenResultsListFragment(List<PlaceResult> openPlaceResults) {
+        this.openPlaceResults = openPlaceResults;
+    }
 
     @Nullable
     @Override

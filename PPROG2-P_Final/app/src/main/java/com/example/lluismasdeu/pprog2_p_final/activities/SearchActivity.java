@@ -224,7 +224,7 @@ public class SearchActivity extends AppCompatActivity {
      * @return CIERTO.
      */
     public boolean onCreateOptionsMenu(Menu menu) {
-        //Mostramos actionBar
+        //Mostramos ActionBar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.action_bar, menu);
 
@@ -327,17 +327,11 @@ public class SearchActivity extends AppCompatActivity {
             // Mostramos mensaje
             Toast.makeText(this, messages[3], Toast.LENGTH_SHORT).show();
 
-            //Guardamos textview y eliminamos espacios
-            String prueba=searchEditText.getText().toString();
-            prueba=prueba.replace(" ","%20");
-
             // Reiniciamos la interfaz gráfica.
             resetFields();
 
-
             // Accedemos a la actividad de resultados.
             Intent intent = new Intent(this, ResultsActivity.class);
-
             intent.putExtra(SEARCH_RESULT_EXTRA, response);
             startActivity(intent);
         }
