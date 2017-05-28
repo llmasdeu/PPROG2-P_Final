@@ -40,6 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
     User user;
     List<User> list;
     DatabaseManagementInterface databaseManagementInterface;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -66,22 +67,22 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     // OnClick para guardar cambios
-    public void onSaveClick(View view)
-    {
+    public void onSaveClick(View view) {
         //TODO guardar imagen
        databaseManagementInterface=new DatabaseManagement(this);
 
         if(femaleRadioButton.isChecked()) {
-           //Falta agregar imagen
             // user = new User(nameEditText.getText().toString(), surnameEditText.getText().toString(),
              //       femaleRadioButton.getText().toString() ,descriptionEditText.getText().toString());
-        }
-      else if(maleRadioButton.isChecked())
-        {
-            //Falta Agregar imagen
+        } else if(maleRadioButton.isChecked()) {
         //    user = new User(nameEditText.getText().toString(), surnameEditText.getText().toString(),
         //            maleRadioButton.getText().toString() ,descriptionEditText.getText().toString());
         }
+
+        // Añadimos la imagen.
+        GeneralUtilities.saveProfilePicture(((BitmapDrawable) profileImageView.getDrawable())
+                .getBitmap(), StaticValues.getInstance().getConnectedUser().getImageFile());
+
        databaseManagementInterface.updateUser(user);
         Toast.makeText(this,getResources().getString(R.string.save),Toast.LENGTH_SHORT).show();
         setInformation();
