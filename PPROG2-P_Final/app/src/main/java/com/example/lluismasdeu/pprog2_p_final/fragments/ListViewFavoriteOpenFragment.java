@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.activities.DescriptionActivity;
-import com.example.lluismasdeu.pprog2_p_final.activities.ResultsActivity;
 import com.example.lluismasdeu.pprog2_p_final.adapters.FavoritesAdapter;
 import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
 import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
@@ -68,7 +66,7 @@ public class ListViewFavoriteOpenFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                TextView temp = (TextView) view.findViewById(R.id.titulo_textView);
+                TextView temp = (TextView) view.findViewById(R.id.resultTitle_textView);
 
                 String str = temp.getText().toString();
 

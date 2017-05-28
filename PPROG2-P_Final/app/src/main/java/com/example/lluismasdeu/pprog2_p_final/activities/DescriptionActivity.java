@@ -59,7 +59,7 @@ public class DescriptionActivity extends AppCompatActivity {
         open=(TextView) findViewById(R.id.text_open_hour);
         close=(TextView) findViewById(R.id.text_close_hour);
         description=(TextView) findViewById(R.id.text_description);
-        rating=(RatingBar)findViewById(R.id.rate_stars);
+        rating=(RatingBar)findViewById(R.id.resultRate_ratingBar);
         latitud=(TextView) findViewById(R.id.text_latitud);
         longitud=(TextView) findViewById(R.id.text_longitud);
         getSupportActionBar().setTitle("");

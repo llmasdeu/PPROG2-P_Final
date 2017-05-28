@@ -13,7 +13,7 @@
         android:src="@mipmap/ic_launcher"/>
 
     <TextView
-        android:id="@+id/titulo_textView"
+        android:id="@+id/resultTitle_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/listview_cell_image"
@@ -21,20 +21,20 @@
         android:textSize="20dp"/>
 
     <RatingBar
-        android:id="@+id/rate_stars"
+        android:id="@+id/resultRate_ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@id/titulo_textView"
-        android:layout_below="@+id/titulo_textView"
+        android:layout_alignStart="@id/resultTitle_textView"
+        android:layout_below="@+id/resultTitle_textView"
         android:isIndicator="true"
         android:numStars="5" />
 
     <TextView
-        android:layout_alignStart="@id/titulo_textView"
-        android:id="@+id/adrress_textView"
+        android:layout_alignStart="@id/resultTitle_textView"
+        android:id="@+id/resultAddress_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rate_stars"
+        android:layout_below="@id/resultRate_ratingBar"
         android:layout_alignParentEnd="true"
         android:textSize="20dp"/>
 

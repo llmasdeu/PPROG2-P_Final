@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.activities.DescriptionActivity;
-import com.example.lluismasdeu.pprog2_p_final.activities.ResultsActivity;
 import com.example.lluismasdeu.pprog2_p_final.adapters.ResultsAdapter;
 import com.example.lluismasdeu.pprog2_p_final.model.webserviceResults.PlaceResult;
 
@@ -53,7 +52,7 @@ public class ResultsListFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView temp = (TextView) view.findViewById(R.id.titulo_textView);
+                TextView temp = (TextView) view.findViewById(R.id.resultTitle_textView);
                 String str = temp.getText().toString();
                 updateDetail(str);
             }

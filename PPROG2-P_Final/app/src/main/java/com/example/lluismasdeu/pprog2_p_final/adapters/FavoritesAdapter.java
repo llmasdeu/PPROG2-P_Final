@@ -46,12 +46,12 @@ public class FavoritesAdapter extends BaseAdapter{
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.listview_favorite_cell, viewGroup, false);
         Favorite favorite=list.get(i);
-        TextView title = (TextView) itemView.findViewById(R.id.titulo_textView);
+        TextView title = (TextView) itemView.findViewById(R.id.resultTitle_textView);
         title.setText((favorite.getName()));
-        TextView address = (TextView) itemView.findViewById(R.id.adrress_textView);
+        TextView address = (TextView) itemView.findViewById(R.id.resultAddress_textView);
         address.setText(favorite.getAddress());
 
-        RatingBar rate=(RatingBar) itemView.findViewById(R.id.rate_stars);
+        RatingBar rate=(RatingBar) itemView.findViewById(R.id.resultRate_ratingBar);
         rate.setRating(Float.parseFloat(favorite.getRate()));
         return itemView;
     }

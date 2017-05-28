@@ -62,7 +62,7 @@ public class ListViewFavoriteFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
        listView.setAdapter(favoritesAdapter);
 
-                TextView temp = (TextView) view.findViewById(R.id.titulo_textView);
+                TextView temp = (TextView) view.findViewById(R.id.resultTitle_textView);
 
                 String str = temp.getText().toString();
 

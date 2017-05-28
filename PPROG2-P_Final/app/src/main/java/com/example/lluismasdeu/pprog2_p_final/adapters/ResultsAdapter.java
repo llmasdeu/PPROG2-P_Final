@@ -9,7 +9,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
-import com.example.lluismasdeu.pprog2_p_final.model.Restaurant;
 import com.example.lluismasdeu.pprog2_p_final.model.webserviceResults.PlaceResult;
 
 import java.util.List;
@@ -47,15 +46,15 @@ public class ResultsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View itemView = inflater.inflate(R.layout.listview_cell_layout, parent, false);
+        View itemView = inflater.inflate(R.layout.item_results, parent, false);
         PlaceResult result = list.get(position);
 
-        TextView title = (TextView) itemView.findViewById(R.id.titulo_textView);
+        TextView title = (TextView) itemView.findViewById(R.id.resultTitle_textView);
         title.setText((result.getName()));
-        TextView address = (TextView) itemView.findViewById(R.id.adrress_textView);
+        TextView address = (TextView) itemView.findViewById(R.id.resultAddress_textView);
         address.setText(result.getAddress());
 
-        RatingBar rate = (RatingBar) itemView.findViewById(R.id.rate_stars);
+        RatingBar rate = (RatingBar) itemView.findViewById(R.id.resultRate_ratingBar);
         rate.setRating((float) result.getReview());
 
         return itemView;

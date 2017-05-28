@@ -84,7 +84,7 @@
                 android:layout_below="@id/text_address"
                 android:layout_toEndOf="@id/text_close"/>
             <RatingBar
-                android:id="@+id/rate_stars"
+                android:id="@+id/resultRate_ratingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_open"
@@ -103,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/text_description"
-                android:layout_below="@id/rate_stars"/>
+                android:layout_below="@id/resultRate_ratingBar"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

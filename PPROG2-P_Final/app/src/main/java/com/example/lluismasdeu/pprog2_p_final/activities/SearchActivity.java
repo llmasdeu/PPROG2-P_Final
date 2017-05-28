@@ -44,7 +44,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private DatabaseManagementInterface dbManagement;
     private EditText searchEditText;
-    private ImageButton clearImageButton;
     private SeekBar radiusSeekBar;
     private TextView radiusKmTextView;
     private ListView recentSearchesListView;
@@ -101,7 +100,6 @@ public class SearchActivity extends AppCompatActivity {
 
         // Localizamos los componentes en el layout.
         searchEditText = (EditText) findViewById(R.id.search_editText);
-        clearImageButton = (ImageButton) findViewById(R.id.clear_imageButton);
         radiusSeekBar = (SeekBar) findViewById(R.id.radius_seekBar);
         radiusKmTextView = (TextView) findViewById(R.id.radius_textView);
         recentSearchesListView = (ListView) findViewById(R.id.recentSearches_listView);
