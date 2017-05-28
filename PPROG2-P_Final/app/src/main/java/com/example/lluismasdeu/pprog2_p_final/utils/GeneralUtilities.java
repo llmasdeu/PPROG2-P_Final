@@ -113,12 +113,9 @@ public class GeneralUtilities {
         Bitmap defaultImage;
 
         try {
-            Log.d(TAG, "getDefaultProfilePhoto: 1");
             // Cargamos el recurso.
             AssetManager assetManager = context.getAssets();
-            Log.d(TAG, "getDefaultProfilePhoto: 2");
             InputStream inputStream = assetManager.open(DEFAULT_PHOTO);
-            Log.d(TAG, "getDefaultProfilePhoto: 3");
 
             // Decodificamos la imagen, y la colocamos en el componente.
             defaultImage = BitmapFactory.decodeStream(inputStream);
