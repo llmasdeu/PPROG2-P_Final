@@ -1,5 +1,6 @@
 package com.example.lluismasdeu.pprog2_p_final.repositories;
 
+import com.example.lluismasdeu.pprog2_p_final.model.Comentaries;
 import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
 import com.example.lluismasdeu.pprog2_p_final.model.User;
 
@@ -24,4 +25,6 @@ public interface DatabaseManagementInterface {
     boolean existFavorite(String name);
     void deleteFavorite(String name);
     List<Favorite> getAllFavorite();
+    void addComentary(Comentaries c);
+    List<Comentaries> getAllComentaries();
 }

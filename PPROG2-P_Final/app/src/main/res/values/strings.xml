@@ -55,6 +55,7 @@
     <string name="write_storage_permissions_denied_title">
         Write External Storage Permissions Not Granted
     </string>
+    <string name="add_coment">Added comment</string>
 
     <!-- String-Arrays de errores -->
     <string-array name="main_activity_messages">

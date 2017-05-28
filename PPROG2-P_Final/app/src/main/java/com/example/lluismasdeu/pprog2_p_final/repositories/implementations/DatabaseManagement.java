@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.lluismasdeu.pprog2_p_final.model.Comentaries;
 import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
 import com.example.lluismasdeu.pprog2_p_final.model.User;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
@@ -26,6 +27,7 @@ public class DatabaseManagement implements DatabaseManagementInterface {
     private static final String SEARCHES_TABLE = "searches";
     private static final String USERS_TABLE = "users";
     private static final String FAVORITE_TABLE="favorites";
+    private static final String COMENTARY_TABLE="comentaries";
 
     // Nombres de las columnas.
     private static final String DESCRIPTION_COLUMN = "description";
@@ -48,6 +50,11 @@ public class DatabaseManagement implements DatabaseManagementInterface {
     private static final String OPEN_RESTAURANT_COLUMN = "open_restaurant";
     private static final String CLOSE_RESTAURANT_COLUMN = "close_restaurant";
 
+    //Nombres de las columnas tabla comentarios
+
+    private static final String NAME_COMENTARY_COLUMN="name_restaurant";
+    private static final String COMENTARY_RESTAURANT_COLUMN="comentary_restaurant";
+    private static final String USERNAME_COMENTARY_COLUMN="username_user";
 
     /**
      * Constructor de la clase.
@@ -381,6 +388,45 @@ public class DatabaseManagement implements DatabaseManagementInterface {
                     String favoriteType=cursor.getString(cursor.getColumnIndex(TYPE_RESTAURANT_COLUMN));
                     String favoriteUsername= cursor.getString(cursor.getColumnIndex(USERNAME_USER_COLUMN));
                     list.add(new Favorite(favoriteName, favoriteAddress,favoriteRate,favoriteUsername,favoriteType,favoriteOpen,favoriteClose));
+
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+
+        return list;
+    }
+
+    @Override
+    public void addComentary(Comentaries c) {
+        DatabaseHelper helper = DatabaseHelper.getInstance(context);
+        // Configuramos los valores de las distintas columnas.
+        ContentValues values = new ContentValues();
+        values.put(NAME_COMENTARY_COLUMN, c.getName());
+        values.put(COMENTARY_RESTAURANT_COLUMN,c.getComentary());
+        values.put(USERNAME_COMENTARY_COLUMN, c.getUsername());
+
+        // Llevamos a cabo la inserción en la base de datos.
+        helper.getWritableDatabase().insert(COMENTARY_TABLE, null, values);
+    }
+
+    @Override
+    public List<Comentaries> getAllComentaries() {
+        List<Comentaries> list=new ArrayList<>();
+        DatabaseHelper helper = DatabaseHelper.getInstance(context);
+
+        String[] selectColumns = null;
+
+        Cursor cursor = helper.getReadableDatabase().
+                query(COMENTARY_TABLE, selectColumns, null, null, null, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    String comentaryName = cursor.getString(cursor.getColumnIndex(NAME_COMENTARY_COLUMN));
+                    String comentaryComentary = cursor.getString(cursor.getColumnIndex(COMENTARY_RESTAURANT_COLUMN));
+                    String comentaryUsername = cursor.getString(cursor.getColumnIndex(USERNAME_USER_COLUMN));
+
+                    list.add(new Comentaries(comentaryName, comentaryUsername,comentaryComentary));
 
                 } while (cursor.moveToNext());
             }

@@ -11,8 +11,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,6 +24,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lluismasdeu.pprog2_p_final.R;
+import com.example.lluismasdeu.pprog2_p_final.adapters.ComentariesAdapter;
+import com.example.lluismasdeu.pprog2_p_final.model.Comentaries;
 import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
 import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
 import com.example.lluismasdeu.pprog2_p_final.model.User;
@@ -31,6 +36,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class DescriptionActivity extends AppCompatActivity {
@@ -46,13 +53,19 @@ public class DescriptionActivity extends AppCompatActivity {
     FloatingActionButton favorite;
     Favorite favorite_list;
     String type;
-    User user;
+    ListView listView;
+    EditText comentary;
+    List<Comentaries> list_comentaries;
+    List<Comentaries> list_tmp;
+    ComentariesAdapter comentariesAdapter;
+    Comentaries comentaries;
     private DatabaseManagementInterface databaseManagementInterface;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_description);
+        comentary=(EditText) findViewById(R.id.editText_Comentary);
         name=(TextView) findViewById(R.id.text_name);
         favorite=(FloatingActionButton) findViewById(R.id.favorite_button);
         address=(TextView) findViewById(R.id.text_address);
@@ -62,6 +75,7 @@ public class DescriptionActivity extends AppCompatActivity {
         rating=(RatingBar)findViewById(R.id.resultRate_ratingBar);
         latitud=(TextView) findViewById(R.id.text_latitud);
         longitud=(TextView) findViewById(R.id.text_longitud);
+        listView=(ListView) findViewById(R.id.listview_comentary);
         getSupportActionBar().setTitle("");
         //Recuperamos variable del intent
         final String nombre = getIntent().getStringExtra("name");
@@ -152,6 +166,21 @@ public class DescriptionActivity extends AppCompatActivity {
 
             }
         });
+        list_comentaries=(databaseManagementInterface.getAllComentaries());
+        if(!list_comentaries.isEmpty()) {
+            list_tmp= new ArrayList<>(list_comentaries.size());
+
+            for (int i = 0; i < list_comentaries.size(); i++) {
+
+                if (list_comentaries.get(i).getName().equals(nombre)) {
+
+                    list_tmp.add(list_comentaries.get(i));
+                }
+            }
+
+            comentariesAdapter = new ComentariesAdapter(list_tmp, this);
+            listView.setAdapter(comentariesAdapter);
+        }
 
     }
 
@@ -190,6 +219,20 @@ public class DescriptionActivity extends AppCompatActivity {
         intent.putExtra("latitud",latitud.getText().toString());
         intent.putExtra("longitud",longitud.getText().toString());
         startActivity(intent);
+    }
+    public void onClickSend(View view)
+    {
+        databaseManagementInterface= new DatabaseManagement(getApplicationContext());
+        comentaries=new Comentaries();
+        if(!comentary.getText().toString().equals(""))
+        {
+            comentaries.setName(name.getText().toString());
+            comentaries.setComentary(comentary.getText().toString());
+            comentaries.setUsername(StaticValues.getInstance().getConnectedUser().getUsername());
+            databaseManagementInterface.addComentary(comentaries);
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.add_coment),Toast.LENGTH_SHORT).show();
+            comentary.setText("");
+        }
     }
 
 

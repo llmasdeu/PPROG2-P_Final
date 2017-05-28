@@ -24,5 +24,11 @@ CREATE TABLE favorites(
     open_restaurant VARCHAR(255),
     close_restaurant VARCHAR(255),
     username_user VARCHAR(255)
-)
+);
+CREATE TABLE comentaries(
+    _id INT PRIMARY KEY,
+    name_restaurant VARCHAR(255),
+    comentary_restaurant VARCHAR(1000),
+    username_user VARCHAR(255)
+);
 

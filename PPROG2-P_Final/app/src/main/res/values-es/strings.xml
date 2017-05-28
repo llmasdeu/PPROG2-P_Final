@@ -59,6 +59,7 @@
     <string name="write_storage_permissions_denied_title">
         Permisos de escritura de almacenamiento externo denegados
     </string>
+    <string name="add_coment">Comentario agregado</string>
 
     <!-- String-Arrays de errores -->
     <string-array name="main_activity_messages">
