@@ -16,6 +16,25 @@ public class User {
     private String description;
     private String imageFile;
 
+
+
+    /**
+     * Constructor de la clase.
+     * @param name Nombre del usuario.
+     * @param surname Apellido del usuario.
+     * @param gender Género del usuario.
+     * @param description Descripción del usuario.
+     * @param imageFile Nombre del fichero de la imagen de perfil del usuario.
+     */
+    public User(String name, String surname,
+                String gender, String description,String imageFile) {
+
+        this.name = name;
+        this.surname = surname;
+        this.gender = gender;
+        this.description = description;
+        this.imageFile=imageFile;
+    }
     /**
      * Constructor de la clase.
      * @param username Nombre de usuario.

@@ -40,6 +40,7 @@
     </string>
     <string name="recent_searches">Recent Searches</string>
     <string name="register">Register</string>
+    <string name="save">Save</string>
     <string name="search">Search</string>
     <string name="search_hint">Search&#8230;</string>
     <string name="search_radius">Search radius</string>

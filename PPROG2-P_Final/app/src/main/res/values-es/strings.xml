@@ -43,6 +43,7 @@
     </string>
     <string name="recent_searches">Búsquedas Recientes</string>
     <string name="register">Registrar</string>
+    <string name="save">Guardar</string>
     <string name="search">Buscar</string>
     <string name="search_hint">Buscar&#8230;</string>
     <string name="search_radius">Radio de búsqueda</string>

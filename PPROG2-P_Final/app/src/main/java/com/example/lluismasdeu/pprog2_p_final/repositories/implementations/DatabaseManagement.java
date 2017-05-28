@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.lluismasdeu.pprog2_p_final.model.Comentaries;
 import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
+import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
 import com.example.lluismasdeu.pprog2_p_final.model.User;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.utils.DatabaseHelper;
@@ -111,7 +112,17 @@ public class DatabaseManagement implements DatabaseManagementInterface {
      */
     @Override
     public void updateUser(User u) {
-        // TODO
+        DatabaseHelper helper = DatabaseHelper.getInstance(context);
+        ContentValues values = new ContentValues();
+        values.put(NAME_COLUMN,u.getName());
+        values.put(SURNAME_COLUMN,u.getSurname());
+        values.put(GENDER_COLUMN,u.getGender());
+        values.put(DESCRIPTION_COLUMN,u.getDescription());
+        values.put(IMAGE_FILE_COLUMN,u.getImageFile());
+        String whereClause = USERNAME_COLUMN + "=?";
+        String[] whereArgs = {StaticValues.getInstance().getConnectedUser().getUsername()};
+        helper.getWritableDatabase().update(USERS_TABLE, values, whereClause, whereArgs);
+
     }
 
     /**
