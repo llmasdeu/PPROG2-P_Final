@@ -1,6 +1,5 @@
 package com.example.lluismasdeu.pprog2_p_final.activities;
 
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -22,8 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
-import com.example.lluismasdeu.pprog2_p_final.fragments.EmptyRecentSearchesFragment;
-import com.example.lluismasdeu.pprog2_p_final.fragments.RecentSearchesFragment;
+import com.example.lluismasdeu.pprog2_p_final.adapters.RecentSearchesAdapter;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
 import com.example.lluismasdeu.pprog2_p_final.services.LocationService;
@@ -31,6 +30,7 @@ import com.example.lluismasdeu.pprog2_p_final.utils.HttpRequestHelper;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,14 +42,15 @@ public class SearchActivity extends AppCompatActivity {
     private static final String TAG = "SearchActivity";
     public static final String SEARCH_RESULT_EXTRA = "search_result";
 
+    private Context context;
     private DatabaseManagementInterface dbManagement;
+    private RecentSearchesAdapter adapter;
     private EditText searchEditText;
     private SeekBar radiusSeekBar;
     private TextView radiusKmTextView;
+    private TextView nothingToShowTextView;
     private ListView recentSearchesListView;
     private List<String> recentSearchesList;
-    private EmptyRecentSearchesFragment emptyRecentSearchesFragment;
-    private RecentSearchesFragment recentSearchesFragment;
     private int radiusKm;
 
     // Clase encargada de peticiones asíncronas.
@@ -102,6 +103,7 @@ public class SearchActivity extends AppCompatActivity {
         searchEditText = (EditText) findViewById(R.id.search_editText);
         radiusSeekBar = (SeekBar) findViewById(R.id.radius_seekBar);
         radiusKmTextView = (TextView) findViewById(R.id.radius_textView);
+        nothingToShowTextView = (TextView) findViewById(R.id.nothingToShow_textView);
         recentSearchesListView = (ListView) findViewById(R.id.recentSearches_listView);
 
         // Añadimos el listener a la SeekBar.
@@ -144,12 +146,24 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        // Guardamos el contexto.
+        context = this;
+
+        // Inicializamos el adapter, y lo añadimos el adapter a la ListView.
+        adapter = new RecentSearchesAdapter(this, new ArrayList<String>());
+        recentSearchesListView.setAdapter(adapter);
+
+        // Listener para la ListView.
+        recentSearchesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                new AsyncRequest(context).execute(HttpRequestHelper.getInstance()
+                        .generateHTTPSearchRequest(recentSearchesList.get(i)));
+            }
+        });
+
         // Inicializamos el gestor de la base de datos.
         dbManagement = new DatabaseManagement(this);
-
-        // Inicializamos los fragmentos.
-        emptyRecentSearchesFragment = new EmptyRecentSearchesFragment();
-        recentSearchesFragment = new RecentSearchesFragment(this);
     }
 
     /**
@@ -312,7 +326,7 @@ public class SearchActivity extends AppCompatActivity {
     private void manageActivityTransition(String response, int numResults) {
         String[] messages = getResources().getStringArray(R.array.search_activity_messages);
 
-        if (numResults == 0) {
+        if (numResults <= 0) {
             // Limpiamos el campo de búsqueda.
             searchEditText.setText("");
 
@@ -340,26 +354,24 @@ public class SearchActivity extends AppCompatActivity {
      */
     private void updateRecentSearchesList() {
         recentSearchesList = dbManagement.getAllRecentSearches();
-        recentSearchesFragment.setRecentSearchesList(recentSearchesList);
 
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.recentSearches_frameLayout, emptyRecentSearchesFragment);
-        Log.d(TAG, "updateRecentSearchesList: receantSearchesList.size() = " + recentSearchesList.size());
+        Log.d(TAG, "updateRecentSearchesList: recentSearchesList.size() = "
+                + recentSearchesList.size());
 
-        /*
-        if (recentSearchesList == null) {
-            transaction.replace(R.id.recentSearches_frameLayout, emptyRecentSearchesFragment);
-        } else if (recentSearchesList.size() == 0) {
-            Log.d(TAG, "updateRecentSearchesList: changing view");
-            transaction.replace(R.id.recentSearches_frameLayout, emptyRecentSearchesFragment);
-        } else {
-            transaction.replace(R.id.recentSearches_frameLayout, recentSearchesFragment);
+        for (String recentSearch : recentSearchesList) {
+            Log.d(TAG, "updateRecentSearchesList: " + recentSearch);
         }
-        */
-        if (recentSearchesList.size() >= 1)
-            transaction.replace(R.id.recentSearches_frameLayout, recentSearchesFragment);
 
-        transaction.commit();
+        if (recentSearchesList.size() >= 1) {
+            nothingToShowTextView.setVisibility(View.GONE);
+            recentSearchesListView.setVisibility(View.VISIBLE);
+
+            adapter.setRecentSearchesList(recentSearchesList);
+            adapter.notifyDataSetChanged();
+        } else {
+            nothingToShowTextView.setVisibility(View.VISIBLE);
+            recentSearchesListView.setVisibility(View.GONE);
+        }
     }
 
     /**

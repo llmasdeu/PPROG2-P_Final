@@ -79,4 +79,12 @@ public class RecentSearchesAdapter extends BaseAdapter {
 
         return view;
     }
+
+    /**
+     * Setter de la lista de búsquedas recientes.
+     * @param recentSearchesList Lista de búsquedas recientes.
+     */
+    public void setRecentSearchesList(List<String> recentSearchesList) {
+        this.recentSearchesList = recentSearchesList;
+    }
 }
