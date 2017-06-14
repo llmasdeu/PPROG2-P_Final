@@ -5,11 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.model.webserviceResults.PlaceResult;
+import com.example.lluismasdeu.pprog2_p_final.utils.GeneralUtilities;
 
 import java.util.List;
 
@@ -49,8 +51,12 @@ public class ResultsAdapter extends BaseAdapter {
         View itemView = inflater.inflate(R.layout.item_results, parent, false);
         PlaceResult result = list.get(position);
 
+        ImageView restaurantImage = (ImageView) itemView.findViewById(R.id.listview_cell_image);
+        restaurantImage.setImageBitmap(GeneralUtilities.getInstance(context).getRestaurantImage());
+
         TextView title = (TextView) itemView.findViewById(R.id.resultTitle_textView);
         title.setText((result.getName()));
+
         TextView address = (TextView) itemView.findViewById(R.id.resultAddress_textView);
         address.setText(result.getAddress());
 

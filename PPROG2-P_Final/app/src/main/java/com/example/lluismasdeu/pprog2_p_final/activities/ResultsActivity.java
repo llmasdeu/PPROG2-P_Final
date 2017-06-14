@@ -61,7 +61,6 @@ public class ResultsActivity extends AppCompatActivity {
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, types);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typesFilter.setAdapter(adapter);
-
     }
 
     // Intenet para ProfileActivity

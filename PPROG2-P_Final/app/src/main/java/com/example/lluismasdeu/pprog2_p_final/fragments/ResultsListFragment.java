@@ -70,7 +70,6 @@ public class ResultsListFragment extends Fragment {
                     } else {
                         for (int w = 0; w < placeResults.size(); w++) {
                             if (typesFilter.getSelectedItem().equals(placeResults.get(w).getType())) {
-
                                 resultsByType.add(placeResults.get(w));
                             }
                         }

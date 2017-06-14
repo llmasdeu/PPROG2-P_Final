@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Random;
 
 /**
  * Clase encargada de llevar a cabo tareas a lo largo de la aplicación.
@@ -21,7 +22,7 @@ import java.io.InputStream;
 public class GeneralUtilities {
     private static final String TAG = "GeneralUtilities";
     private static final String PROFILE_PICTURES_FOLDER = "/profile_images/";
-    private static final String RESTAUTANTS_IMAGES_FOLDER = "restaurants/";
+    private static final String RESTAUTANT_IMAGES_FOLDER = "restaurants";
     private static final String DEFAULT_PHOTO = "default_photo.jpg";
 
     private static GeneralUtilities instance = null;
@@ -166,8 +167,32 @@ public class GeneralUtilities {
     }
 
     public static Bitmap getRestaurantImage() {
-        // TODO
+        Bitmap restaurantImage = null;
 
-        return null;
+        try {
+            // Leemos la carpeta de Assets, y listamos los nombres de ficheros de la carpeta.
+            AssetManager assetManager = context.getAssets();
+            Log.d(TAG, "getRestaurantImage: " + assetManager);
+            String[] files = assetManager.list(RESTAUTANT_IMAGES_FOLDER);
+            Log.d(TAG, "getRestaurantImage: " + files.length);
+
+            if (files.length >= 1) {
+                Random random = new Random();
+                int imageId = random.nextInt(files.length) + 1;
+
+                InputStream inputStream = assetManager.open(RESTAUTANT_IMAGES_FOLDER + "/"
+                        + files[imageId - 1]);
+
+                // Decodificamos la imagen, y la colocamos en el componente.
+                restaurantImage = BitmapFactory.decodeStream(inputStream);
+
+                // Cerramos
+                inputStream.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return restaurantImage;
     }
 }
