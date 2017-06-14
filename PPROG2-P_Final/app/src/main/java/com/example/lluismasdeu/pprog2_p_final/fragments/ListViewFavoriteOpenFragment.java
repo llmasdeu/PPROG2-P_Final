@@ -37,7 +37,7 @@ public class ListViewFavoriteOpenFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.listview_favorite, container, false);
+        View view = inflater.inflate(R.layout.listview_favorites, container, false);
         Calendar c = Calendar.getInstance();
         SimpleDateFormat dateformat = new SimpleDateFormat("HH:mm");
         final String datetime = dateformat.format(c.getTime());

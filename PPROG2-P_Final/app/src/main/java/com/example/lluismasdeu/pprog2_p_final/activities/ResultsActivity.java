@@ -5,7 +5,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -14,8 +13,8 @@ import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.adapters.TabsAdapter;
 import com.example.lluismasdeu.pprog2_p_final.fragments.ResultsListFragment;
 import com.example.lluismasdeu.pprog2_p_final.fragments.OpenResultsListFragment;
-import com.example.lluismasdeu.pprog2_p_final.model.webserviceResults.PlaceLocation;
-import com.example.lluismasdeu.pprog2_p_final.model.webserviceResults.PlaceResult;
+import com.example.lluismasdeu.pprog2_p_final.model.Restaurant;
+import com.example.lluismasdeu.pprog2_p_final.utils.GeneralUtilities;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,8 +28,8 @@ import java.util.List;
 public class ResultsActivity extends AppCompatActivity {
     private static final String TAG = "ResultsActivity";
 
-    List<PlaceResult> placeResults;
-    List<PlaceResult> openPlaceResults;
+    List<Restaurant> restaurantsList;
+    List<Restaurant> openRestaurantsList;
     List<String> types;
     private Spinner typesFilter;
     private ResultsListFragment allPlacesFragment;
@@ -50,8 +49,8 @@ public class ResultsActivity extends AppCompatActivity {
         managePlaceResults();
 
         // Creamos los Fragments.
-        allPlacesFragment = new ResultsListFragment(placeResults);
-        openPlacesFragment = new OpenResultsListFragment(openPlaceResults);
+        allPlacesFragment = new ResultsListFragment(restaurantsList);
+        openPlacesFragment = new OpenResultsListFragment(openRestaurantsList);
 
         // Creamos las pestañas.
         createTabs();
@@ -93,58 +92,63 @@ public class ResultsActivity extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         String dateFormatted = dateFormat.format(new Date());
 
-        placeResults = new ArrayList<PlaceResult>();
-        openPlaceResults = new ArrayList<PlaceResult>();
+        restaurantsList = new ArrayList<Restaurant>();
+        openRestaurantsList = new ArrayList<Restaurant>();
         types = new ArrayList<String>();
 
         try {
             JSONArray placesArray = new JSONArray(response);
-            JSONObject location;
-
-            PlaceResult placeResult;
-            PlaceLocation placeLocation;
-
+            JSONObject place, location;
+            Restaurant restaurant;
             String name, type, address, opening, closing, description;
             double review, latitude, longitude;
 
             for (int i = 0; i < placesArray.length(); i++) {
-                name = placesArray.getJSONObject(i).getString("name");
-                type = placesArray.getJSONObject(i).getString("type");
-                location = placesArray.getJSONObject(i).getJSONObject("location");
+                place = placesArray.getJSONObject(i);
+                name = place.getString("name");
+                type = place.getString("type");
+                location = place.getJSONObject("location");
                 latitude = location.getDouble("lat");
                 longitude = location.getDouble("lng");
-                address = placesArray.getJSONObject(i).getString("address");
-                opening = placesArray.getJSONObject(i).getString("opening");
-                closing = placesArray.getJSONObject(i).getString("closing");
-                review = placesArray.getJSONObject(i).getDouble("review");
-                description = placesArray.getJSONObject(i).getString("description");
+                address = place.getString("address");
+                opening = place.getString("opening");
+                closing = place.getString("closing");
+                review = place.getDouble("review");
+                description = place.getString("description");
 
-                placeLocation = new PlaceLocation(latitude, longitude);
-                placeResult = new PlaceResult(name, type, placeLocation, address, opening, closing,
-                        review, description);
-                placeResults.add(placeResult);
+                // Guardamos los datos del restaurante.
+                restaurant = new Restaurant(name, type, address, opening, closing, review,
+                        description, latitude, longitude);
+
+                // Asignamos una imagen de manera aleatoria.
+                restaurant.setImage(GeneralUtilities.getInstance(this).getRestaurantImage());
+
+                // Añadimos el restaurante a la lista.
+                restaurantsList.add(restaurant);
             }
 
-            for (int i = 0; i < placeResults.size(); i++) {
-                if (dateFormatted.compareTo(placeResults.get(i).getOpening()) >= 0
-                        && dateFormatted.compareTo(placeResults.get(i).getClosing()) <= 0)
-                    openPlaceResults.add(placeResults.get(i));
+            // Guardamos en una lista separada los restaurantes abiertos.
+            for (int i = 0; i < restaurantsList.size(); i++) {
+                if (dateFormatted.compareTo(restaurantsList.get(i).getOpening()) >= 0
+                        && dateFormatted.compareTo(restaurantsList.get(i).getClosing()) <= 0)
+                    openRestaurantsList.add(restaurantsList.get(i));
             }
 
             boolean flag;
 
             types.add(getString(R.string.all));
 
-            for (int i = 0; i < placeResults.size(); i++) {
+            // Creamos el listado de tipos de restaurantes.
+            for (int i = 0; i < restaurantsList.size(); i++) {
                 flag = false;
 
                 for (int j = 0; j < types.size(); j++) {
-                    if (placeResults.get(i).getType().equals(types.get(j)))
+                    if (restaurantsList.get(i).getType().equals(types.get(j)))
                         flag = true;
                 }
 
                 if (!flag)
-                    types.add(placeResults.get(i).getType());
+                    types.add(restaurantsList.get(i).getType());
             }
         } catch (JSONException e) {
             e.printStackTrace();

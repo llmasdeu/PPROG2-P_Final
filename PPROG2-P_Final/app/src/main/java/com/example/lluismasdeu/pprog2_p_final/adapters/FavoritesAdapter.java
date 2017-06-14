@@ -44,7 +44,7 @@ public class FavoritesAdapter extends BaseAdapter{
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView = inflater.inflate(R.layout.listview_favorite_cell, viewGroup, false);
+        View itemView = inflater.inflate(R.layout.item_favorites, viewGroup, false);
         Favorite favorite=list.get(i);
         TextView title = (TextView) itemView.findViewById(R.id.resultTitle_textView);
         title.setText((favorite.getName()));

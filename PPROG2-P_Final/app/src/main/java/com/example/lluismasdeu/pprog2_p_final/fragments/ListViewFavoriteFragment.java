@@ -39,7 +39,7 @@ public class ListViewFavoriteFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.listview_favorite, container, false);
+        View view = inflater.inflate(R.layout.listview_favorites, container, false);
         list=null;
         listView=(ListView) view.findViewById(R.id.listview_favorite);
 

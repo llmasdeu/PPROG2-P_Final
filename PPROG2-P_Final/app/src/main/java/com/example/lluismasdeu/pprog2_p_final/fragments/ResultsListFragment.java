@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.activities.DescriptionActivity;
 import com.example.lluismasdeu.pprog2_p_final.adapters.ResultsAdapter;
-import com.example.lluismasdeu.pprog2_p_final.model.webserviceResults.PlaceResult;
+import com.example.lluismasdeu.pprog2_p_final.model.Restaurant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,15 +25,14 @@ import java.util.List;
  */
 
 public class ResultsListFragment extends Fragment {
-    private ListView listView;
-    private ResultsAdapter adapter;
-    List<PlaceResult> resultsByType;
+    private ListView restaurantsListView;
     private Spinner typesFilter;
-    //List<Restaurant> restaurantsList;
-    private List<PlaceResult> placeResults;
+    private ResultsAdapter adapter;
+    List<Restaurant> resultsByType;
+    private List<Restaurant> restaurantsList;
 
-    public ResultsListFragment(List<PlaceResult> placeResults) {
-        this.placeResults = placeResults;
+    public ResultsListFragment(List<Restaurant> restaurantsList) {
+        this.restaurantsList = restaurantsList;
     }
 
     @Nullable
@@ -43,13 +42,13 @@ public class ResultsListFragment extends Fragment {
 
         // Recuperamos el componente gráfico para poder asignarle un adapter.
         typesFilter = (Spinner) getActivity().findViewById(R.id.menuSort);
-        listView = (ListView) view.findViewById(R.id.listview);
+        restaurantsListView = (ListView) view.findViewById(R.id.listview);
 
-        adapter = new ResultsAdapter(placeResults, getActivity());
-        listView.setAdapter(adapter);
+        adapter = new ResultsAdapter(restaurantsList, getActivity());
+        restaurantsListView.setAdapter(adapter);
 
-        //Listener de listView
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //Listener de restaurantsListView
+        restaurantsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView temp = (TextView) view.findViewById(R.id.resultTitle_textView);
@@ -63,29 +62,27 @@ public class ResultsListFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (getString(R.string.filter) != typesFilter.getSelectedItem()) {
-                    resultsByType = new ArrayList<PlaceResult>(placeResults.size());
+                    resultsByType = new ArrayList<Restaurant>();
 
                     if (typesFilter.getSelectedItem().equals(getString(R.string.all))) {
-                        resultsByType = placeResults;
+                        resultsByType = restaurantsList;
                     } else {
-                        for (int w = 0; w < placeResults.size(); w++) {
-                            if (typesFilter.getSelectedItem().equals(placeResults.get(w).getType())) {
-                                resultsByType.add(placeResults.get(w));
-                            }
+                        for (int w = 0; w < restaurantsList.size(); w++) {
+                            if (typesFilter.getSelectedItem()
+                                    .equals(restaurantsList.get(w).getType()))
+                                resultsByType.add(restaurantsList.get(w));
                         }
                     }
 
                     adapter = new ResultsAdapter(resultsByType, getActivity());
                     adapter.notifyDataSetChanged();
-                    listView.setAdapter(adapter);
+                    restaurantsListView.setAdapter(adapter);
                 }
 
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) {}
         });
 
         return view;

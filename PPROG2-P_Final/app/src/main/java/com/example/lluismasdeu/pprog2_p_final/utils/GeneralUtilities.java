@@ -166,6 +166,10 @@ public class GeneralUtilities {
         return image;
     }
 
+    /**
+     * Método encargado de obtener una imagen de restaurante, de manera aleatoria.
+     * @return Imagen de restaurante.
+     */
     public static Bitmap getRestaurantImage() {
         Bitmap restaurantImage = null;
 
@@ -178,10 +182,10 @@ public class GeneralUtilities {
 
             if (files.length >= 1) {
                 Random random = new Random();
-                int imageId = random.nextInt(files.length) + 1;
+                int imageId = random.nextInt(files.length);
 
                 InputStream inputStream = assetManager.open(RESTAUTANT_IMAGES_FOLDER + "/"
-                        + files[imageId - 1]);
+                        + files[imageId]);
 
                 // Decodificamos la imagen, y la colocamos en el componente.
                 restaurantImage = BitmapFactory.decodeStream(inputStream);
