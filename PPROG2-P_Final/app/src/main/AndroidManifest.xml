@@ -24,9 +24,10 @@
 
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.SearchActivity" />
+        <activity android:name=".activities.ResultsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity android:name=".activities.ProfileActivity" />
         <activity android:name=".activities.FavoritesActivity" />
-        <activity android:name=".activities.ResultsActivity" />
         <activity android:name=".activities.DescriptionActivity" />
         <activity android:name=".activities.LocationActivity" />
         <meta-data
