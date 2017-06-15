@@ -53,7 +53,7 @@ public class SearchActivity extends AppCompatActivity {
     private List<String> recentSearchesList;
     private int radiusKm;
 
-    // Clase encargada de peticiones asíncronas.
+    // Clase encargada de llevar a cabo peticiones asíncronas.
     private class AsyncRequest extends AsyncTask<String, Void, JSONArray> {
         private Context context;
         private ProgressDialog progressDialog;

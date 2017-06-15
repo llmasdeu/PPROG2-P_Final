@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,6 @@ import com.example.lluismasdeu.pprog2_p_final.activities.DescriptionActivity;
 import com.example.lluismasdeu.pprog2_p_final.adapters.ResultsAdapter;
 import com.example.lluismasdeu.pprog2_p_final.model.Restaurant;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,8 +25,9 @@ import java.util.List;
  */
 
 public class ResultsListFragment extends Fragment {
+    private static final String TAG = "ResultsListFragment";
     private ListView restaurantsListView;
-    private Spinner typesFilter;
+    private Spinner typesSpinner;
     private ResultsAdapter adapter;
     List<Restaurant> resultsByType;
     private List<Restaurant> restaurantsList;
@@ -41,7 +42,7 @@ public class ResultsListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_results, container, false);
 
         // Recuperamos el componente gráfico para poder asignarle un adapter.
-        typesFilter = (Spinner) getActivity().findViewById(R.id.menuSort);
+        typesSpinner = (Spinner) getActivity().findViewById(R.id.menuSort);
         restaurantsListView = (ListView) view.findViewById(R.id.listview);
 
         adapter = new ResultsAdapter(restaurantsList, getActivity());
@@ -57,35 +58,15 @@ public class ResultsListFragment extends Fragment {
             }
         });
 
-        // typesFilter para la lista mediante spinner
-        typesFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (getString(R.string.filter) != typesFilter.getSelectedItem()) {
-                    resultsByType = new ArrayList<Restaurant>();
-
-                    if (typesFilter.getSelectedItem().equals(getString(R.string.all))) {
-                        resultsByType = restaurantsList;
-                    } else {
-                        for (int w = 0; w < restaurantsList.size(); w++) {
-                            if (typesFilter.getSelectedItem()
-                                    .equals(restaurantsList.get(w).getType()))
-                                resultsByType.add(restaurantsList.get(w));
-                        }
-                    }
-
-                    adapter = new ResultsAdapter(resultsByType, getActivity());
-                    adapter.notifyDataSetChanged();
-                    restaurantsListView.setAdapter(adapter);
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
-        });
-
         return view;
+    }
+
+    public void updateRestaurantsList(List<Restaurant> restaurantsList) {
+        this.restaurantsList = restaurantsList;
+
+        adapter = new ResultsAdapter(restaurantsList, getActivity());
+        adapter.notifyDataSetChanged();
+        restaurantsListView.setAdapter(adapter);
     }
 
     //intent para DescriptionActivity

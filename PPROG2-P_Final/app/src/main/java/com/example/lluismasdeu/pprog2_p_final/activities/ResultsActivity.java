@@ -1,11 +1,13 @@
 package com.example.lluismasdeu.pprog2_p_final.activities;
 
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -25,16 +27,25 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Actividad de resultados de la aplicación.
+ * @author Eloy Alberto López
+ * @author Lluís Masdeu
+ */
 public class ResultsActivity extends AppCompatActivity {
     private static final String TAG = "ResultsActivity";
 
     List<Restaurant> restaurantsList;
     List<Restaurant> openRestaurantsList;
     List<String> types;
-    private Spinner typesFilter;
-    private ResultsListFragment allPlacesFragment;
-    private OpenResultsListFragment openPlacesFragment;
+    private Spinner typesSpinner;
+    private ResultsListFragment resultsListFragment;
+    private OpenResultsListFragment openResultsListFragment;
 
+    /**
+     * Método encaragado de llevar a cabo las tareas cuando se crea la actividad.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,14 +54,25 @@ public class ResultsActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         // Recuperamos valor del spinner de la ActionBar.
-        typesFilter = (Spinner) findViewById(R.id.menuSort);
+        typesSpinner = (Spinner) findViewById(R.id.menuSort);
 
         // Recuperamos la información.
-        managePlaceResults();
+        manageResults();
 
         // Creamos los Fragments.
-        allPlacesFragment = new ResultsListFragment(restaurantsList);
-        openPlacesFragment = new OpenResultsListFragment(openRestaurantsList);
+        resultsListFragment = new ResultsListFragment(restaurantsList);
+        openResultsListFragment = new OpenResultsListFragment(openRestaurantsList);
+
+        // Configuramos el spinner de los tipos.
+        typesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                updateRestaurantsByType();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        });
 
         // Creamos las pestañas.
         createTabs();
@@ -59,7 +81,17 @@ public class ResultsActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, types);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        typesFilter.setAdapter(adapter);
+        typesSpinner.setAdapter(adapter);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
     }
 
     // Intenet para ProfileActivity
@@ -79,15 +111,15 @@ public class ResultsActivity extends AppCompatActivity {
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
 
         List<TabsAdapter.TabEntry> entries = new ArrayList<>();
-        entries.add(new TabsAdapter.TabEntry(allPlacesFragment, getString(R.string.all)));
-        entries.add(new TabsAdapter.TabEntry(openPlacesFragment, getString(R.string.only_open)));
+        entries.add(new TabsAdapter.TabEntry(resultsListFragment, getString(R.string.all)));
+        entries.add(new TabsAdapter.TabEntry(openResultsListFragment, getString(R.string.only_open)));
 
         TabsAdapter adapter = new TabsAdapter(getSupportFragmentManager(), entries);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void managePlaceResults() {
+    private void manageResults() {
         String response = getIntent().getStringExtra(SearchActivity.SEARCH_RESULT_EXTRA);
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         String dateFormatted = dateFormat.format(new Date());
@@ -153,5 +185,31 @@ public class ResultsActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void updateRestaurantsByType() {
+        if (getString(R.string.filter) != typesSpinner.getSelectedItem()) {
+            List<Restaurant> restaurantsByType = new ArrayList<Restaurant>();
+            List<Restaurant> openRestaurantsByType = new ArrayList<Restaurant>();
+
+            if (typesSpinner.getSelectedItem().equals(getString(R.string.all))) {
+                restaurantsByType = restaurantsList;
+                openRestaurantsByType = openRestaurantsList;
+            } else {
+                for (int i = 0; i < restaurantsList.size(); i++) {
+                    if (typesSpinner.getSelectedItem().equals(restaurantsList.get(i).getType()))
+                        restaurantsByType.add(restaurantsList.get(i));
+                }
+
+                for (int i = 0; i < openRestaurantsList.size(); i++) {
+                    if (typesSpinner.getSelectedItem().equals(openRestaurantsList.get(i).getType()))
+                        openRestaurantsByType.add(openRestaurantsList.get(i));
+                }
+            }
+
+            resultsListFragment.updateRestaurantsList(restaurantsByType);
+            openResultsListFragment.updateRestaurantsList(openRestaurantsByType);
+        }
+
     }
 }
