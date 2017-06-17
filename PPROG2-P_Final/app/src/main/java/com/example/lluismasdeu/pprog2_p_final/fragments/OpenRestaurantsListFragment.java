@@ -60,7 +60,7 @@ public class OpenRestaurantsListFragment extends Fragment {
         restaurantsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Restaurant selectedRestaurant = (Restaurant) restaurantsListView.getSelectedItem();
+                Restaurant selectedRestaurant = openRestaurantsList.get(i);
                 updateDetail(selectedRestaurant);
             }
         });
