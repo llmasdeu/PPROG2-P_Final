@@ -20,3 +20,9 @@ https://stackoverflow.com/questions/11274715/save-bitmap-to-file-function
 
 · Android Save Camera Image in Custom Folder
 https://stackoverflow.com/questions/13962922/android-save-camera-image-in-custom-folder
+
+· How can I add the new “Floating Action Button” between two widgets/layouts
+https://stackoverflow.com/questions/24459352/how-can-i-add-the-new-floating-action-button-between-two-widgets-layouts
+
+· Orientation change Crash Application
+https://stackoverflow.com/questions/24459352/how-can-i-add-the-new-floating-action-button-between-two-widgets-layouts

@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -55,9 +56,14 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Definimos el Layout, y escondemos la ActionBar en esta actividad.
+        // Definimos el Layout de la actividad.
         setContentView(R.layout.activity_register);
+
+        // Escondemos la ActionBar en esta actividad.
         getSupportActionBar().hide();
+
+        // Escondemos el teclado por defecto.
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         // Creamos la comunicación con la base de datos.
         dbManagement = new DatabaseManagement(getApplicationContext());

@@ -9,52 +9,59 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.activities.DescriptionActivity;
-import com.example.lluismasdeu.pprog2_p_final.adapters.ResultsAdapter;
+import com.example.lluismasdeu.pprog2_p_final.adapters.RestaurantsAdapter;
 import com.example.lluismasdeu.pprog2_p_final.model.Restaurant;
+import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
 
 import java.util.List;
 
 /**
- * Created by eloy on 18-05-2017.
+ * Fragment encargado de gestionar el listado de todos los restaurantes abiertos.
+ * @author Eloy Alberto López
+ * @author Lluís Masdeu
  */
+public class OpenRestaurantsListFragment extends Fragment {
+    private static final String TAG = "OpenRestaurantsListFragment";
 
-
-//Fragment para only open
-public class OpenResultsListFragment extends Fragment {
     private ListView restaurantsListView;
-    private Spinner typesSpinner;
-    private ResultsAdapter adapter;
+    private RestaurantsAdapter adapter;
     private List<Restaurant> openRestaurantsList;
-    List<Restaurant> resultsByType;
 
-    public OpenResultsListFragment(List<Restaurant> openRestaurantsList) {
+    /**
+     * Constructor.
+     * @param openRestaurantsList Listado de restaurantes abiertos.
+     */
+    public OpenRestaurantsListFragment(List<Restaurant> openRestaurantsList) {
         this.openRestaurantsList = openRestaurantsList;
     }
 
+    /**
+     * Método encargado de crear el Fragment.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_results, container, false);
 
-        typesSpinner = (Spinner) getActivity().findViewById(R.id.menuSort);
-
         // Recuperamos el componente gráfico para poder asignarle un adapter.
-        restaurantsListView = (ListView) view.findViewById(R.id.listview);
+        restaurantsListView = (ListView) view.findViewById(R.id.restaurants_listView);
 
-        adapter = new ResultsAdapter(openRestaurantsList, getActivity());
+        adapter = new RestaurantsAdapter(openRestaurantsList, getActivity());
         restaurantsListView.setAdapter(adapter);
 
+        // Asignamos el listener a la ListView.
         restaurantsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView temp = (TextView) view.findViewById(R.id.resultTitle_textView);
-                String str = temp.getText().toString();
-                updateDetail(str);
+                Restaurant selectedRestaurant = (Restaurant) restaurantsListView.getSelectedItem();
+                updateDetail(selectedRestaurant);
             }
         });
 
@@ -64,14 +71,17 @@ public class OpenResultsListFragment extends Fragment {
     public void updateRestaurantsList(List<Restaurant> openRestaurantsList) {
         this.openRestaurantsList = openRestaurantsList;
 
-        adapter = new ResultsAdapter(openRestaurantsList, getActivity());
+        adapter = new RestaurantsAdapter(openRestaurantsList, getActivity());
         adapter.notifyDataSetChanged();
         restaurantsListView.setAdapter(adapter);
     }
 
-    public void updateDetail(String str) {
+    private void updateDetail(Restaurant selectedRestaurant) {
+        // Guardamos los datos del restaurante seleccionado.
+        StaticValues.getInstance().setSelectedRestaurant(selectedRestaurant);
+
+        // Accedemos a la actividad de la descripción del restaurante.
         Intent intent = new Intent(getActivity(), DescriptionActivity.class);
-        intent.putExtra("name",str);
         startActivity(intent);
     }
 }

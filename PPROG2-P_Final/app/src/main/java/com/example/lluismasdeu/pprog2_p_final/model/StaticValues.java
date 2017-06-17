@@ -8,6 +8,7 @@ package com.example.lluismasdeu.pprog2_p_final.model;
 public class StaticValues {
     private static StaticValues instance = null;
     private User connectedUser;
+    private Restaurant selectedRestaurant;
 
     /**
      * Constructor de la clase.
@@ -39,5 +40,21 @@ public class StaticValues {
      */
     public void setConnectedUser(User connectedUser) {
         this.connectedUser = connectedUser;
+    }
+
+    /**
+     * Getter del restaurante seleccionado.
+     * @return Restaurante seleccionado.
+     */
+    public Restaurant getSelectedRestaurant() {
+        return selectedRestaurant;
+    }
+
+    /**
+     * Setter del restaurante seleccionado.
+     * @param selectedRestaurant Restaurante seleccionado.
+     */
+    public void setSelectedRestaurant(Restaurant selectedRestaurant) {
+        this.selectedRestaurant = selectedRestaurant;
     }
 }

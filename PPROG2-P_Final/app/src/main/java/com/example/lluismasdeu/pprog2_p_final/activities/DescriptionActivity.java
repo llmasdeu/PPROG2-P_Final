@@ -2,8 +2,6 @@ package com.example.lluismasdeu.pprog2_p_final.activities;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,198 +10,106 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.lluismasdeu.pprog2_p_final.R;
-import com.example.lluismasdeu.pprog2_p_final.adapters.ComentariesAdapter;
-import com.example.lluismasdeu.pprog2_p_final.model.Comentaries;
-import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
+import com.example.lluismasdeu.pprog2_p_final.adapters.CommentariesAdapter;
+import com.example.lluismasdeu.pprog2_p_final.model.Commentary;
 import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
-import com.example.lluismasdeu.pprog2_p_final.model.User;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class DescriptionActivity extends AppCompatActivity {
-    JsonArrayRequest jsArrayRequest;
-    TextView name;
-    TextView address;
-    TextView open;
-    TextView close;
-    TextView latitud;
-    TextView longitud;
-    RatingBar rating;
-    TextView description;
-    FloatingActionButton favorite;
-    Favorite favorite_list;
-    String type;
-    ListView listView;
-    EditText comentary;
-    List<Comentaries> list_comentaries;
-    List<Comentaries> list_tmp;
-    ComentariesAdapter comentariesAdapter;
-    Comentaries comentaries;
-    private DatabaseManagementInterface databaseManagementInterface;
+    private static final String TAG = "DescriptionActivity";
+    public static final String LATITUDE_EXTRA = "latitude";
+    public static final String LONGITUDE_EXTRA = "longitude";
+
+    private DatabaseManagementInterface dbManagement;
+    private ImageView pictureImageView;
+    private FloatingActionButton favoriteFloatingActionButton;
+    private TextView nameTextView;
+    private TextView latitudeTextView;
+    private TextView longitudeTextView;
+    private TextView addressTextView;
+    private TextView openingTextView;
+    private TextView closingTextView;
+    private RatingBar ratingRatingBar;
+    private TextView descriptionTextView;
+    private TextView nothingToShowTextView;
+    private ListView commentariesListView;
+    private EditText commentaryEditText;
+    private List<Commentary> commentariesList;
+    private CommentariesAdapter commentariesAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_description);
-        comentary=(EditText) findViewById(R.id.editText_Comentary);
-        name=(TextView) findViewById(R.id.text_name);
-        favorite=(FloatingActionButton) findViewById(R.id.favorite_button);
-        address=(TextView) findViewById(R.id.text_address);
-        open=(TextView) findViewById(R.id.text_open_hour);
-        close=(TextView) findViewById(R.id.text_close_hour);
-        description=(TextView) findViewById(R.id.text_description);
-        rating=(RatingBar)findViewById(R.id.resultRate_ratingBar);
-        latitud=(TextView) findViewById(R.id.text_latitud);
-        longitud=(TextView) findViewById(R.id.text_longitud);
-        listView=(ListView) findViewById(R.id.listview_comentary);
         getSupportActionBar().setTitle("");
-        //Recuperamos variable del intent
-        final String nombre = getIntent().getStringExtra("name");
-        //Hacemos peticion al web services
-        String url ="http://testapi-pprog2.azurewebsites.net/api/locations.php?method=getLocations";
-        RequestQueue queue = Volley.newRequestQueue(this);
-        jsArrayRequest = new JsonArrayRequest(
-                Request.Method.GET,
-                url,
-                null,
-                new Response.Listener<JSONArray>() {
-                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                    @Override
-                    public void onResponse(JSONArray response) {
 
-                        try {
-                            JSONArray search = response;
-                            for (int i = 0; i < search.length(); i++) {
-                                if(Objects.equals(nombre, search.getJSONObject(i).getString("name")))
-                                {
-                                    //Llenamos las variables
-                                    name.setText(search.getJSONObject(i).getString("name"));
-                                    address.setText(search.getJSONObject(i).getString("address"));
-                                    open.setText(search.getJSONObject(i).getString("opening"));
-                                    close.setText(search.getJSONObject(i).getString("closing"));
-                                    description.setText(search.getJSONObject(i).getString("description"));
-                                    rating.setRating(Float.parseFloat(search.getJSONObject(i).getString("review")));
-                                    type=search.getJSONObject(i).getString("type");
-                                    JSONObject location=new JSONObject( search.getJSONObject(i).getString("location"));
-                                    longitud.setText(location.getString("lng"));
-                                    latitud.setText(location.getString("lat"));
+        // Localizamos los componentes en el Layout.
+        pictureImageView = (ImageView) findViewById(R.id.restaurant_imageView);
+        favoriteFloatingActionButton = (FloatingActionButton)
+                findViewById(R.id.favorite_floatingActionButton);
+        nameTextView = (TextView) findViewById(R.id.restaurantName_textView);
+        latitudeTextView = (TextView) findViewById(R.id.latitude_textView);
+        longitudeTextView = (TextView) findViewById(R.id.longitude_textView);
+        addressTextView = (TextView) findViewById(R.id.address_textView);
+        openingTextView = (TextView) findViewById(R.id.openingHour_textView);
+        closingTextView = (TextView) findViewById(R.id.closingHour_textView);
+        ratingRatingBar = (RatingBar) findViewById(R.id.restaurantRating_ratingBar);
+        descriptionTextView = (TextView) findViewById(R.id.description_textView);
+        nothingToShowTextView = (TextView) findViewById(R.id.nothingToShow_textView);
+        commentariesListView = (ListView) findViewById(R.id.commentaries_listView);
+        commentaryEditText = (EditText) findViewById(R.id.commentary_editText);
 
-                                }
+        // Iniciamos el conector con la base de datos.
+        dbManagement = new DatabaseManagement(this);
 
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                       }
-
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                }
-        );
-        queue.add(jsArrayRequest);
-        databaseManagementInterface=new DatabaseManagement(this);
-        if(databaseManagementInterface.existFavorite(nombre))
-        {
-
-            favorite.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-        }
-        else
-        {
-            favorite.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.errorMessageColor)));
-
-        }
-
-        favorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                databaseManagementInterface=new DatabaseManagement(getApplicationContext());
-
-
-              if(!databaseManagementInterface.existFavorite(name.getText().toString()))
-                {
-                    favorite_list=new Favorite();
-                    favorite_list.setName(name.getText().toString());
-                    favorite_list.setAddress(address.getText().toString());
-                    favorite_list.setRate(String.valueOf(rating.getRating()));
-                    favorite_list.setUsername(StaticValues.getInstance().getConnectedUser().getUsername());
-                    favorite_list.setOpen(open.getText().toString());
-                    favorite_list.setClose(close.getText().toString());
-                    favorite_list.setType(type);
-                    databaseManagementInterface.registerFavorite(favorite_list);
-                    favorite.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-                }
-                else
-              {
-                  databaseManagementInterface.deleteFavorite(name.getText().toString());
-                  favorite.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.errorMessageColor)));
-              }
-
-
-            }
-        });
-        list_comentaries=(databaseManagementInterface.getAllComentaries());
-        if(!list_comentaries.isEmpty()) {
-            list_tmp= new ArrayList<>(list_comentaries.size());
-
-            for (int i = 0; i < list_comentaries.size(); i++) {
-
-                if (list_comentaries.get(i).getName().equals(nombre)) {
-
-                    list_tmp.add(list_comentaries.get(i));
-                }
-            }
-
-            comentariesAdapter = new ComentariesAdapter(list_tmp, this);
-            listView.setAdapter(comentariesAdapter);
-        }
-
+        // Creamos el Adapter de la lista de comentarios.
+        commentariesAdapter = new CommentariesAdapter(new ArrayList<Commentary>(), this);
+        commentariesListView.setAdapter(commentariesAdapter);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        setRestaurantInfo();
+        setFavoriteButtonColor();
+        updateCommentariesList();
+    }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        //Mostramos actionBar
+        // Mostramos actionBar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.action_bar, menu);
 
         return true;
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+
         switch (item.getItemId()) {
             case R.id.action_profile:
-                // Intent para ingresar al perfil
-                Intent intentPerfil = new Intent(this, ProfileActivity.class);
-                startActivity(intentPerfil);
+                intent = new Intent(this, ProfileActivity.class);
+                startActivity(intent);
+                resetFields();
                 break;
 
             case R.id.action_favorite:
-                //intent para ingresar a favoritos
-                Intent intentFavorite = new Intent(this, FavoritesActivity.class);
-                startActivity(intentFavorite);
+                intent = new Intent(this, FavoritesActivity.class);
+                startActivity(intent);
+                resetFields();
                 break;
 
             default:
@@ -212,29 +118,102 @@ public class DescriptionActivity extends AppCompatActivity {
 
         return true;
     }
-    //Intent para mostrar ubicacion en mapa
-    public void onClickMap(View view)
-    {
-        Intent intent=new Intent(this,LocationActivity.class);
-        intent.putExtra("latitud",latitud.getText().toString());
-        intent.putExtra("longitud",longitud.getText().toString());
+
+    public void onMapClick(View view) {
+        Intent intent = new Intent(this, LocationActivity.class);
+        intent.putExtra(LATITUDE_EXTRA,
+                StaticValues.getInstance().getSelectedRestaurant().getLatitude());
+        intent.putExtra(LONGITUDE_EXTRA,
+                StaticValues.getInstance().getSelectedRestaurant().getLongitude());
         startActivity(intent);
+        resetFields();
     }
-    public void onClickSend(View view)
-    {
-        databaseManagementInterface= new DatabaseManagement(getApplicationContext());
-        comentaries=new Comentaries();
-        if(!comentary.getText().toString().equals(""))
-        {
-            comentaries.setName(name.getText().toString());
-            comentaries.setComentary(comentary.getText().toString());
-            comentaries.setUsername(StaticValues.getInstance().getConnectedUser().getUsername());
-            databaseManagementInterface.addComentary(comentaries);
-            Toast.makeText(getApplicationContext(),getResources().getString(R.string.add_coment),Toast.LENGTH_SHORT).show();
-            comentary.setText("");
+
+    public void onAddFavoriteButtonClick(View view) {
+        if (!dbManagement.existsFavorite(StaticValues.getInstance().getConnectedUser(),
+                StaticValues.getInstance().getSelectedRestaurant())) {
+            dbManagement
+                    .registerFavorite(StaticValues.getInstance().getConnectedUser(),
+                            StaticValues.getInstance().getSelectedRestaurant());
+            favoriteFloatingActionButton.setBackgroundTintList(ColorStateList
+                    .valueOf(getResources().getColor(R.color.colorPrimary)));
+        } else {
+            dbManagement
+                    .unregisterFavorite(StaticValues.getInstance().getConnectedUser(),
+                            StaticValues.getInstance().getSelectedRestaurant());
+            favoriteFloatingActionButton.setBackgroundTintList(ColorStateList
+                    .valueOf(getResources().getColor(R.color.errorMessageColor)));
         }
     }
 
+    public void onClickSend(View view) {
+        String[] messages = getResources().getStringArray(R.array.description_activity_messages);
 
+        if (String.valueOf(commentaryEditText.getText()).equals("")) {
+            Toast.makeText(this, messages[0], Toast.LENGTH_SHORT).show();
+        } else {
+            Commentary commentary = new Commentary(StaticValues.getInstance().getConnectedUser()
+                    .getUsername(), String.valueOf(commentaryEditText.getText()));
+            dbManagement.registerCommentary(commentary,
+                    StaticValues.getInstance().getSelectedRestaurant());
+            resetFields();
 
+            Toast.makeText(this, messages[1], Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void setRestaurantInfo() {
+        pictureImageView.setImageBitmap(StaticValues.getInstance().getSelectedRestaurant()
+                .getImage());
+        nameTextView.setText(StaticValues.getInstance().getSelectedRestaurant().getName());
+        latitudeTextView.setText(""
+                + StaticValues.getInstance().getSelectedRestaurant().getLatitude());
+        longitudeTextView.setText(""
+                + StaticValues.getInstance().getSelectedRestaurant().getLongitude());
+        addressTextView.setText(StaticValues.getInstance().getSelectedRestaurant().getAddress());
+        openingTextView.setText(StaticValues.getInstance().getSelectedRestaurant().getOpening());
+        closingTextView.setText(StaticValues.getInstance().getSelectedRestaurant().getClosing());
+        ratingRatingBar.setRating((float)
+                StaticValues.getInstance().getSelectedRestaurant().getRating());
+
+        if (StaticValues.getInstance().getSelectedRestaurant().getDescription() == null
+                || StaticValues.getInstance().getSelectedRestaurant().getDescription().equals("")) {
+            descriptionTextView.setVisibility(View.GONE);
+        } else {
+            descriptionTextView.setText(StaticValues.getInstance().getSelectedRestaurant()
+                    .getDescription());
+            descriptionTextView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setFavoriteButtonColor() {
+        if (dbManagement.existsFavorite(StaticValues.getInstance().getConnectedUser(),
+                StaticValues.getInstance().getSelectedRestaurant())) {
+            favoriteFloatingActionButton.setBackgroundTintList(ColorStateList
+                    .valueOf(getResources().getColor(R.color.colorPrimary)));
+        } else {
+            favoriteFloatingActionButton.setBackgroundTintList(ColorStateList
+                    .valueOf(getResources().getColor(R.color.errorMessageColor)));
+        }
+    }
+
+    private void updateCommentariesList() {
+        commentariesList = dbManagement.getAllComentaries(StaticValues.getInstance()
+                .getSelectedRestaurant());
+
+        if (commentariesList.size() >= 1) {
+            nothingToShowTextView.setVisibility(View.GONE);
+            commentariesListView.setVisibility(View.VISIBLE);
+
+            commentariesAdapter.setCommentariesList(commentariesList);
+            commentariesAdapter.notifyDataSetChanged();
+        } else {
+            nothingToShowTextView.setVisibility(View.VISIBLE);
+            commentariesListView.setVisibility(View.GONE);
+        }
+    }
+
+    private void resetFields() {
+        commentaryEditText.setText("");
+    }
 }

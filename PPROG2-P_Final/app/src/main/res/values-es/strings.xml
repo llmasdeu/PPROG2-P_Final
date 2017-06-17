@@ -60,9 +60,8 @@
     <string name="write_storage_permissions_denied_title">
         Permisos de escritura de almacenamiento externo denegados
     </string>
-    <string name="add_coment">Comentario agregado</string>
 
-    <!-- String-Arrays de errores -->
+    <!-- String-Arrays de avisos -->
     <string-array name="main_activity_messages">
         <item>¡Error! El nombre de usuario no puede estar en blanco.</item>
         <item>¡Error! La contraseña no puede estar en blanco.</item>
@@ -86,5 +85,9 @@
         <item>No hay resultados de la búsqueda introducida</item>
         <item>¡Error! Ha habido problemas con tu localización actual</item>
         <item>Búsqueda correcta</item>
+    </string-array>
+    <string-array name="description_activity_messages">
+        <item>¡Error! El comentario no puede estar en blanco</item>
+        <item>Comentario añadido correctamente</item>
     </string-array>
 </resources>

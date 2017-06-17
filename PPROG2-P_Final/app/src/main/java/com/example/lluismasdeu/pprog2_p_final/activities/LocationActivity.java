@@ -18,8 +18,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 
 public class LocationActivity extends AppCompatActivity implements OnMapReadyCallback {
-    float lat;
-    float lng;
+    double latitude;
+    double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +27,9 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
         setContentView(R.layout.activity_location);
         getSupportActionBar().setTitle("");
 
-        //Recuperamos latitud y longitud del inntet
-
-        lat=Float.parseFloat( getIntent().getStringExtra("latitud"));
-        lng=Float.parseFloat(getIntent().getStringExtra("longitud"));
+        // Recuperamos latitud y longitud del Intent.
+        latitude = getIntent().getExtras().getDouble(DescriptionActivity.LATITUDE_EXTRA);
+        longitude = getIntent().getExtras().getDouble(DescriptionActivity.LONGITUDE_EXTRA);
 
         MapFragment mapFragment = MapFragment.newInstance();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -40,6 +39,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
         mapFragment.getMapAsync(this);
 
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         //Mostramos actionBar
         MenuInflater inflater = getMenuInflater();
@@ -47,6 +47,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
 
         return true;
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_profile:
@@ -67,14 +68,14 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
 
         return true;
     }
+
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-
-        LatLng Restorant = new LatLng(lat,lng);
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(Restorant, 20.0f);
+        LatLng restaurant = new LatLng(latitude, longitude);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(restaurant, 20.0f);
         googleMap.moveCamera(cameraUpdate);
-        MarkerOptions markerOptions = new MarkerOptions().position(Restorant);
-        googleMap.addMarker(markerOptions);
 
+        MarkerOptions markerOptions = new MarkerOptions().position(restaurant);
+        googleMap.addMarker(markerOptions);
     }
 }

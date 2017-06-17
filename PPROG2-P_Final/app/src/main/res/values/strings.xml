@@ -56,9 +56,8 @@
     <string name="write_storage_permissions_denied_title">
         Write External Storage Permissions Not Granted
     </string>
-    <string name="add_coment">Added comment</string>
 
-    <!-- String-Arrays de errores -->
+    <!-- String-Arrays de avisos -->
     <string-array name="main_activity_messages">
         <item>Error! Username field can\'t be blank.</item>
         <item>Error! Password field can\'t be blank.</item>
@@ -82,5 +81,9 @@
         <item>There are no places matching your search</item>
         <item>Error! There are issues with your current location</item>
         <item>Searched correctly</item>
+    </string-array>
+    <string-array name="description_activity_messages">
+        <item>Error! The commentary can\'t be blank</item>
+        <item>Commentary added correctly</item>
     </string-array>
 </resources>

@@ -14,8 +14,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -48,7 +50,7 @@ public class SearchActivity extends AppCompatActivity {
     private EditText searchEditText;
     private SeekBar radiusSeekBar;
     private TextView radiusKmTextView;
-    private TextView nothingToShowTextView;
+    private LinearLayout nothingToShowLinearLayout;
     private ListView recentSearchesListView;
     private List<String> recentSearchesList;
     private int radiusKm;
@@ -96,14 +98,20 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Definimos el Layout de la actividad.
         setContentView(R.layout.activity_search);
+
+        // Escondemos la ActionBar en esta actividad.
         getSupportActionBar().setTitle("");
+
+        // Escondemos el teclado por defecto.
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         // Localizamos los componentes en el layout.
         searchEditText = (EditText) findViewById(R.id.search_editText);
         radiusSeekBar = (SeekBar) findViewById(R.id.radius_seekBar);
         radiusKmTextView = (TextView) findViewById(R.id.radius_textView);
-        nothingToShowTextView = (TextView) findViewById(R.id.nothingToShow_textView);
+        nothingToShowLinearLayout = (LinearLayout) findViewById(R.id.nothingToShow_linearLayout);
         recentSearchesListView = (ListView) findViewById(R.id.recentSearches_listView);
 
         // Añadimos el listener a la SeekBar.
@@ -351,21 +359,14 @@ public class SearchActivity extends AppCompatActivity {
     private void updateRecentSearchesList() {
         recentSearchesList = dbManagement.getAllRecentSearches();
 
-        Log.d(TAG, "updateRecentSearchesList: recentSearchesList.size() = "
-                + recentSearchesList.size());
-
-        for (String recentSearch : recentSearchesList) {
-            Log.d(TAG, "updateRecentSearchesList: " + recentSearch);
-        }
-
         if (recentSearchesList.size() >= 1) {
-            nothingToShowTextView.setVisibility(View.GONE);
+            nothingToShowLinearLayout.setVisibility(View.GONE);
             recentSearchesListView.setVisibility(View.VISIBLE);
 
             adapter.setRecentSearchesList(recentSearchesList);
             adapter.notifyDataSetChanged();
         } else {
-            nothingToShowTextView.setVisibility(View.VISIBLE);
+            nothingToShowLinearLayout.setVisibility(View.VISIBLE);
             recentSearchesListView.setVisibility(View.GONE);
         }
     }

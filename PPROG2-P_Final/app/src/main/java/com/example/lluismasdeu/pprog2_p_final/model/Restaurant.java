@@ -8,12 +8,13 @@ import android.graphics.Bitmap;
  * @author Lluís Masdeu
  */
 public class Restaurant {
+    private int id;
     private String name;
     private String type;
     private String address;
     private String opening;
     private String closing;
-    private double review;
+    private double rating;
     private String description;
     private double latitude;
     private double longitude;
@@ -21,27 +22,63 @@ public class Restaurant {
 
     /**
      * Constructor de la clase.
-     * @param name Nombre de la localización.
-     * @param type Tipo de comida de la localización.
-     * @param address Dirección de la localización.
-     * @param opening Hora de apertura de la localización.
-     * @param closing Hora de clausura de la localización.
-     * @param review Valoración media de la localización.
-     * @param description Descripción de la localización.
+     * @param id Identificador numérico del restaurante favorito.
+     * @param name Nombre del restaurante.
+     * @param type Tipo de comida del restaurante.
+     * @param address Dirección del restaurante.
+     * @param opening Hora de apertura del restaurante
+     * @param closing Hora de clausura del restaurante.
+     * @param rating Valoración media del restaurante.
+     * @param description Descripción del restaurante.
      * @param latitude Latitud del restaurante.
      * @param longitude Longitud del restaurante.
      */
-    public Restaurant(String name, String type, String address, String opening, String closing,
-                      double review, String description, double latitude, double longitude) {
+    public Restaurant(int id, String name, String type, String address, String opening,
+                      String closing, double rating, String description, double latitude,
+                      double longitude) {
+        this.id = id;
         this.name = name;
         this.type = type;
         this.address = address;
         this.opening = opening;
         this.closing = closing;
-        this.review = review;
+        this.rating = rating;
         this.description = description;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    /**
+     * Constructor de la clase.
+     * @param name Nombre del restaurante.
+     * @param type Tipo de comida del restaurante.
+     * @param address Dirección del restaurante.
+     * @param opening Hora de apertura del restaurante
+     * @param closing Hora de clausura del restaurante.
+     * @param rating Valoración media del restaurante.
+     * @param description Descripción del restaurante.
+     * @param latitude Latitud del restaurante.
+     * @param longitude Longitud del restaurante.
+     */
+    public Restaurant(String name, String type, String address, String opening, String closing,
+                      double rating, String description, double latitude, double longitude) {
+        this.name = name;
+        this.type = type;
+        this.address = address;
+        this.opening = opening;
+        this.closing = closing;
+        this.rating = rating;
+        this.description = description;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    /**
+     * Getter del identificador numérico del restaurante favorito.
+     * @return Identificador numérico del restaurante favorito.
+     */
+    public int getId() {
+        return id;
     }
 
     /**
@@ -88,8 +125,8 @@ public class Restaurant {
      * Getter de la puntuación media del restaurante.
      * @return Puntuación media del restaurante.
      */
-    public double getReview() {
-        return review;
+    public double getRating() {
+        return rating;
     }
 
     /**

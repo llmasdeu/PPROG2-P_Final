@@ -1,7 +1,6 @@
 package com.example.lluismasdeu.pprog2_p_final.activities;
 
 import android.content.Intent;
-import android.os.PersistableBundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +12,8 @@ import android.widget.Spinner;
 
 import com.example.lluismasdeu.pprog2_p_final.R;
 import com.example.lluismasdeu.pprog2_p_final.adapters.TabsAdapter;
-import com.example.lluismasdeu.pprog2_p_final.fragments.ResultsListFragment;
-import com.example.lluismasdeu.pprog2_p_final.fragments.OpenResultsListFragment;
+import com.example.lluismasdeu.pprog2_p_final.fragments.OpenRestaurantsListFragment;
+import com.example.lluismasdeu.pprog2_p_final.fragments.RestaurantsListFragment;
 import com.example.lluismasdeu.pprog2_p_final.model.Restaurant;
 import com.example.lluismasdeu.pprog2_p_final.utils.GeneralUtilities;
 
@@ -35,12 +34,12 @@ import java.util.List;
 public class ResultsActivity extends AppCompatActivity {
     private static final String TAG = "ResultsActivity";
 
-    List<Restaurant> restaurantsList;
-    List<Restaurant> openRestaurantsList;
-    List<String> types;
+    private List<Restaurant> restaurantsList;
+    private List<Restaurant> openRestaurantsList;
+    private List<String> typesList;
     private Spinner typesSpinner;
-    private ResultsListFragment resultsListFragment;
-    private OpenResultsListFragment openResultsListFragment;
+    private RestaurantsListFragment restaurantsListFragment;
+    private OpenRestaurantsListFragment openRestaurantsListFragment;
 
     /**
      * Método encaragado de llevar a cabo las tareas cuando se crea la actividad.
@@ -50,20 +49,23 @@ public class ResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Definimos el Layout de la actividad.
         setContentView(R.layout.activity_results);
+
+        // Escondemos la ActionBar en esta actividad.
         getSupportActionBar().hide();
 
         // Recuperamos valor del spinner de la ActionBar.
-        typesSpinner = (Spinner) findViewById(R.id.menuSort);
+        typesSpinner = (Spinner) findViewById(R.id.restaurantTypes_spinner);
 
         // Recuperamos la información.
         manageResults();
 
         // Creamos los Fragments.
-        resultsListFragment = new ResultsListFragment(restaurantsList);
-        openResultsListFragment = new OpenResultsListFragment(openRestaurantsList);
+        restaurantsListFragment = new RestaurantsListFragment(restaurantsList);
+        openRestaurantsListFragment = new OpenRestaurantsListFragment(openRestaurantsList);
 
-        // Configuramos el spinner de los tipos.
+        // Configuramos el listener del spinner de los tipos de restaurantes.
         typesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -79,46 +81,66 @@ public class ResultsActivity extends AppCompatActivity {
 
         // Creamos el adapter.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, types);
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, typesList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typesSpinner.setAdapter(adapter);
     }
 
+    /**
+     * Método encargado de guardar el estado actual de la actividad.
+     * @param outState
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
 
+    /**
+     * Método encargado de reestablecer el estado actual de la actividad.
+     * @param savedInstanceState
+     */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
     }
 
-    // Intenet para ProfileActivity
+    /**
+     * Método encargado de acceder a la actividad de perfil.
+     * @param view
+     */
     public void onClickProfile(View view){
-        Intent intent = new Intent(this,ProfileActivity.class);
+        Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
 
-    //Intent para Favorite Activity
+    /**
+     * Método encargado de acceder a la actividad de favoritos.
+     * @param view
+     */
     public void onClickFavorite(View view){
         Intent intent = new Intent(this,FavoritesActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Método encargado de crear las pestañas.
+     */
     private void createTabs() {
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.results_tabLayout);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.results_viewPager);
 
         List<TabsAdapter.TabEntry> entries = new ArrayList<>();
-        entries.add(new TabsAdapter.TabEntry(resultsListFragment, getString(R.string.all)));
-        entries.add(new TabsAdapter.TabEntry(openResultsListFragment, getString(R.string.only_open)));
+        entries.add(new TabsAdapter.TabEntry(restaurantsListFragment, getString(R.string.all)));
+        entries.add(new TabsAdapter.TabEntry(openRestaurantsListFragment, getString(R.string.only_open)));
 
         TabsAdapter adapter = new TabsAdapter(getSupportFragmentManager(), entries);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    /**
+     * Método encargado de gestionar la información obtenida del Webservice.
+     */
     private void manageResults() {
         String response = getIntent().getStringExtra(SearchActivity.SEARCH_RESULT_EXTRA);
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
@@ -126,7 +148,7 @@ public class ResultsActivity extends AppCompatActivity {
 
         restaurantsList = new ArrayList<Restaurant>();
         openRestaurantsList = new ArrayList<Restaurant>();
-        types = new ArrayList<String>();
+        typesList = new ArrayList<String>();
 
         try {
             JSONArray placesArray = new JSONArray(response);
@@ -168,25 +190,28 @@ public class ResultsActivity extends AppCompatActivity {
 
             boolean flag;
 
-            types.add(getString(R.string.all));
+            typesList.add(getString(R.string.all));
 
             // Creamos el listado de tipos de restaurantes.
             for (int i = 0; i < restaurantsList.size(); i++) {
                 flag = false;
 
-                for (int j = 0; j < types.size(); j++) {
-                    if (restaurantsList.get(i).getType().equals(types.get(j)))
+                for (int j = 0; j < typesList.size(); j++) {
+                    if (restaurantsList.get(i).getType().equals(typesList.get(j)))
                         flag = true;
                 }
 
                 if (!flag)
-                    types.add(restaurantsList.get(i).getType());
+                    typesList.add(restaurantsList.get(i).getType());
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Método encargado de actualizar el listado de restaurantes por el tipo seleccionado.
+     */
     private void updateRestaurantsByType() {
         if (getString(R.string.filter) != typesSpinner.getSelectedItem()) {
             List<Restaurant> restaurantsByType = new ArrayList<Restaurant>();
@@ -207,9 +232,8 @@ public class ResultsActivity extends AppCompatActivity {
                 }
             }
 
-            resultsListFragment.updateRestaurantsList(restaurantsByType);
-            openResultsListFragment.updateRestaurantsList(openRestaurantsByType);
+            restaurantsListFragment.updateRestaurantsList(restaurantsByType);
+            openRestaurantsListFragment.updateRestaurantsList(openRestaurantsByType);
         }
-
     }
 }

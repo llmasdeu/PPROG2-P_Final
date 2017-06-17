@@ -32,7 +32,7 @@
             android:layout_marginBottom="4dp" />
 
         <RatingBar
-            android:id="@+id/resultRate_ratingBar"
+            android:id="@+id/restaurantRating_ratingBar"
             android:isIndicator="true"
             android:numStars="5"
             style="@style/customRatingBar"
@@ -47,7 +47,7 @@
             android:id="@+id/resultAddress_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/resultRate_ratingBar"
+            android:layout_below="@id/restaurantRating_ratingBar"
             android:layout_alignParentEnd="true"
             android:textSize="12dp"/>
     </LinearLayout>

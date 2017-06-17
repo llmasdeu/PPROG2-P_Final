@@ -18,11 +18,11 @@ import java.util.List;
  * Created by eloy on 16-05-2017.
  */
 
-public class ResultsAdapter extends BaseAdapter {
+public class RestaurantsAdapter extends BaseAdapter {
     private List<Restaurant> restaurantList;
     private Context context;
 
-    public ResultsAdapter(List<Restaurant> restaurantList, Context context) {
+    public RestaurantsAdapter(List<Restaurant> restaurantList, Context context) {
         this.restaurantList = restaurantList;
         this.context = context;
     }
@@ -60,8 +60,8 @@ public class ResultsAdapter extends BaseAdapter {
         TextView address = (TextView) itemView.findViewById(R.id.resultAddress_textView);
         address.setText(restaurant.getAddress());
 
-        RatingBar rate = (RatingBar) itemView.findViewById(R.id.resultRate_ratingBar);
-        rate.setRating((float) restaurant.getReview());
+        RatingBar rate = (RatingBar) itemView.findViewById(R.id.restaurantRating_ratingBar);
+        rate.setRating((float) restaurant.getRating());
 
         return itemView;
     }

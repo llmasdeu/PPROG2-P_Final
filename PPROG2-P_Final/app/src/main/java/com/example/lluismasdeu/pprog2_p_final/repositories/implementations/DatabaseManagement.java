@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.lluismasdeu.pprog2_p_final.model.Comentaries;
-import com.example.lluismasdeu.pprog2_p_final.model.Favorite;
+import com.example.lluismasdeu.pprog2_p_final.model.Commentary;
+import com.example.lluismasdeu.pprog2_p_final.model.Restaurant;
 import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
 import com.example.lluismasdeu.pprog2_p_final.model.User;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
@@ -22,40 +22,35 @@ import java.util.List;
  * @author Lluís Masdeu
  */
 public class DatabaseManagement implements DatabaseManagementInterface {
+    private static final String TAG = "DatabaseManagement";
+
     private static Context context;
 
-    // Nombres de las tablas
+    // Nombres de las tablas.
+    private static final String COMMENTARIES_TABLE ="commentaries";
+    private static final String FAVORITES_TABLE ="favorites";
     private static final String SEARCHES_TABLE = "searches";
     private static final String USERS_TABLE = "users";
-    private static final String FAVORITE_TABLE="favorites";
-    private static final String COMENTARY_TABLE="comentaries";
 
     // Nombres de las columnas.
+    private static final String ADDRESS_COLUMN = "address";
+    private static final String CLOSING_COLUMN = "closing";
+    private static final String COMMENTARY_COLUMN = "commentary";
     private static final String DESCRIPTION_COLUMN = "description";
     private static final String EMAIL_COLUMN = "email";
     private static final String GENDER_COLUMN = "gender";
     private static final String ID_COLUMN = "_id";
     private static final String IMAGE_FILE_COLUMN = "profile_picture";
+    private static final String LATITUDE_COLUMN = "latitude";
+    private static final String LONGITUDE_COLUMN = "longitude";
     private static final String NAME_COLUMN = "name";
+    private static final String OPENING_COLUMN = "opening_restaurant";
     private static final String PASSWORD_COLUMN = "password";
+    private static final String RATING_COLUMN = "rating";
     private static final String SEARCH_COLUMN = "search";
     private static final String SURNAME_COLUMN = "surname";
+    private static final String TYPE_COLUMN = "type";
     private static final String USERNAME_COLUMN = "username";
-
-    //Nombres de las columnas tabla favoritos
-    private static final String NAME_RESTAURANT_COLUMN = "name_restaurant";
-    private static final String ADDRESS_RESTAURANT_COLUMN = "address_restaurant";
-    private static final String RATE_RESTAURANT_COLUMN = "rate_restaurant";
-    private static final String USERNAME_USER_COLUMN = "username_user";
-    private static final String TYPE_RESTAURANT_COLUMN = "type_restaurant";
-    private static final String OPEN_RESTAURANT_COLUMN = "open_restaurant";
-    private static final String CLOSE_RESTAURANT_COLUMN = "close_restaurant";
-
-    //Nombres de las columnas tabla comentarios
-
-    private static final String NAME_COMENTARY_COLUMN="name_restaurant";
-    private static final String COMENTARY_RESTAURANT_COLUMN="comentary_restaurant";
-    private static final String USERNAME_COMENTARY_COLUMN="username_user";
 
     /**
      * Constructor de la clase.
@@ -87,23 +82,6 @@ public class DatabaseManagement implements DatabaseManagementInterface {
 
         // Llevamos a cabo la inserción en la base de datos.
         helper.getWritableDatabase().insert(USERS_TABLE, null, values);
-    }
-
-    /**
-     * Método encargado de borrar un usuario de la base de datos.
-     * @param u Información del usuario a borrar.
-     */
-    @Override
-    public void unregisterUser(User u) {
-        // Obtenemos la instancia de la base de datos.
-        DatabaseHelper helper = DatabaseHelper.getInstance(context);
-
-        // Configuramos la petición.
-        String whereClause = EMAIL_COLUMN + " =? ";
-        String[] whereArgs = {u.getEmail()};
-
-        // Llevamos a cabo el borrado en la base de datos.
-        helper.getWritableDatabase().delete(USERS_TABLE, whereClause, whereArgs);
     }
 
     /**
@@ -145,7 +123,7 @@ public class DatabaseManagement implements DatabaseManagementInterface {
         switch (mode) {
             case 1:
                 whereClause = "(" + USERNAME_COLUMN + " =? OR "+ EMAIL_COLUMN + " =? ) AND "
-                        + PASSWORD_COLUMN + " =? ";
+                        + PASSWORD_COLUMN + " =?";
                 whereArgs = new String[3];
                 whereArgs[0] = user.getUsername();
                 whereArgs[1] = user.getEmail();
@@ -153,7 +131,7 @@ public class DatabaseManagement implements DatabaseManagementInterface {
                 break;
 
             case 2:
-                whereClause = USERNAME_COLUMN + " =? OR " + EMAIL_COLUMN + " =? ";
+                whereClause = USERNAME_COLUMN + " =? OR " + EMAIL_COLUMN + " =?";
                 whereArgs[0] = user.getUsername();
                 whereArgs[1] = user.getEmail();
                 break;
@@ -182,7 +160,7 @@ public class DatabaseManagement implements DatabaseManagementInterface {
         // Configuramos la petición.
         String[] selectColumns = null;
         String whereClause = "(" + USERNAME_COLUMN + " =? OR " + EMAIL_COLUMN + " =? ) AND "
-                + PASSWORD_COLUMN + " =? ";
+                + PASSWORD_COLUMN + " =?";
         String[] whereArgs = {user.getUsername(), user.getEmail(), user.getPassword()};
 
         // Llevamos a cabo la consulta en la base de datos.
@@ -331,119 +309,166 @@ public class DatabaseManagement implements DatabaseManagementInterface {
         return recentSearches;
     }
 
+    /**
+     * Método encargado de registrar un restaurante favorito.
+     * @param u Usuario asociado.
+     * @param r Restaurante a añadir.
+     */
     @Override
-    public void registerFavorite(Favorite favorite) {
+    public void registerFavorite(User u, Restaurant r) {
         DatabaseHelper helper = DatabaseHelper.getInstance(context);
 
         // Configuramos los valores de las distintas columnas.
         ContentValues values = new ContentValues();
-        values.put(NAME_RESTAURANT_COLUMN, favorite.getName());
-        values.put(ADDRESS_RESTAURANT_COLUMN,favorite.getAddress());
-        values.put(RATE_RESTAURANT_COLUMN, favorite.getRate());
-        values.put(USERNAME_USER_COLUMN, favorite.getUsername());
-        values.put(TYPE_RESTAURANT_COLUMN,favorite.getType());
-        values.put(OPEN_RESTAURANT_COLUMN,favorite.getOpen());
-        values.put(CLOSE_RESTAURANT_COLUMN,favorite.getClose());
-
+        values.put(USERNAME_COLUMN, u.getUsername());
+        values.put(NAME_COLUMN, r.getName());
+        values.put(TYPE_COLUMN, r.getType());
+        values.put(ADDRESS_COLUMN, r.getAddress());
+        values.put(OPENING_COLUMN, r.getOpening());
+        values.put(CLOSING_COLUMN, r.getClosing());
+        values.put(RATING_COLUMN, r.getRating());
+        values.put(DESCRIPTION_COLUMN, r.getDescription());
+        values.put(LATITUDE_COLUMN, r.getLatitude());
+        values.put(LONGITUDE_COLUMN, r.getLongitude());
 
         // Llevamos a cabo la inserción en la base de datos.
-        helper.getWritableDatabase().insert(FAVORITE_TABLE, null, values);
+        helper.getWritableDatabase().insert(FAVORITES_TABLE, null, values);
     }
 
+    /**
+     * Método encargado de eliminar un restaurante favorito
+     * @param u Usuario asociado.
+     * @param r Restaurante a eliminar.
+     */
     @Override
-    public boolean existFavorite(String name) {
+    public void unregisterFavorite(User u, Restaurant r) {
         DatabaseHelper helper = DatabaseHelper.getInstance(context);
 
+        String whereClause = USERNAME_COLUMN + " =? AND " + NAME_COLUMN + " =? AND "
+                + ADDRESS_COLUMN + " =? AND " + TYPE_COLUMN + " =?";
+        String[] whereArgs = {u.getUsername(), r.getName(), r.getAddress(), r.getType()};
 
-        String whereClause = NAME_RESTAURANT_COLUMN + "=?";
-        String[] whereArgs = {name};
+        helper.getWritableDatabase().delete(FAVORITES_TABLE, whereClause, whereArgs);
+    }
+
+    /**
+     * Método encargado de comprobar si el restaurante está marcado como favorito por el usuario.
+     * @param u Usuario asociado.
+     * @param r Restaurante a consultar.
+     * @return CIERTO si está marcado como favorito. FALSO en caso contrario.
+     */
+    @Override
+    public boolean existsFavorite(User u, Restaurant r) {
+        DatabaseHelper helper = DatabaseHelper.getInstance(context);
+
+        String whereClause = USERNAME_COLUMN + " =? AND " + NAME_COLUMN + " =? AND "
+                + ADDRESS_COLUMN + " =? AND " + TYPE_COLUMN + " =?";
+        String[] whereArgs = {u.getUsername(), r.getName(), r.getAddress(), r.getType()};
 
         SQLiteDatabase db = helper.getReadableDatabase();
-
-        long count = DatabaseUtils.queryNumEntries(db, FAVORITE_TABLE, whereClause, whereArgs);
+        long count = DatabaseUtils.queryNumEntries(db, FAVORITES_TABLE, whereClause, whereArgs);
 
         return count > 0;
     }
 
+    /**
+     * Método encargado de obtener todos los restaurantes marcados como favoritos por el usuario.
+     * @param u Usuario asociado.
+     * @return Listado de restaurantes marcados como favoritos por el usuario.
+     */
     @Override
-    public void deleteFavorite(String name) {
+    public List<Restaurant> getAllFavorites(User u) {
         DatabaseHelper helper = DatabaseHelper.getInstance(context);
-
-        // Preparamos la cláusula del where. Su formato es: "<nombre columna> = ?" donde ? se
-        // sustituirá por el valor añadido en los argumentos.
-        String whereClause = NAME_RESTAURANT_COLUMN+ "=? ";
-        // Preparamos los argumentos a sustituir por los '?' de la cláusula.
-        String[] whereArgs = {name};
-
-        helper.getWritableDatabase().delete(FAVORITE_TABLE, whereClause, whereArgs);
-    }
-
-    @Override
-    public List<Favorite> getAllFavorite() {
-        List<Favorite> list = new ArrayList<>();
-
-        DatabaseHelper helper = DatabaseHelper.getInstance(context);
-
+        List<Restaurant> favoritesList = new ArrayList<>();
         String[] selectColumns = null;
+        String whereClause = USERNAME_COLUMN + " =?";
+        String[] whereArgs = {u.getUsername()};
+        Cursor cursor = helper.getReadableDatabase()
+                .query(FAVORITES_TABLE, selectColumns, whereClause, whereArgs, null, null, null);
 
-        Cursor cursor = helper.getReadableDatabase().
-                query(FAVORITE_TABLE, selectColumns, null, null, null, null, null);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                do {
-                    String favoriteName = cursor.getString(cursor.getColumnIndex(NAME_RESTAURANT_COLUMN));
-                    String favoriteAddress = cursor.getString(cursor.getColumnIndex(ADDRESS_RESTAURANT_COLUMN));
-                    String favoriteRate = cursor.getString(cursor.getColumnIndex(RATE_RESTAURANT_COLUMN));
-                    String favoriteOpen=cursor.getString(cursor.getColumnIndex(OPEN_RESTAURANT_COLUMN));
-                    String favoriteClose=cursor.getString(cursor.getColumnIndex(CLOSE_RESTAURANT_COLUMN));
-                    String favoriteType=cursor.getString(cursor.getColumnIndex(TYPE_RESTAURANT_COLUMN));
-                    String favoriteUsername= cursor.getString(cursor.getColumnIndex(USERNAME_USER_COLUMN));
-                    list.add(new Favorite(favoriteName, favoriteAddress,favoriteRate,favoriteUsername,favoriteType,favoriteOpen,favoriteClose));
+                int id;
+                String name, type, address, opening, closing, description;
+                double review, latitude, longitude;
 
+                do {
+                    id = cursor.getInt(cursor.getColumnIndex(ID_COLUMN));
+                    name = cursor.getString(cursor.getColumnIndex(NAME_COLUMN));
+                    type = cursor.getString(cursor.getColumnIndex(TYPE_COLUMN));
+                    address = cursor.getString(cursor.getColumnIndex(ADDRESS_COLUMN));
+                    opening = cursor.getString(cursor.getColumnIndex(OPENING_COLUMN));
+                    closing = cursor.getString(cursor.getColumnIndex(CLOSING_COLUMN));
+                    review = cursor.getDouble(cursor.getColumnIndex(RATING_COLUMN));
+                    description = cursor.getString(cursor.getColumnIndex(DESCRIPTION_COLUMN));
+                    latitude = cursor.getDouble(cursor.getColumnIndex(LATITUDE_COLUMN));
+                    longitude = cursor.getDouble(cursor.getColumnIndex(LONGITUDE_COLUMN));
+
+                    favoritesList.add(new Restaurant(id, name, type, address, opening, closing,
+                            review, description, latitude, longitude));
                 } while (cursor.moveToNext());
             }
+
             cursor.close();
         }
 
-        return list;
+        return favoritesList;
     }
 
+    /**
+     * Método encargado de registrar un comentario en un restaurante.
+     * @param c Datos de los comentarios.
+     * @param r Restaurante asociado.
+     */
     @Override
-    public void addComentary(Comentaries c) {
+    public void registerCommentary(Commentary c, Restaurant r) {
         DatabaseHelper helper = DatabaseHelper.getInstance(context);
+
         // Configuramos los valores de las distintas columnas.
         ContentValues values = new ContentValues();
-        values.put(NAME_COMENTARY_COLUMN, c.getName());
-        values.put(COMENTARY_RESTAURANT_COLUMN,c.getComentary());
-        values.put(USERNAME_COMENTARY_COLUMN, c.getUsername());
+        values.put(USERNAME_COLUMN, c.getUsername());
+        values.put(NAME_COLUMN, r.getName());
+        values.put(ADDRESS_COLUMN, r.getAddress());
+        values.put(TYPE_COLUMN, r.getType());
+        values.put(COMMENTARY_COLUMN, c.getCommentary());
 
         // Llevamos a cabo la inserción en la base de datos.
-        helper.getWritableDatabase().insert(COMENTARY_TABLE, null, values);
+        helper.getWritableDatabase().insert(COMMENTARIES_TABLE, null, values);
     }
 
+    /**
+     * Método encargado de obtener todos los comentarios de un restaurante.
+     * @param r Restaurante asociado.
+     * @return Listado de comentarios del restaurante.
+     */
     @Override
-    public List<Comentaries> getAllComentaries() {
-        List<Comentaries> list=new ArrayList<>();
+    public List<Commentary> getAllComentaries(Restaurant r) {
         DatabaseHelper helper = DatabaseHelper.getInstance(context);
-
+        List<Commentary> commentariesList = new ArrayList<>();
         String[] selectColumns = null;
-
+        String whereClause = NAME_COLUMN + " =? AND " + TYPE_COLUMN + " =? AND "
+                + ADDRESS_COLUMN + " =?";
+        String[] whereArgs = {r.getName(), r.getType(), r.getAddress()};
         Cursor cursor = helper.getReadableDatabase().
-                query(COMENTARY_TABLE, selectColumns, null, null, null, null, null);
+                query(COMMENTARIES_TABLE, selectColumns, whereClause, whereArgs, null, null, null);
+
         if (cursor != null) {
             if (cursor.moveToFirst()) {
+                int id;
+                String username, commentary;
+
                 do {
-                    String comentaryName = cursor.getString(cursor.getColumnIndex(NAME_COMENTARY_COLUMN));
-                    String comentaryComentary = cursor.getString(cursor.getColumnIndex(COMENTARY_RESTAURANT_COLUMN));
-                    String comentaryUsername = cursor.getString(cursor.getColumnIndex(USERNAME_USER_COLUMN));
+                    id = cursor.getInt(cursor.getColumnIndex(ID_COLUMN));
+                    username = cursor.getString(cursor.getColumnIndex(USERNAME_COLUMN));
+                    commentary = cursor.getString(cursor.getColumnIndex(COMMENTARY_COLUMN));
 
-                    list.add(new Comentaries(comentaryName, comentaryUsername,comentaryComentary));
-
+                    commentariesList.add(new Commentary(id, username, commentary));
                 } while (cursor.moveToNext());
             }
+
             cursor.close();
         }
 
-        return list;
+        return commentariesList;
     }
 }

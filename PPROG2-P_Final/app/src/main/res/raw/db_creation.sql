@@ -17,18 +17,24 @@ CREATE TABLE searches(
 
 CREATE TABLE favorites(
     _id INT PRIMARY KEY,
-    name_restaurant VARCHAR(255),
-    address_restaurant VARCHAR(1000),
-    rate_restaurant VARCHAR(255),
-    type_restaurant VARCHAR(255),
-    open_restaurant VARCHAR(255),
-    close_restaurant VARCHAR(255),
-    username_user VARCHAR(255)
+    username VARCHAR(255),
+    name VARCHAR(255),
+    type VARCHAR(255),
+    address VARCHAR(300),
+    opening VARCHAR(50),
+    closing VARCHAR(50),
+    rating DOUBLE,
+    description VARCHAR(500),
+    latitude DOUBLE,
+    longitude DOUBLE
 );
-CREATE TABLE comentaries(
+
+CREATE TABLE commentaries(
     _id INT PRIMARY KEY,
-    name_restaurant VARCHAR(255),
-    comentary_restaurant VARCHAR(1000),
-    username_user VARCHAR(255)
+    username VARCHAR(255),
+    name VARCHAR(255),
+    type VARCHAR(255),
+    address VARCHAR(300),
+    commentary VARCHAR(1000)
 );
 
