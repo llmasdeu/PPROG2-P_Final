@@ -43,7 +43,7 @@ public class CommentariesAdapter extends BaseAdapter{
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.comentary_list,viewGroup,false);
+        view = inflater.inflate(R.layout.item_commentaries,viewGroup,false);
         final Commentary commentary = commentariesList.get(i);
         TextView username = (TextView) view.findViewById(R.id.username_textView);
         username.setText(commentary.getUsername());

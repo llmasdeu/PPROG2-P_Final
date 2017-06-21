@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -54,6 +55,9 @@ public class ResultsActivity extends AppCompatActivity {
 
         // Escondemos la ActionBar en esta actividad.
         getSupportActionBar().hide();
+
+        // Escondemos el teclado por defecto.
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         // Recuperamos valor del spinner de la ActionBar.
         typesSpinner = (Spinner) findViewById(R.id.restaurantTypes_spinner);

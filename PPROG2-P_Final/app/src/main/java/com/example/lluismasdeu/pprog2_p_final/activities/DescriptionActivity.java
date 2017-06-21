@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -52,8 +53,14 @@ public class DescriptionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Definimos el Layout de la actividad.
         setContentView(R.layout.activity_description);
+
+        // Dejamos vacío el título de la actividad.
         getSupportActionBar().setTitle("");
+
+        // Escondemos el teclado por defecto.
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         // Localizamos los componentes en el Layout.
         pictureImageView = (ImageView) findViewById(R.id.restaurant_imageView);
