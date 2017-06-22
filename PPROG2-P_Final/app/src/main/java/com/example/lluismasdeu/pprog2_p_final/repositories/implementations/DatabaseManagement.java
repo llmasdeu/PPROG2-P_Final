@@ -44,7 +44,7 @@ public class DatabaseManagement implements DatabaseManagementInterface {
     private static final String LATITUDE_COLUMN = "latitude";
     private static final String LONGITUDE_COLUMN = "longitude";
     private static final String NAME_COLUMN = "name";
-    private static final String OPENING_COLUMN = "opening_restaurant";
+    private static final String OPENING_COLUMN = "opening";
     private static final String PASSWORD_COLUMN = "password";
     private static final String RATING_COLUMN = "rating";
     private static final String SEARCH_COLUMN = "search";

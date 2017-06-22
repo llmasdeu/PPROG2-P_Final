@@ -9,6 +9,7 @@
     <!-- Colores definidos -->
     <color name="errorMessageColor">#ea272a</color>
     <color name="favoriteButtonColor">#ea272a</color>
+    <color name="noFavoriteButtonColor">#afafaf</color>
     <color name="iconsColor">#000000</color>
     <color name="imageButtonsColor">#00ffffff</color>
     <color name="loginButtonColor">#d67aade4</color>

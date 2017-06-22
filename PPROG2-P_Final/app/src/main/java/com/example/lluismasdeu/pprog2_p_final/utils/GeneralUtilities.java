@@ -176,9 +176,7 @@ public class GeneralUtilities {
         try {
             // Leemos la carpeta de Assets, y listamos los nombres de ficheros de la carpeta.
             AssetManager assetManager = context.getAssets();
-            Log.d(TAG, "getRestaurantImage: " + assetManager);
             String[] files = assetManager.list(RESTAUTANT_IMAGES_FOLDER);
-            Log.d(TAG, "getRestaurantImage: " + files.length);
 
             if (files.length >= 1) {
                 Random random = new Random();

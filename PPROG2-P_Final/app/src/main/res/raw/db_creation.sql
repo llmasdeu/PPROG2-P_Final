@@ -24,7 +24,7 @@ CREATE TABLE favorites(
     opening VARCHAR(50),
     closing VARCHAR(50),
     rating DOUBLE,
-    description VARCHAR(500),
+    description VARCHAR(1000),
     latitude DOUBLE,
     longitude DOUBLE
 );

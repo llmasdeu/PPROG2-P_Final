@@ -33,6 +33,8 @@ public class DescriptionActivity extends AppCompatActivity {
     public static final String LONGITUDE_EXTRA = "longitude";
 
     private DatabaseManagementInterface dbManagement;
+    private ColorStateList favoriteColor;
+    private ColorStateList noFavoriteColor;
     private ImageView pictureImageView;
     private FloatingActionButton favoriteFloatingActionButton;
     private TextView nameTextView;
@@ -80,6 +82,12 @@ public class DescriptionActivity extends AppCompatActivity {
 
         // Iniciamos el conector con la base de datos.
         dbManagement = new DatabaseManagement(this);
+
+        // Guardamos los colores de favorito y no favorito.
+        favoriteColor = ColorStateList.valueOf(getResources().getColor(R.color
+                .favoriteButtonColor));
+        noFavoriteColor = ColorStateList.valueOf(getResources().getColor(R.color
+                .noFavoriteButtonColor));
 
         // Creamos el Adapter de la lista de comentarios.
         commentariesAdapter = new CommentariesAdapter(new ArrayList<Commentary>(), this);
@@ -137,19 +145,17 @@ public class DescriptionActivity extends AppCompatActivity {
     }
 
     public void onAddFavoriteButtonClick(View view) {
-        if (!dbManagement.existsFavorite(StaticValues.getInstance().getConnectedUser(),
+        if (dbManagement.existsFavorite(StaticValues.getInstance().getConnectedUser(),
                 StaticValues.getInstance().getSelectedRestaurant())) {
-            dbManagement
-                    .registerFavorite(StaticValues.getInstance().getConnectedUser(),
-                            StaticValues.getInstance().getSelectedRestaurant());
-            favoriteFloatingActionButton.setBackgroundTintList(ColorStateList
-                    .valueOf(getResources().getColor(R.color.colorPrimary)));
-        } else {
             dbManagement
                     .unregisterFavorite(StaticValues.getInstance().getConnectedUser(),
                             StaticValues.getInstance().getSelectedRestaurant());
-            favoriteFloatingActionButton.setBackgroundTintList(ColorStateList
-                    .valueOf(getResources().getColor(R.color.errorMessageColor)));
+            favoriteFloatingActionButton.setBackgroundTintList(noFavoriteColor);
+        } else {
+            dbManagement
+                    .registerFavorite(StaticValues.getInstance().getConnectedUser(),
+                            StaticValues.getInstance().getSelectedRestaurant());
+            favoriteFloatingActionButton.setBackgroundTintList(favoriteColor);
         }
     }
 
@@ -180,8 +186,8 @@ public class DescriptionActivity extends AppCompatActivity {
         addressTextView.setText(StaticValues.getInstance().getSelectedRestaurant().getAddress());
         openingTextView.setText(StaticValues.getInstance().getSelectedRestaurant().getOpening());
         closingTextView.setText(StaticValues.getInstance().getSelectedRestaurant().getClosing());
-        ratingRatingBar.setRating((float)
-                StaticValues.getInstance().getSelectedRestaurant().getRating());
+        ratingRatingBar.setRating((float) StaticValues.getInstance().getSelectedRestaurant()
+                .getRating());
 
         if (StaticValues.getInstance().getSelectedRestaurant().getDescription() == null
                 || StaticValues.getInstance().getSelectedRestaurant().getDescription().equals("")) {
@@ -196,11 +202,9 @@ public class DescriptionActivity extends AppCompatActivity {
     private void setFavoriteButtonColor() {
         if (dbManagement.existsFavorite(StaticValues.getInstance().getConnectedUser(),
                 StaticValues.getInstance().getSelectedRestaurant())) {
-            favoriteFloatingActionButton.setBackgroundTintList(ColorStateList
-                    .valueOf(getResources().getColor(R.color.colorPrimary)));
+            favoriteFloatingActionButton.setBackgroundTintList(favoriteColor);
         } else {
-            favoriteFloatingActionButton.setBackgroundTintList(ColorStateList
-                    .valueOf(getResources().getColor(R.color.errorMessageColor)));
+            favoriteFloatingActionButton.setBackgroundTintList(noFavoriteColor);
         }
     }
 
