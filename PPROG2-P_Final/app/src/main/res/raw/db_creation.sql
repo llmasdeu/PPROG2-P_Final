@@ -7,7 +7,7 @@ CREATE TABLE users(
     password VARCHAR(255) DEFAULT '',
     gender VARCHAR(6) DEFAULT 'other',
     description VARCHAR(255) DEFAULT '',
-    profile_picture VARCHAR(255) DEFAULT ''
+    image VARCHAR(100) DEFAULT ''
 );
 
 CREATE TABLE searches(
@@ -26,7 +26,8 @@ CREATE TABLE favorites(
     rating DOUBLE,
     description VARCHAR(1000),
     latitude DOUBLE,
-    longitude DOUBLE
+    longitude DOUBLE,
+    image VARCHAR(100)
 );
 
 CREATE TABLE commentaries(

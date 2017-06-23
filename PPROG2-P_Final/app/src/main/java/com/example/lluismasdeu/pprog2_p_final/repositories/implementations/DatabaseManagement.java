@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.lluismasdeu.pprog2_p_final.model.Commentary;
 import com.example.lluismasdeu.pprog2_p_final.model.Restaurant;
@@ -40,7 +41,7 @@ public class DatabaseManagement implements DatabaseManagementInterface {
     private static final String EMAIL_COLUMN = "email";
     private static final String GENDER_COLUMN = "gender";
     private static final String ID_COLUMN = "_id";
-    private static final String IMAGE_FILE_COLUMN = "profile_picture";
+    private static final String IMAGE_FILE_COLUMN = "image";
     private static final String LATITUDE_COLUMN = "latitude";
     private static final String LONGITUDE_COLUMN = "longitude";
     private static final String NAME_COLUMN = "name";
@@ -330,6 +331,7 @@ public class DatabaseManagement implements DatabaseManagementInterface {
         values.put(DESCRIPTION_COLUMN, r.getDescription());
         values.put(LATITUDE_COLUMN, r.getLatitude());
         values.put(LONGITUDE_COLUMN, r.getLongitude());
+        values.put(IMAGE_FILE_COLUMN, r.getImageFile());
 
         // Llevamos a cabo la inserción en la base de datos.
         helper.getWritableDatabase().insert(FAVORITES_TABLE, null, values);
@@ -378,8 +380,9 @@ public class DatabaseManagement implements DatabaseManagementInterface {
      */
     @Override
     public List<Restaurant> getAllFavorites(User u) {
+        Log.d(TAG, "getAllFavorites: " + u.getUsername());
         DatabaseHelper helper = DatabaseHelper.getInstance(context);
-        List<Restaurant> favoritesList = new ArrayList<>();
+        List<Restaurant> favoritesList = new ArrayList<Restaurant>();
         String[] selectColumns = null;
         String whereClause = USERNAME_COLUMN + " =?";
         String[] whereArgs = {u.getUsername()};
@@ -389,7 +392,7 @@ public class DatabaseManagement implements DatabaseManagementInterface {
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 int id;
-                String name, type, address, opening, closing, description;
+                String name, type, address, opening, closing, description, imageFile;
                 double review, latitude, longitude;
 
                 do {
@@ -403,9 +406,10 @@ public class DatabaseManagement implements DatabaseManagementInterface {
                     description = cursor.getString(cursor.getColumnIndex(DESCRIPTION_COLUMN));
                     latitude = cursor.getDouble(cursor.getColumnIndex(LATITUDE_COLUMN));
                     longitude = cursor.getDouble(cursor.getColumnIndex(LONGITUDE_COLUMN));
+                    imageFile = cursor.getString(cursor.getColumnIndex(IMAGE_FILE_COLUMN));
 
                     favoritesList.add(new Restaurant(id, name, type, address, opening, closing,
-                            review, description, latitude, longitude));
+                            review, description, latitude, longitude, imageFile));
                 } while (cursor.moveToNext());
             }
 

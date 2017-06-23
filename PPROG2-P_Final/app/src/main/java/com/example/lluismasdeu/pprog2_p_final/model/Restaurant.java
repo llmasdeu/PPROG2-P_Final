@@ -19,6 +19,7 @@ public class Restaurant {
     private double latitude;
     private double longitude;
     private Bitmap image;
+    private String imageFile;
 
     /**
      * Constructor de la clase.
@@ -32,10 +33,11 @@ public class Restaurant {
      * @param description Descripción del restaurante.
      * @param latitude Latitud del restaurante.
      * @param longitude Longitud del restaurante.
+     * @param imageFile Nombre de la imagen del restaurante.
      */
     public Restaurant(int id, String name, String type, String address, String opening,
                       String closing, double rating, String description, double latitude,
-                      double longitude) {
+                      double longitude, String imageFile) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -46,6 +48,7 @@ public class Restaurant {
         this.description = description;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.imageFile = imageFile;
     }
 
     /**
@@ -167,5 +170,21 @@ public class Restaurant {
      */
     public void setImage(Bitmap image) {
         this.image = image;
+    }
+
+    /**
+     * Getter del nombre de la imagen del restaurante.
+     * @return Nombre de la imagen del restaurante.
+     */
+    public String getImageFile() {
+        return imageFile;
+    }
+
+    /**
+     * Setter del nombre de la imagen del restaurante.
+     * @param imageFile Nombre de la imagen del restaurante.
+     */
+    public void setImageFile(String imageFile) {
+        this.imageFile = imageFile;
     }
 }

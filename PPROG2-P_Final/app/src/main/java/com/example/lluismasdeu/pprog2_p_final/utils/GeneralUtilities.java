@@ -167,11 +167,11 @@ public class GeneralUtilities {
     }
 
     /**
-     * Método encargado de obtener una imagen de restaurante, de manera aleatoria.
-     * @return Imagen de restaurante.
+     * Método encargado de obtener el nombre de la imagen del restaurante.
+     * @return Nombre de la imagen del restaurante.
      */
-    public static Bitmap getRestaurantImage() {
-        Bitmap restaurantImage = null;
+    public static String getRestaurantImageFileName() {
+        String restaurantImageFileName = "";
 
         try {
             // Leemos la carpeta de Assets, y listamos los nombres de ficheros de la carpeta.
@@ -181,16 +181,36 @@ public class GeneralUtilities {
             if (files.length >= 1) {
                 Random random = new Random();
                 int imageId = random.nextInt(files.length);
-
-                InputStream inputStream = assetManager.open(RESTAUTANT_IMAGES_FOLDER + "/"
-                        + files[imageId]);
-
-                // Decodificamos la imagen, y la colocamos en el componente.
-                restaurantImage = BitmapFactory.decodeStream(inputStream);
-
-                // Cerramos
-                inputStream.close();
+                restaurantImageFileName = files[imageId];
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return restaurantImageFileName;
+    }
+
+    /**
+     * Método encargado de obtener la imagen del restaurante.
+     * @param restaurantImageFileName Nombre de la imagen del restaurante.
+     * @return Imagen del restaurante.
+     */
+    public static Bitmap getRestaurantImage(String restaurantImageFileName) {
+        Bitmap restaurantImage = null;
+
+        try {
+            // Leemos la carpeta de Assets.
+            AssetManager assetManager = context.getAssets();
+
+            // Leemos el fichero indicado.
+            InputStream inputStream = assetManager.open(RESTAUTANT_IMAGES_FOLDER + "/"
+                    + restaurantImageFileName);
+
+            // Decodificamos la imagen, y la colocamos en el componente.
+            restaurantImage = BitmapFactory.decodeStream(inputStream);
+
+            // Cerramos
+            inputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -179,7 +179,10 @@ public class ResultsActivity extends AppCompatActivity {
                         description, latitude, longitude);
 
                 // Asignamos una imagen de manera aleatoria.
-                restaurant.setImage(GeneralUtilities.getInstance(this).getRestaurantImage());
+                restaurant.setImageFile(GeneralUtilities.getInstance(this)
+                        .getRestaurantImageFileName());
+                restaurant.setImage(GeneralUtilities.getInstance(this)
+                        .getRestaurantImage(restaurant.getImageFile()));
 
                 // Añadimos el restaurante a la lista.
                 restaurantsList.add(restaurant);

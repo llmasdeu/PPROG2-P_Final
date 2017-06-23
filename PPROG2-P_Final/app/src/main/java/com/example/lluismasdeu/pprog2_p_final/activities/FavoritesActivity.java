@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +19,7 @@ import com.example.lluismasdeu.pprog2_p_final.model.Restaurant;
 import com.example.lluismasdeu.pprog2_p_final.model.StaticValues;
 import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInterface;
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
+import com.example.lluismasdeu.pprog2_p_final.utils.GeneralUtilities;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,6 +27,8 @@ import java.util.Date;
 import java.util.List;
 
 public class FavoritesActivity extends AppCompatActivity {
+    private static final String TAG = "FavoritesActivity";
+
     private DatabaseManagementInterface dbManagement;
     private List<Restaurant> favoritesList;
     private List<Restaurant> openFavoritesList;
@@ -50,11 +54,11 @@ public class FavoritesActivity extends AppCompatActivity {
         // Recuperamos valor del spinner de la ActionBar.
         typesSpinner = (Spinner) findViewById(R.id.restaurantTypes_spinner);
 
-        // Recuperamos la información.
-        manageResults();
-
         // Creamos el conector con la base de datos.
         dbManagement = new DatabaseManagement(this);
+
+        // Recuperamos la información.
+        manageResults();
 
         // Creamos los Fragments.
         favoritesListFragment = new RestaurantsListFragment(favoritesList);
@@ -79,6 +83,30 @@ public class FavoritesActivity extends AppCompatActivity {
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, typesList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typesSpinner.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // Recuperamos la información.
+        manageResults();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Recuperamos la información.
+        manageResults();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        // Recuperamos la información.
+        manageResults();
     }
 
     /**
@@ -113,7 +141,7 @@ public class FavoritesActivity extends AppCompatActivity {
      * @param view
      */
     public void onClickFavorite(View view){
-        Intent intent = new Intent(this,FavoritesActivity.class);
+        Intent intent = new Intent(this, FavoritesActivity.class);
         startActivity(intent);
     }
 
@@ -121,15 +149,15 @@ public class FavoritesActivity extends AppCompatActivity {
      * Método encargado de crear las pestañas.
      */
     private void createTabs() {
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.results_tabLayout);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.results_viewPager);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.favorites_tabsLayout);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.favorites_viewPager);
 
         List<TabsAdapter.TabEntry> entries = new ArrayList<>();
         entries.add(new TabsAdapter.TabEntry(favoritesListFragment, getString(R.string.all)));
         entries.add(new TabsAdapter.TabEntry(openFavoritesListFragment, getString(R.string.only_open)));
 
-        TabsAdapter adapter = new TabsAdapter(getSupportFragmentManager(), entries);
-        viewPager.setAdapter(adapter);
+        TabsAdapter tabsAdapter = new TabsAdapter(getSupportFragmentManager(), entries);
+        viewPager.setAdapter(tabsAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -144,8 +172,11 @@ public class FavoritesActivity extends AppCompatActivity {
         openFavoritesList = new ArrayList<Restaurant>();
         typesList = new ArrayList<String>();
 
-        // Guardamos en una lista separada los restaurantes abiertos.
+        // Guardamos la imagen, y guardamos en una lista separada los restaurantes abiertos.
         for (int i = 0; i < favoritesList.size(); i++) {
+            favoritesList.get(i).setImage(GeneralUtilities.getInstance(this)
+                    .getRestaurantImage(favoritesList.get(i).getImageFile()));
+
             if (dateFormatted.compareTo(favoritesList.get(i).getOpening()) >= 0
                     && dateFormatted.compareTo(favoritesList.get(i).getClosing()) <= 0)
                 openFavoritesList.add(favoritesList.get(i));
