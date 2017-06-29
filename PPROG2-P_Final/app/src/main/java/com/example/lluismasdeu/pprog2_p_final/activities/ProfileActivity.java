@@ -126,40 +126,31 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setInformation() {
-        databaseManagementInterface=new DatabaseManagement(this);
-        list=databaseManagementInterface.getAllUsers();
-        for(int i =0;i<list.size();i++)
-        {
-            if(list.get(i).getUsername().equals(StaticValues.getInstance().getConnectedUser().getUsername()))
-            {
-                nameEditText.setText(list.get(i).getName());
-                surnameEditText.setText(list.get(i).getSurname());
-                descriptionEditText.setText(list.get(i).getDescription());
-                if (list.get(i).getGender().equals(getResources().getString(R.string.male))) {
-                    maleRadioButton.setChecked(true);
-                    femaleRadioButton.setChecked(false);
-                } else if (list.get(i).getGender().equals(getResources().getString(R.string.female))) {
-                    maleRadioButton.setChecked(false);
-                    femaleRadioButton.setChecked(true);
-                } else {
-                    maleRadioButton.setChecked(false);
-                    femaleRadioButton.setChecked(false);
-                }
-            }
-        }
+        User connectedUser = StaticValues.getInstance().getConnectedUser();
 
+        nameEditText.setText(connectedUser.getName());
+        surnameEditText.setText(connectedUser.getSurname());
+        descriptionEditText.setText(connectedUser.getDescription());
+
+        if (connectedUser.getGender().equals("male")) {
+            maleRadioButton.setChecked(true);
+            femaleRadioButton.setChecked(false);
+        } else if (connectedUser.getGender().equals("female")) {
+            maleRadioButton.setChecked(false);
+            femaleRadioButton.setChecked(true);
+        } else {
+            maleRadioButton.setChecked(false);
+            femaleRadioButton.setChecked(false);
+        }
 
         Bitmap image = GeneralUtilities.getInstance(this).getDefaultProfilePhoto();
 
-        if (StaticValues.getInstance().getConnectedUser().getImageFile() != null) {
+        if (StaticValues.getInstance().getConnectedUser().getImageFile() != null)
             image = GeneralUtilities.getInstance(this)
                     .getProfilePhoto(StaticValues.getInstance().getConnectedUser().getImageFile());
-        }
 
         if (image != null)
             profileImageView.setImageBitmap(image);
-
-
     }
 
     private void enableFields(boolean flag) {

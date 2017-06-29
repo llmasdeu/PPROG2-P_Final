@@ -85,6 +85,9 @@ public class FavoritesActivity extends AppCompatActivity {
         typesSpinner.setAdapter(adapter);
     }
 
+    /**
+     * Método encargado de llevar a cabo las tareas en iniciar la actividad.
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -93,6 +96,9 @@ public class FavoritesActivity extends AppCompatActivity {
         manageResults();
     }
 
+    /**
+     * Método encargado de llevar a cabo las tareas en reanudar la actividad.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -101,6 +107,9 @@ public class FavoritesActivity extends AppCompatActivity {
         manageResults();
     }
 
+    /**
+     * Método encargado de llevar a cabo las tareas en reiniciar la actividad.
+     */
     @Override
     protected void onRestart() {
         super.onRestart();

@@ -21,7 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.SearchActivity" />
         <activity android:name=".activities.ResultsActivity"
@@ -31,6 +30,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity android:name=".activities.DescriptionActivity" />
         <activity android:name=".activities.LocationActivity" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_api_key"/>

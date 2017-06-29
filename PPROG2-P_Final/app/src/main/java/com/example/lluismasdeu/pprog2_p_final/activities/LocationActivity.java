@@ -16,14 +16,25 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-
+/**
+ * Actividad del mapa de restaurantes.
+ * @author Eloy Alberto López
+ * @author Lluís Masdeu
+ */
 public class LocationActivity extends AppCompatActivity implements OnMapReadyCallback {
-    double latitude;
-    double longitude;
+    private static final String TAG = "LocationActivity";
 
+    private double latitude;
+    private double longitude;
+
+    /**
+     * Método encaragado de llevar a cabo las tareas cuando se crea la actividad.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_location);
         getSupportActionBar().setTitle("");
 
@@ -40,24 +51,31 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
 
     }
 
+    /**
+     * Método encargado de crear la ActionBar.
+     * @param menu
+     * @return TRUE
+     */
     public boolean onCreateOptionsMenu(Menu menu) {
-        //Mostramos actionBar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.action_bar, menu);
 
         return true;
     }
 
+    /**
+     * Método encargado de controlar los botones de la ActionBar.
+     * @param item
+     * @return TRUE
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_profile:
-                // Intent para ingresar al perfil
                 Intent intentPerfil = new Intent(this, ProfileActivity.class);
                 startActivity(intentPerfil);
                 break;
 
             case R.id.action_favorite:
-                //intent para ingresar a favoritos
                 Intent intentFavorite = new Intent(this, FavoritesActivity.class);
                 startActivity(intentFavorite);
                 break;
@@ -69,6 +87,10 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
         return true;
     }
 
+    /**
+     * Método encargado de gestionar el mapa.
+     * @param googleMap Mapa de Google Maps.
+     */
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         LatLng restaurant = new LatLng(latitude, longitude);
