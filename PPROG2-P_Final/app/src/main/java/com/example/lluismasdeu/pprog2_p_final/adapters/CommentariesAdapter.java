@@ -17,12 +17,12 @@ import java.util.List;
  */
 
 public class CommentariesAdapter extends BaseAdapter{
+    private Context context;
     private List<Commentary> commentariesList;
-    Context context;
 
-    public CommentariesAdapter(List<Commentary> commentariesList, Context context) {
+    public CommentariesAdapter(Context context, List<Commentary> commentariesList) {
+        this.context = context;
         this.commentariesList = commentariesList;
-        this.context=context;
     }
 
     @Override

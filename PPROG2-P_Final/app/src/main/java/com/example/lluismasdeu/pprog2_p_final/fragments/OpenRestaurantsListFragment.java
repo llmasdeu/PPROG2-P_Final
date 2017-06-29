@@ -53,7 +53,7 @@ public class OpenRestaurantsListFragment extends Fragment {
         // Recuperamos el componente gráfico para poder asignarle un adapter.
         restaurantsListView = (ListView) view.findViewById(R.id.restaurants_listView);
 
-        adapter = new RestaurantsAdapter(openRestaurantsList, getActivity());
+        adapter = new RestaurantsAdapter(getActivity(), openRestaurantsList);
         restaurantsListView.setAdapter(adapter);
 
         // Asignamos el listener a la ListView.
@@ -61,22 +61,30 @@ public class OpenRestaurantsListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Restaurant selectedRestaurant = openRestaurantsList.get(i);
-                updateDetail(selectedRestaurant);
+                showInformation(selectedRestaurant);
             }
         });
 
         return view;
     }
 
+    /**
+     * Método encargado de actualizar la lista.
+     * @param openRestaurantsList Lista actualizada de los restaurantes abiertos.
+     */
     public void updateRestaurantsList(List<Restaurant> openRestaurantsList) {
         this.openRestaurantsList = openRestaurantsList;
 
-        adapter = new RestaurantsAdapter(openRestaurantsList, getActivity());
+        adapter = new RestaurantsAdapter(getActivity(), openRestaurantsList);
         adapter.notifyDataSetChanged();
         restaurantsListView.setAdapter(adapter);
     }
 
-    private void updateDetail(Restaurant selectedRestaurant) {
+    /**
+     * Método encargado de gestionar la transición de la actividad.
+     * @param selectedRestaurant Restaurante seleccionado.
+     */
+    private void showInformation(Restaurant selectedRestaurant) {
         // Guardamos los datos del restaurante seleccionado.
         StaticValues.getInstance().setSelectedRestaurant(selectedRestaurant);
 

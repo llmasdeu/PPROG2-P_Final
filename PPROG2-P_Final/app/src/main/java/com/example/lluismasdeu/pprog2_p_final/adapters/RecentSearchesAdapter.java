@@ -17,11 +17,13 @@ import java.util.List;
  * @author Lluís Masdeu
  */
 public class RecentSearchesAdapter extends BaseAdapter {
+    private static final String TAG = "RecentSearchesAdapter";
+
     private Context context;
     private List<String> recentSearchesList;
 
     /**
-     * Constructor de la clase.
+     * Constructor del adapter.
      * @param context
      * @param recentSearchesList
      */

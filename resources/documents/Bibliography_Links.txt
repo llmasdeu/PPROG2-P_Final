@@ -26,3 +26,12 @@ https://stackoverflow.com/questions/24459352/how-can-i-add-the-new-floating-acti
 
 · Orientation change Crash Application
 https://stackoverflow.com/questions/24459352/how-can-i-add-the-new-floating-action-button-between-two-widgets-layouts
+
+· How to set the font style to bold, italic and underlined in an Android TextView?
+https://stackoverflow.com/questions/4623508/how-to-set-the-font-style-to-bold-italic-and-underlined-in-an-android-textview
+
+· Android hide listview scrollbar?
+https://stackoverflow.com/questions/7062072/android-hide-listview-scrollbar
+
+· View
+https://developer.android.com/reference/android/view/View.html

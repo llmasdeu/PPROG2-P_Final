@@ -15,34 +15,62 @@ import com.example.lluismasdeu.pprog2_p_final.model.Restaurant;
 import java.util.List;
 
 /**
- * Created by eloy on 16-05-2017.
+ * Adapter de los restaurantes.
+ * @author Eloy Alberto López
+ * @author Lluís Masdeu
  */
-
 public class RestaurantsAdapter extends BaseAdapter {
-    private List<Restaurant> restaurantList;
-    private Context context;
+    private static final String TAG = "RestaurantsAdapter";
 
-    public RestaurantsAdapter(List<Restaurant> restaurantList, Context context) {
-        this.restaurantList = restaurantList;
+    private Context context;
+    private List<Restaurant> restaurantList;
+
+    /**
+     * Constructor del adapter.
+     * @param context
+     * @param restaurantList Lista de restaurantes.
+     */
+    public RestaurantsAdapter(Context context, List<Restaurant> restaurantList) {
         this.context = context;
+        this.restaurantList = restaurantList;
     }
 
+    /**
+     * Getter del total de restaurantes.
+     * @return Total de restaurantes.
+     */
     @Override
     public int getCount() {
         return restaurantList.size();
     }
 
+    /**
+     * Getter del restaurante en la posición actual.
+     * @param position Posición actual.
+     * @return Restaurante en la posición actual.
+     */
     @Override
     public Object getItem(int position) {
         return restaurantList.get(position);
     }
 
+    /**
+     * Getter del identificador numérico del restaurante en la posición actual.
+     * @param i Posición actual.
+     * @return Identificador numérico del restaurante en la posición actual.
+     */
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
-
+    /**
+     * Getter de la vista del restaurante en la posición actual.
+     * @param position Posición actual.
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.
@@ -65,5 +93,4 @@ public class RestaurantsAdapter extends BaseAdapter {
 
         return itemView;
     }
-
 }

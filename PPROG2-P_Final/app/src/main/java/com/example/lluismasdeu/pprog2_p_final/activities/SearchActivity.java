@@ -55,17 +55,26 @@ public class SearchActivity extends AppCompatActivity {
     private List<String> recentSearchesList;
     private int radiusKm;
 
-    // Clase encargada de llevar a cabo peticiones asíncronas.
+    /**
+     * Clase encargada de llevar a cabo las tareas asíncronas.
+     */
     private class AsyncRequest extends AsyncTask<String, Void, JSONArray> {
         private Context context;
         private ProgressDialog progressDialog;
 
+        /**
+         * Constructor de la clase.
+         * @param context
+         */
         public AsyncRequest(Context context) {
             this.context = context;
 
             progressDialog = new ProgressDialog(context);
         }
 
+        /**
+         * Método encargado de llevar a cabo tareas antes de ejecutar las asíncronas.
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -74,11 +83,20 @@ public class SearchActivity extends AppCompatActivity {
             progressDialog.show();
         }
 
+        /**
+         * Método encargado de llevar a cabo tareas asíncronas.
+         * @param params
+         * @return JSON de respuesta del Webservice.
+         */
         @Override
         protected JSONArray doInBackground(String... params) {
             return HttpRequestHelper.getInstance().doHttpRequest(params[0]);
         }
 
+        /**
+         * Método encargado de llevar a cabo tareas después de ejecutar las asíncronas.
+         * @param jsonArray JSON de respuesta del Webservice.
+         */
         @Override
         protected void onPostExecute(JSONArray jsonArray) {
             super.onPostExecute(jsonArray);

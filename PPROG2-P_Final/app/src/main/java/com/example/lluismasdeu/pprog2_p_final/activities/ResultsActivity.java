@@ -122,7 +122,7 @@ public class ResultsActivity extends AppCompatActivity {
      * @param view
      */
     public void onClickFavorite(View view){
-        Intent intent = new Intent(this,FavoritesActivity.class);
+        Intent intent = new Intent(this, FavoritesActivity.class);
         startActivity(intent);
     }
 

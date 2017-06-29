@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +53,7 @@ public class RestaurantsListFragment extends Fragment {
         // Recuperamos el componente gráfico para poder asignarle un restaurantsAdapter.
         restaurantsListView = (ListView) view.findViewById(R.id.restaurants_listView);
 
-        restaurantsAdapter = new RestaurantsAdapter(restaurantsList, getActivity());
+        restaurantsAdapter = new RestaurantsAdapter(getActivity(), restaurantsList);
         restaurantsListView.setAdapter(restaurantsAdapter);
 
         // Asignamos el listener a la ListView.
@@ -62,7 +61,7 @@ public class RestaurantsListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Restaurant selectedRestaurant = restaurantsList.get(i);
-                updateDetail(selectedRestaurant);
+                showInformation(selectedRestaurant);
             }
         });
 
@@ -76,7 +75,7 @@ public class RestaurantsListFragment extends Fragment {
     public void updateRestaurantsList(List<Restaurant> restaurantsList) {
         this.restaurantsList = restaurantsList;
 
-        restaurantsAdapter = new RestaurantsAdapter(restaurantsList, getActivity());
+        restaurantsAdapter = new RestaurantsAdapter(getActivity(), restaurantsList);
         restaurantsAdapter.notifyDataSetChanged();
         restaurantsListView.setAdapter(restaurantsAdapter);
     }
@@ -85,7 +84,7 @@ public class RestaurantsListFragment extends Fragment {
      * Método encargado de gestionar la transición de la actividad.
      * @param selectedRestaurant Restaurante seleccionado.
      */
-    private void updateDetail(Restaurant selectedRestaurant) {
+    private void showInformation(Restaurant selectedRestaurant) {
         // Guardamos los datos del restaurante seleccionado.
         StaticValues.getInstance().setSelectedRestaurant(selectedRestaurant);
 

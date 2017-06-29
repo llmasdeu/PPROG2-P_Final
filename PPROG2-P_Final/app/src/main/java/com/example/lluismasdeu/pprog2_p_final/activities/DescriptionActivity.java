@@ -3,8 +3,12 @@ package com.example.lluismasdeu.pprog2_p_final.activities;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -80,6 +84,8 @@ public class DescriptionActivity extends AppCompatActivity {
         commentariesListView = (ListView) findViewById(R.id.commentaries_listView);
         commentaryEditText = (EditText) findViewById(R.id.commentary_editText);
 
+        commentariesListView.setNestedScrollingEnabled(true);
+
         // Iniciamos el conector con la base de datos.
         dbManagement = new DatabaseManagement(this);
 
@@ -90,7 +96,7 @@ public class DescriptionActivity extends AppCompatActivity {
                 .noFavoriteButtonColor));
 
         // Creamos el Adapter de la lista de comentarios.
-        commentariesAdapter = new CommentariesAdapter(new ArrayList<Commentary>(), this);
+        commentariesAdapter = new CommentariesAdapter(this, new ArrayList<Commentary>());
         commentariesListView.setAdapter(commentariesAdapter);
     }
 
@@ -172,6 +178,8 @@ public class DescriptionActivity extends AppCompatActivity {
             resetFields();
 
             Toast.makeText(this, messages[1], Toast.LENGTH_SHORT).show();
+
+            updateCommentariesList();
         }
     }
 
