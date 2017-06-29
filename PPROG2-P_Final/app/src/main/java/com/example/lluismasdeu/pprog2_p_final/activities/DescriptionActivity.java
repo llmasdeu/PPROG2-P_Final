@@ -3,11 +3,8 @@ package com.example.lluismasdeu.pprog2_p_final.activities;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +28,11 @@ import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.Datab
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Actividad de la descripción de restaurantes.
+ * @author Eloy Alberto López
+ * @author Lluís Masdeu
+ */
 public class DescriptionActivity extends AppCompatActivity {
     private static final String TAG = "DescriptionActivity";
     public static final String LATITUDE_EXTRA = "latitude";
@@ -55,6 +57,10 @@ public class DescriptionActivity extends AppCompatActivity {
     private List<Commentary> commentariesList;
     private CommentariesAdapter commentariesAdapter;
 
+    /**
+     * Método encaragado de llevar a cabo las tareas cuando se crea la actividad.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +106,9 @@ public class DescriptionActivity extends AppCompatActivity {
         commentariesListView.setAdapter(commentariesAdapter);
     }
 
+    /**
+     * Método encaragado de llevar a cabo las tareas cuando se inicia la actividad.
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -109,14 +118,41 @@ public class DescriptionActivity extends AppCompatActivity {
         updateCommentariesList();
     }
 
+    /**
+     * Método encargado de guardar el estado actual de la actividad.
+     * @param outState
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    /**
+     * Método encargado de reestablecer el estado actual de la actividad.
+     * @param savedInstanceState
+     */
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    /**
+     * Método encargado de añadir la ActionBar en la actividad.
+     * @param menu
+     * @return
+     */
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Mostramos actionBar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.action_bar, menu);
 
         return true;
     }
 
+    /**
+     * Método encargado de controlar cuando el usuario pulsa los botones de la ActionBar.
+     * @param item
+     * @return
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
 
@@ -140,6 +176,11 @@ public class DescriptionActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Método encargado de gestionar la transición cuando el usuario pulsa el botón de acceder al
+     * mapa.
+     * @param view
+     */
     public void onMapClick(View view) {
         Intent intent = new Intent(this, LocationActivity.class);
         intent.putExtra(LATITUDE_EXTRA,
@@ -147,9 +188,15 @@ public class DescriptionActivity extends AppCompatActivity {
         intent.putExtra(LONGITUDE_EXTRA,
                 StaticValues.getInstance().getSelectedRestaurant().getLongitude());
         startActivity(intent);
+
         resetFields();
     }
 
+    /**
+     * Método encargado de añadir/borrar el restaurante de favoritos cuando el usuario pulsa el
+     * botón correspondiente.
+     * @param view
+     */
     public void onAddFavoriteButtonClick(View view) {
         if (dbManagement.existsFavorite(StaticValues.getInstance().getConnectedUser(),
                 StaticValues.getInstance().getSelectedRestaurant())) {
@@ -165,6 +212,10 @@ public class DescriptionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Método encargado de añadir el comentario cuando el usuario pulsa el botón de enviar.
+     * @param view
+     */
     public void onClickSend(View view) {
         String[] messages = getResources().getStringArray(R.array.description_activity_messages);
 
@@ -175,14 +226,17 @@ public class DescriptionActivity extends AppCompatActivity {
                     .getUsername(), String.valueOf(commentaryEditText.getText()));
             dbManagement.registerCommentary(commentary,
                     StaticValues.getInstance().getSelectedRestaurant());
-            resetFields();
 
+            resetFields();
             Toast.makeText(this, messages[1], Toast.LENGTH_SHORT).show();
 
             updateCommentariesList();
         }
     }
 
+    /**
+     * Método encargado de mostrar la información del restaurante.
+     */
     private void setRestaurantInfo() {
         pictureImageView.setImageBitmap(StaticValues.getInstance().getSelectedRestaurant()
                 .getImage());
@@ -207,6 +261,9 @@ public class DescriptionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Método encargado de controlar el color del botón de favorito.
+     */
     private void setFavoriteButtonColor() {
         if (dbManagement.existsFavorite(StaticValues.getInstance().getConnectedUser(),
                 StaticValues.getInstance().getSelectedRestaurant())) {
@@ -216,6 +273,9 @@ public class DescriptionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Método encargado de actualizar la lista de comentarios del restaurante.
+     */
     private void updateCommentariesList() {
         commentariesList = dbManagement.getAllComentaries(StaticValues.getInstance()
                 .getSelectedRestaurant());
@@ -232,6 +292,9 @@ public class DescriptionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Método encargado de limpiar los campos.
+     */
     private void resetFields() {
         commentaryEditText.setText("");
     }
