@@ -35,3 +35,6 @@ https://stackoverflow.com/questions/7062072/android-hide-listview-scrollbar
 
 · View
 https://developer.android.com/reference/android/view/View.html
+
+· Nested scroll views in Android
+http://www.devexchanges.info/2016/07/nested-scroll-views-in-android.html
