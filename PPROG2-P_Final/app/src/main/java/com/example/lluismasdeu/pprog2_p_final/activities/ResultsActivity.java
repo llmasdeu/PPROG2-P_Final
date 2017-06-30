@@ -112,7 +112,7 @@ public class ResultsActivity extends AppCompatActivity {
      * Método encargado de acceder a la actividad de perfil.
      * @param view
      */
-    public void onClickProfile(View view){
+    public void onClickProfile(View view) {
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
@@ -121,7 +121,7 @@ public class ResultsActivity extends AppCompatActivity {
      * Método encargado de acceder a la actividad de favoritos.
      * @param view
      */
-    public void onClickFavorite(View view){
+    public void onClickFavorite(View view) {
         Intent intent = new Intent(this, FavoritesActivity.class);
         startActivity(intent);
     }

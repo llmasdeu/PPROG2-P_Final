@@ -72,6 +72,24 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     /**
+     * Método encargado de guardar el estado de la actividad.
+     * @param outState
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    /**
+     * Método encargado de reestablecer el estado de la actividad.
+     * @param savedInstanceState
+     */
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    /**
      * Método encargado de llevar a cabo las tareas cuando el usuario pulsa el botón para hacer la
      * foto de perfil.
      * @param view
@@ -262,6 +280,8 @@ public class ProfileActivity extends AppCompatActivity {
         StaticValues.getInstance().getConnectedUser().setImageFile(imageFile);
 
         dbManagement.updateUser(StaticValues.getInstance().getConnectedUser());
+
+        Toast.makeText(this, R.string.profile_modified_correctly, Toast.LENGTH_SHORT).show();
     }
 
     /**
