@@ -12,10 +12,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by lluismasdeu on 26/4/17.
+ * Clase encargada de gestionar la base de datos.
+ * @author Eloy Alberto López
+ * @author Lluís Masdeu
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
-    // Constantes
     private static final String DATABASE_NAME = "app_db";
     private static final int version = 1;
     private static final int BUFFER_LENGTH = 1024;
@@ -24,6 +25,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private Context context;
     private static SQLiteDatabase.CursorFactory factory;
 
+    /**
+     * Constructor de la clase.
+     * @param context
+     * @param name
+     * @param factory
+     * @param version
+     */
     private DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory,
                           int version) {
         super(context, name, factory, version);
@@ -31,6 +39,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.context = context;
     }
 
+    /**
+     * Getter de la instancia de la clase.
+     * @param context
+     * @return Instancia de la clase.
+     */
     public static DatabaseHelper getInstance(Context context) {
         if (instance == null)
             instance = new DatabaseHelper(context, DATABASE_NAME, factory, version);
@@ -40,11 +53,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return instance;
     }
 
+    /**
+     * Método encargado de crear la base de datos.
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         executeSQLScript(db, R.raw.db_creation);
     }
 
+    /**
+     * Método encargado de gestionar la actualización de la base de datos.
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         executeSQLScript(db, R.raw.db_removal);

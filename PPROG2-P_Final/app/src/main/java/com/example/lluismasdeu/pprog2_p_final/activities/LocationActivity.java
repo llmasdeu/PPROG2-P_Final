@@ -75,7 +75,7 @@ public class LocationActivity extends AppCompatActivity implements OnMapReadyCal
                 startActivity(intentPerfil);
                 break;
 
-            case R.id.action_favorite:
+            case R.id.action_viewProfile_favorites:
                 Intent intentFavorite = new Intent(this, FavoritesActivity.class);
                 startActivity(intentFavorite);
                 break;

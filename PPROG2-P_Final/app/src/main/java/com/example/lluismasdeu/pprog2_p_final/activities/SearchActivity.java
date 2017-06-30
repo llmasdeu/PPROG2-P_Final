@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -326,7 +325,7 @@ public class SearchActivity extends AppCompatActivity {
                 startActivity(intentPerfil);
                 break;
 
-            case R.id.action_favorite:
+            case R.id.action_viewProfile_favorites:
                 // Intent para ingresar a favoritos
                 Intent intentFavorite = new Intent(this, FavoritesActivity.class);
                 startActivity(intentFavorite);

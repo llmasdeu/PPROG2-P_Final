@@ -3,13 +3,13 @@
     android:id="@+id/Favorite_Perfil">
 
     <!-- Botones de favoritos y perfil -->
-    <item android:id="@+id/action_favorite"
-        android:title="@string/favorites"
-        android:icon="@drawable/ic_favorite"
-        app:showAsAction="ifRoom" />
-
     <item android:id="@+id/action_profile"
         android:title="@string/profile"
         android:icon="@drawable/ic_profile"
+        app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/action_viewProfile_favorites"
+        android:title="@string/favorites"
+        android:icon="@drawable/ic_favorite"
         app:showAsAction="ifRoom" />
 </menu>

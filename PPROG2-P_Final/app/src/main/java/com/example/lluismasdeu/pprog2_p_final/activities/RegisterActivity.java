@@ -33,6 +33,9 @@ import com.example.lluismasdeu.pprog2_p_final.utils.GeneralUtilities;
 public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
     private static final int TAKE_PICTURE = 1;
+    public static final String FEMALE_GENDER = "female";
+    public static final String MALE_GENDER = "male";
+    public static final String OTHER_GERNDER = "other";
 
     private DatabaseManagementInterface dbManagement;
     private ImageView profileImageView;
@@ -208,7 +211,6 @@ public class RegisterActivity extends AppCompatActivity {
         switch (requestCode) {
             case TAKE_PICTURE:
                 if (resultCode == RESULT_OK) {
-                    // Obtenemos los resultados de la
                     Bundle bundle = data.getExtras();
                     Bitmap image = (Bitmap) bundle.get("data");
                     profileImageView.setImageBitmap(image);
@@ -262,11 +264,11 @@ public class RegisterActivity extends AppCompatActivity {
         String gender = "";
 
         if (femaleRadioButton.isChecked()) {
-            gender = "female";
+            gender = FEMALE_GENDER;
         } else if (maleRadioButton.isChecked()) {
-            gender = "male";
+            gender = MALE_GENDER;
         } else {
-            gender = "other";
+            gender = OTHER_GERNDER;
         }
 
         return gender;

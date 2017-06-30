@@ -33,6 +33,7 @@
     <string name="password">Contraseña</string>
     <string name="please_wait">Porfavor espera&#8230;</string>
     <string name="profile">Perfil</string>
+    <string name="profile_modified_correctly">¡Perfil modificado correctamente!</string>
     <string name="radius_km">&#160;Km</string>
     <string name="read_storage_permissions_denied_message">
         Los permisos de lectura de almacenamiento externo han sido denegados. Ve a Ajustes para

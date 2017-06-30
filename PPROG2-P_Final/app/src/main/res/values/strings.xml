@@ -31,6 +31,7 @@
     <string name="password">Password</string>
     <string name="please_wait">Please wait&#8230;</string>
     <string name="profile">Profile</string>
+    <string name="profile_modified_correctly">Profile modified correctly!</string>
     <string name="radius_km">&#160;Km</string>
     <string name="read_storage_permissions_denied_message">
         Read External Storage permissions have been denied. To enable them, go to Settings.

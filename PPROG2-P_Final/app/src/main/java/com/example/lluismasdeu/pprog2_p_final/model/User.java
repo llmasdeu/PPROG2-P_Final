@@ -16,8 +16,6 @@ public class User {
     private String description;
     private String imageFile;
 
-
-
     /**
      * Constructor de la clase.
      * @param name Nombre del usuario.
@@ -122,11 +120,27 @@ public class User {
     }
 
     /**
+     * Setter del nombre del usuario.
+     * @param name Nombre del usuario
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
      * Getter del apellido del usuario.
      * @return Apellido del usuario.
      */
     public String getSurname() {
         return surname;
+    }
+
+    /**
+     * Setter del apellido del usuario.
+     * @param surname Apellido del usuario.
+     */
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     /**
@@ -162,6 +176,14 @@ public class User {
     }
 
     /**
+     * Setter del género del usuario.
+     * @param gender Género del usuario.
+     */
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    /**
      * Getter de la descripción del usuario.
      * @return Descripción del usuario.
      */
@@ -170,11 +192,27 @@ public class User {
     }
 
     /**
+     * Setter de la descripción del usuario.
+     * @param description Descripción del usuario.
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
      * Getter del nombre del fichero de la imagen de perfil del usuario.
      * @return Nombre del fichero de la imagen de perfil del usuario.
      */
     public String getImageFile() {
         return imageFile;
+    }
+
+    /**
+     * Setter del nombre del fichero de la imagen de perfil del usuario.
+     * @param imageFile Nombre del fichero de la imagen de perfil del usuario.
+     */
+    public void setImageFile(String imageFile) {
+        this.imageFile = imageFile;
     }
 
     /**

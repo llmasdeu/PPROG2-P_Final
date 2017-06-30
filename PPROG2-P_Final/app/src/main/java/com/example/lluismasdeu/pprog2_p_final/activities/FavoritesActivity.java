@@ -26,6 +26,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Actividad encargada de mostrar los restaurantes marcados como favoritos por el restaurante.
+ * @author Eloy Alberto López
+ * @author Lluís Masdeu
+ */
 public class FavoritesActivity extends AppCompatActivity {
     private static final String TAG = "FavoritesActivity";
 

@@ -5,7 +5,6 @@ import android.content.res.ColorStateList;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -163,7 +162,7 @@ public class DescriptionActivity extends AppCompatActivity {
                 resetFields();
                 break;
 
-            case R.id.action_favorite:
+            case R.id.action_viewProfile_favorites:
                 intent = new Intent(this, FavoritesActivity.class);
                 startActivity(intent);
                 resetFields();

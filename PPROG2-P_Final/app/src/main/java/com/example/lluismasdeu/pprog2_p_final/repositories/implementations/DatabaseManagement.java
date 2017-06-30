@@ -99,7 +99,7 @@ public class DatabaseManagement implements DatabaseManagementInterface {
         values.put(DESCRIPTION_COLUMN,u.getDescription());
         values.put(IMAGE_FILE_COLUMN,u.getImageFile());
         String whereClause = USERNAME_COLUMN + "=?";
-        String[] whereArgs = {StaticValues.getInstance().getConnectedUser().getUsername()};
+        String[] whereArgs = {u.getUsername()};
         helper.getWritableDatabase().update(USERS_TABLE, values, whereClause, whereArgs);
 
     }

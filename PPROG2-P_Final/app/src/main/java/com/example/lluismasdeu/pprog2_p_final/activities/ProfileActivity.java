@@ -1,12 +1,14 @@
 package com.example.lluismasdeu.pprog2_p_final.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,11 +26,16 @@ import com.example.lluismasdeu.pprog2_p_final.repositories.DatabaseManagementInt
 import com.example.lluismasdeu.pprog2_p_final.repositories.implementations.DatabaseManagement;
 import com.example.lluismasdeu.pprog2_p_final.utils.GeneralUtilities;
 
-import java.util.List;
-
+/**
+ * Actividad del perfil.
+ * @author Eloy Alberto López
+ * @author Lluís Masdeu
+ */
 public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "ProfileActivity";
     private static final int TAKE_PICTURE = 1;
+
+    private DatabaseManagementInterface dbManagement;
     private ImageView profileImageView;
     private EditText nameEditText;
     private EditText surnameEditText;
@@ -36,16 +43,20 @@ public class ProfileActivity extends AppCompatActivity {
     private RadioButton femaleRadioButton;
     private EditText descriptionEditText;
     private Button takePictureButton;
-    private Button saveButton;
-    User user;
-    List<User> list;
-    DatabaseManagementInterface databaseManagementInterface;
+    private Menu activityMenu;
+    private boolean editMode;
 
+    /**
+     * Método encaragado de llevar a cabo las tareas cuando se crea la actividad.
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_profile);
         getSupportActionBar().setTitle("");
+
+        dbManagement = new DatabaseManagement(this);
 
         profileImageView = (ImageView) findViewById(R.id.profile_imageView);
         nameEditText = (EditText) findViewById(R.id.name_editText);
@@ -54,68 +65,93 @@ public class ProfileActivity extends AppCompatActivity {
         femaleRadioButton = (RadioButton) findViewById(R.id.female_radioButton);
         descriptionEditText = (EditText) findViewById(R.id.description_editText);
         takePictureButton = (Button) findViewById(R.id.Button_picture);
-        saveButton=(Button) findViewById(R.id.button_save);
+
         setInformation();
-        enableFields(false);
+        editMode = false;
+        enableFields();
     }
 
-    // boton para tomar foto
-    public void onTakePictureButtonClick(View view)
-    {
+    /**
+     * Método encargado de llevar a cabo las tareas cuando el usuario pulsa el botón para hacer la
+     * foto de perfil.
+     * @param view
+     */
+    public void onTakePictureButtonClick(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, TAKE_PICTURE);
     }
 
-    // OnClick para guardar cambios
-    public void onSaveClick(View view) {
-        //TODO guardar imagen
-       databaseManagementInterface=new DatabaseManagement(this);
-
-        if(femaleRadioButton.isChecked()) {
-            // user = new User(nameEditText.getText().toString(), surnameEditText.getText().toString(),
-             //       femaleRadioButton.getText().toString() ,descriptionEditText.getText().toString());
-        } else if(maleRadioButton.isChecked()) {
-        //    user = new User(nameEditText.getText().toString(), surnameEditText.getText().toString(),
-        //            maleRadioButton.getText().toString() ,descriptionEditText.getText().toString());
+    /**
+     * Método encargado de controlar los resultados de los Intents.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case TAKE_PICTURE:
+                if (resultCode == RESULT_OK) {
+                    Bundle bundle = data.getExtras();
+                    Bitmap image = (Bitmap) bundle.get("data");
+                    profileImageView.setImageBitmap(image);
+                }
+                break;
         }
-
-        // Añadimos la imagen.
-        GeneralUtilities.saveProfilePicture(((BitmapDrawable) profileImageView.getDrawable())
-                .getBitmap(), StaticValues.getInstance().getConnectedUser().getImageFile());
-
-       databaseManagementInterface.updateUser(user);
-        Toast.makeText(this,getResources().getString(R.string.save),Toast.LENGTH_SHORT).show();
-        setInformation();
-
-
     }
 
+    /**
+     * Método encargado de añadir el menú a la actividad.
+     * @param menu
+     * @return TRUE
+     */
     public boolean onCreateOptionsMenu(Menu menu) {
-        //Mostrar actionBar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.action_bar_profile, menu);
+        activityMenu = menu;
+        updateActionBar();
+
         return true;
     }
 
+    /**
+     * Método encargado de controlar los botones del menú.
+     * @param item
+     * @return TRUE
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent favoritesIntent;
+
         switch (item.getItemId()) {
-            case R.id.action_favorite:
-                // Intent para ingresar al perfil
-                Intent intentPerfil = new Intent(this, FavoritesActivity.class);
-                startActivity(intentPerfil);
+            case R.id.action_editProfile:
+                editMode = true;
+                updateActionBar();
+                enableFields();
                 break;
 
-            case R.id.action_edit:
-                //Vuelve editable los campos
-                nameEditText.setEnabled(true);
-                surnameEditText.setEnabled(true);
-                maleRadioButton.setEnabled(true);
-                femaleRadioButton.setEnabled(true);
-                descriptionEditText.setEnabled(true);
-                takePictureButton.setVisibility(View.VISIBLE);
-                takePictureButton.setClickable(true);
-                saveButton.setVisibility(View.VISIBLE);
-                saveButton.setClickable(true);
+            case R.id.action_saveProfile:
+                editMode = false;
+                saveProfile();
+                updateActionBar();
+                enableFields();
+                break;
+
+            case R.id.action_viewProfile_favorites:
+                editMode = false;
+                setInformation();
+                updateActionBar();
+                enableFields();
+
+                favoritesIntent = new Intent(this, FavoritesActivity.class);
+                startActivity(favoritesIntent);
+                break;
+
+            case R.id.action_editProfile_favorites:
+                editMode = false;
+                setInformation();
+                updateActionBar();
+                enableFields();
+
+                favoritesIntent = new Intent(this, FavoritesActivity.class);
+                startActivity(favoritesIntent);
                 break;
 
             default:
@@ -125,6 +161,9 @@ public class ProfileActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Método encargado de mostrar la información del usuario por pantalla.
+     */
     private void setInformation() {
         User connectedUser = StaticValues.getInstance().getConnectedUser();
 
@@ -132,10 +171,10 @@ public class ProfileActivity extends AppCompatActivity {
         surnameEditText.setText(connectedUser.getSurname());
         descriptionEditText.setText(connectedUser.getDescription());
 
-        if (connectedUser.getGender().equals("male")) {
+        if (connectedUser.getGender().equals(RegisterActivity.MALE_GENDER)) {
             maleRadioButton.setChecked(true);
             femaleRadioButton.setChecked(false);
-        } else if (connectedUser.getGender().equals("female")) {
+        } else if (connectedUser.getGender().equals(RegisterActivity.FEMALE_GENDER)) {
             maleRadioButton.setChecked(false);
             femaleRadioButton.setChecked(true);
         } else {
@@ -153,18 +192,86 @@ public class ProfileActivity extends AppCompatActivity {
             profileImageView.setImageBitmap(image);
     }
 
-    private void enableFields(boolean flag) {
-        if (flag) {
+    /**
+     * Método encargado de habilitar/inhabilitar los campos del formulario.
+     */
+    private void enableFields() {
+        if (editMode) {
             takePictureButton.setVisibility(View.VISIBLE);
         } else {
+            setInformation();
             takePictureButton.setVisibility(View.GONE);
         }
 
-        nameEditText.setEnabled(flag);
-        surnameEditText.setEnabled(flag);
-        maleRadioButton.setEnabled(flag);
-        femaleRadioButton.setEnabled(flag);
-        descriptionEditText.setEnabled(flag);
+        nameEditText.setEnabled(editMode);
+        surnameEditText.setEnabled(editMode);
+        maleRadioButton.setEnabled(editMode);
+        femaleRadioButton.setEnabled(editMode);
+        descriptionEditText.setEnabled(editMode);
     }
 
+    /**
+     * Método encargado de actualizar la ActionBar.
+     */
+    private void updateActionBar() {
+        MenuInflater inflater = getMenuInflater();
+        activityMenu.clear();
+
+        if (editMode) {
+            inflater.inflate(R.menu.action_bar_profile_edit_mode, activityMenu);
+        } else {
+            inflater.inflate(R.menu.action_bar_profile_view_mode, activityMenu);
+        }
+    }
+
+    /**
+     * Método encargado de guardar el perfil.
+     */
+    private void saveProfile() {
+        StaticValues.getInstance().getConnectedUser()
+                .setName(String.valueOf(nameEditText.getText()));
+        StaticValues.getInstance().getConnectedUser()
+                .setSurname(String.valueOf(surnameEditText.getText()));
+
+        if (maleRadioButton.isChecked()) {
+            StaticValues.getInstance().getConnectedUser().setGender(RegisterActivity.MALE_GENDER);
+        } else if (femaleRadioButton.isChecked()) {
+            StaticValues.getInstance().getConnectedUser().setGender(RegisterActivity.FEMALE_GENDER);
+        } else {
+            StaticValues.getInstance().getConnectedUser().setGender(RegisterActivity.OTHER_GERNDER);
+        }
+
+        String imageFile = getImageFileName();
+
+        // Comprobamos si los permisos de lectura/escritura en el almacenamiento externo se
+        // encuentran habilitados.
+        if (ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+            imageFile = null;
+        } else {
+            // Guardamos la imagen de perfil.
+            GeneralUtilities.saveProfilePicture(((BitmapDrawable) profileImageView.getDrawable())
+                    .getBitmap(), imageFile);
+        }
+
+        StaticValues.getInstance().getConnectedUser()
+                .setDescription(String.valueOf(descriptionEditText.getText()));
+        StaticValues.getInstance().getConnectedUser().setImageFile(imageFile);
+
+        dbManagement.updateUser(StaticValues.getInstance().getConnectedUser());
+    }
+
+    /**
+     * Método encargado de generar el nombre del fichero de la imagen de perfil.
+     * @return Nombre del fichero de la imagen de perfil.
+     */
+    private String getImageFileName() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("img_").append(GeneralUtilities.getNumberProfilePictures() + 1).append(".jpg");
+
+        return builder.toString();
+    }
 }
