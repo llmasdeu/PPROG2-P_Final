@@ -23,9 +23,9 @@ public class HttpRequestHelper {
     private static final String WEBSERVICE_LATITUDE_METHOD = "&lat=";
     private static final String WEBSERVICE_LONGITUDE_METHOD = "&lon=";
     private static final String WEBSERVICE_DISTANCE_METHOD = "&dist=";
+    private final int DEFAULT_TIMEOUT = 500;
 
     private static HttpRequestHelper instance = null;
-    private final int DEFAULT_TIMEOUT = 500;
 
     /**
      * Constructor de la clase.
